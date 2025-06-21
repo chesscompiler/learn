@@ -1,7 +1,7 @@
 ---
 title: "🧠 How to Play Chess: The Ultimate Beginner’s Guide ♟️"
 date: 2025-06-21
-image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg"
+image: "https://chesscompiler.github.io/learn/images/beginner-guide.png"
 layout: post
 ---
 Chess is more than just a game — it’s a battlefield of brains, a masterclass in strategy, and a way to sharpen your mind while having fun. Whether you're brand new to the game or just brushing up, this guide will walk you through everything from setup to special rules.
@@ -96,7 +96,7 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - They stay on the color they started on for the entire game.
 - A pair of bishops can control wide zones of the board when working together.
 
-<chess-board fen="8/8/8/3B4/8/8/8/8 w - - 0 1" highlight="d5,a2,g8,a8,g2,a1,g1,a7,g7" arrows="d5-a2,d5-g8,d5-a8,d5-g2"></chess-board>
+<chess-board fen="8/8/8/3B4/8/8/8/8 w - - 0 1" highlight="d5,a2,g8,a8,g2" arrows="d5-a2,d5-g8,d5-a8,d5-g2"></chess-board>
 
 ⚔️ *Keep your bishops active — they’re deadly in open positions!*
 

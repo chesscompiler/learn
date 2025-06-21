@@ -194,11 +194,12 @@
 
         .piece {
             user-select: none;
-            z-index: 1;
+            z-index: 20; /* Increased to be above arrows */
             filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
             width: 85%;
             height: 85%;
             object-fit: contain;
+            position: relative;
         }
 
         .coordinates {
@@ -397,7 +398,7 @@
             <span class="material-icons">menu</span>
         </button>
         <nav id="main-nav">
-            <a href="/#features" class="nav-link hide-on-mobile">Features</a>
+            <a href="/board" class="nav-link hide-on-mobile">Board</a>
             <a href="/#puzzles" class="nav-link hide-on-mobile">Puzzles</a>
             <a href="/learn" class="nav-cta nav-link">Learn</a>
         </nav>
@@ -478,7 +479,7 @@
             'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
         };
 
-        const baseImageUrl = 'https://raw.githubusercontent.com/lichess-org/lila/refs/heads/master/public/piece/pirouetti/';
+        const baseImageUrl = '/assests/';
 
         const presets = {
             start: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
@@ -658,8 +659,10 @@
             line.setAttribute('x2', x2);
             line.setAttribute('y2', y2);
             line.setAttribute('stroke', color);
-            line.setAttribute('stroke-width', '4');
+            line.setAttribute('stroke-width', '2.2'); // Smaller arrow
             line.setAttribute('marker-end', 'url(#arrowhead)');
+            line.setAttribute('stroke-linecap', 'round');
+            //line.setAttribute('filter', 'url(#arrow-outline)');
 
             // Create arrowhead marker
             let defs = svg.querySelector('defs');
@@ -667,21 +670,42 @@
                 defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
                 svg.appendChild(defs);
             }
-
+            // Remove previous marker to allow color change
+            const oldMarker = defs.querySelector('#arrowhead');
+            if (oldMarker) oldMarker.remove();
             const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
             marker.setAttribute('id', 'arrowhead');
-            marker.setAttribute('markerWidth', '10');
-            marker.setAttribute('markerHeight', '7');
-            marker.setAttribute('refX', '9');
-            marker.setAttribute('refY', '3.5');
+            marker.setAttribute('markerWidth', '6'); // Smaller head
+            marker.setAttribute('markerHeight', '4');
+            marker.setAttribute('refX', '5.5');
+            marker.setAttribute('refY', '2');
             marker.setAttribute('orient', 'auto');
 
             const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+            polygon.setAttribute('points', '0 0, 6 2, 0 4');
             polygon.setAttribute('fill', color);
+            polygon.setAttribute('stroke', '#fff');
+            polygon.setAttribute('stroke-width', '0.8');
 
             marker.appendChild(polygon);
             defs.appendChild(marker);
+
+            // Add outline filter for arrow line
+            if (!defs.querySelector('#arrow-outline')) {
+                const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+                filter.setAttribute('id', 'arrow-outline');
+                filter.innerHTML = `
+                    <feMorphology in="SourceAlpha" result="DILATED" operator="dilate" radius="0.5"/>
+                    <feFlood flood-color="#fff" flood-opacity="0.3" result="OUTLINE_COLOR"/>
+                    <feComposite in="OUTLINE_COLOR" in2="DILATED" operator="in" result="OUTLINE"/>
+                    <feMerge>
+                        <feMergeNode in="OUTLINE"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                `;
+                defs.appendChild(filter);
+            }
+
             svg.appendChild(line);
 
             // Highlight from and to squares
