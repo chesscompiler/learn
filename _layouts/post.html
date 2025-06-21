@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>{{ page.title }} | Chess Compiler Learn - Chess Blogs & Tutorials in 3D</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | Chess Compiler Blog</title>
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
   <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  <meta name="keywords" content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
   <meta property="og:type" content="article">
@@ -15,21 +17,24 @@
   <meta name="twitter:title" content="{{ page.title }}">
   <meta name="twitter:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
   <meta name="twitter:image" content="{{ page.image }}">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/learn/learn.css">
 </head>
 <body>
-  <nav style="background:#222;padding:1em 0;margin-bottom:2em;">
-    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
-      <a href="/" style="color:#fff;font-weight:bold;font-size:1.3em;text-decoration:none;">Chess Compiler</a>
-      <div>
-        <a href="/" style="color:#fff;margin-right:1.5em;text-decoration:none;">Home</a>
-        <a href="/about" style="color:#fff;margin-right:1.5em;text-decoration:none;">About</a>
-        <a href="/contact" style="color:#fff;text-decoration:none;">Contact</a>
-      </div>
-    </div>
-  </nav>
-  <main style="max-width:900px;margin:0 auto;">
-    <article>
+  <header class="glass-nav">
+    <a href="/" class="logo">Chess Compiler</a>
+    <button id="menu-toggle" class="menu-btn" aria-label="Open menu">
+      <span class="material-icons">menu</span>
+    </button>
+    <nav id="main-nav">
+      <a href="/#features" class="nav-link hide-on-mobile">Features</a>
+      <a href="/#puzzles" class="nav-link hide-on-mobile">Puzzles</a>
+      <a href="/learn" class="nav-cta nav-link">Learn</a>
+    </nav>
+  </header>
+  <main class="main-content">
+    <article class="markdown-body">
       <h1>{{ page.title }}</h1>
       {% if page.image %}
         <img src="{{ page.image }}" alt="{{ page.title }}" style="max-width:100%;margin-bottom:1em;" />
@@ -38,5 +43,29 @@
       {{ content }}
     </article>
   </main>
+  <script>
+  // Mobile nav toggle (same as main site)
+  const menuBtn = document.getElementById('menu-toggle');
+  const nav = document.getElementById('main-nav');
+  const glassNav = document.querySelector('.glass-nav');
+  menuBtn.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    menuBtn.classList.toggle('open');
+    document.body.classList.toggle('nav-open');
+    if (window.innerWidth <= 768) {
+      glassNav.classList.toggle('menu-open', nav.classList.contains('open'));
+    }
+  });
+  document.querySelectorAll('#main-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      menuBtn.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (window.innerWidth <= 768) {
+        glassNav.classList.remove('menu-open');
+      }
+    });
+  });
+  </script>
 </body>
 </html>
