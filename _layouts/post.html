@@ -24,7 +24,7 @@
     .article-skeleton {
       width: 100%;
       height: 260px;
-      background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+      background: linear-gradient(90deg, #23272f 25%, #2d3748 50%, #23272f 75%);
       background-size: 200% 100%;
       animation: skeleton-loading 1.2s infinite linear;
       border-radius: 8px;
@@ -38,6 +38,25 @@
     .article-image-wrapper img { display: none; width: 100%; max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1em; }
     .article-image-wrapper img.loaded { display: block; }
     .article-image-wrapper .article-skeleton.hide { display: none; }
+    /* In-article images float right, responsive */
+    .markdown-body .article-image-wrapper {
+      float: right;
+      max-width: 340px;
+      width: 40vw;
+      margin: 0 0 1.2em 2em;
+      display: block;
+      clear: none;
+    }
+    @media (max-width: 700px) {
+      .markdown-body .article-image-wrapper {
+        float: none;
+        display: block;
+        margin: 1.2em auto;
+        width: 100%;
+        max-width: 100%;
+      }
+      .article-skeleton { height: 180px; }
+    }
   </style>
 </head>
 <body>
@@ -47,7 +66,7 @@
       <span class="material-icons">menu</span>
     </button>
     <nav id="main-nav">
-      <a href="/#features" class="nav-link hide-on-mobile">Features</a>
+      <a href="/board" class="nav-link hide-on-mobile">Board</a>
       <a href="/#puzzles" class="nav-link hide-on-mobile">Puzzles</a>
       <a href="/learn" class="nav-cta nav-link">Learn</a>
     </nav>
@@ -61,6 +80,8 @@
           <img data-src="{{ page.image }}" alt="{{ page.title }}" />
         </div>
       {% endif %}
+      <chess-board fen="8/8/8/3R4/8/8/8/8 w - - 0 1" highlight="d5,d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5" arrows="d5-d1,d5-d8,d5-a5,d5-h5"></chess-board>
+
       <div style="color:#888;font-size:0.95em;margin-bottom:2em;">{{ page.date | date: "%B %d, %Y" }}</div>
       {{ content }}
     </article>
@@ -99,18 +120,12 @@
   .inline-chess-square.dark { background: #b58863; }
   .inline-chess-square.highlighted {
     background: #ffff00cc !important;
-    box-shadow: 0 0 0 2px #ffd700;
-    z-index: 2;
   }
   .inline-chess-square.from-square {
     background: #ff6b6bcc !important;
-    box-shadow: 0 0 0 2px #ff5252;
-    z-index: 2;
   }
   .inline-chess-square.to-square {
     background: #4ecdc4cc !important;
-    box-shadow: 0 0 0 2px #26c6da;
-    z-index: 2;
   }
   /* Prevent global img rules from affecting board pieces */
   .inline-chess-board .inline-chess-piece {
@@ -125,6 +140,7 @@
     border-radius: 0;
     max-width: unset;
     max-height: unset;
+    z-index: 20;
   }
   .inline-chess-arrows {
     position: absolute;
@@ -170,6 +186,15 @@
       const board = document.createElement('div');
       board.className = 'inline-chess-board';
       board.style.position = 'relative';
+      // SVG for arrows (should be under the grid)
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('inline-chess-arrows');
+      svg.setAttribute('width', '304');
+      svg.setAttribute('height', '304');
+      svg.style.position = 'absolute';
+      svg.style.top = '0';
+      svg.style.left = '0';
+      board.appendChild(svg);
       const grid = document.createElement('div');
       grid.className = 'inline-chess-board-grid';
       // Parse FEN
@@ -211,15 +236,6 @@
         coord.style.left = '-20px';
         board.appendChild(coord);
       }
-      // SVG for arrows
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.classList.add('inline-chess-arrows');
-      svg.setAttribute('width', '304');
-      svg.setAttribute('height', '304');
-      svg.style.position = 'absolute';
-      svg.style.top = '0';
-      svg.style.left = '0';
-      board.appendChild(svg);
       container.appendChild(board);
       el.replaceWith(container);
       // Highlights
@@ -258,7 +274,7 @@
       }
       return sq;
     }
-    function drawArrow(grid, svg, from, to) {
+    function drawArrow(grid, svg, from, to, color = '#ff6b6b') {
       const fromSq = grid.querySelector(`[data-square="${from}"]`);
       const toSq = grid.querySelector(`[data-square="${to}"]`);
       if (!fromSq || !toSq) return;
@@ -276,11 +292,11 @@
       line.setAttribute('y1', y1);
       line.setAttribute('x2', x2);
       line.setAttribute('y2', y2);
-      line.setAttribute('stroke', '#ff6b6b');
-      line.setAttribute('stroke-width', '4');
+      line.setAttribute('stroke', color);
+      line.setAttribute('stroke-width', '2.2');
       line.setAttribute('stroke-linecap', 'round');
       line.setAttribute('marker-end', 'url(#inline-arrowhead)');
-      // Arrowhead marker (always recreate for color/stroke)
+      // Arrowhead marker (recreate for color)
       let defs = svg.querySelector('defs');
       if (!defs) {
         defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
@@ -291,14 +307,14 @@
       if (oldMarker) oldMarker.remove();
       let marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
       marker.setAttribute('id', 'inline-arrowhead');
-      marker.setAttribute('markerWidth', '10');
-      marker.setAttribute('markerHeight', '7');
-      marker.setAttribute('refX', '9');
-      marker.setAttribute('refY', '3.5');
+      marker.setAttribute('markerWidth', '6');
+      marker.setAttribute('markerHeight', '4');
+      marker.setAttribute('refX', '5.5');
+      marker.setAttribute('refY', '2');
       marker.setAttribute('orient', 'auto');
       const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-      polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
-      polygon.setAttribute('fill', '#ff6b6b');
+      polygon.setAttribute('points', '0 0, 6 2, 0 4');
+      polygon.setAttribute('fill', color);
       polygon.setAttribute('stroke', '#fff');
       polygon.setAttribute('stroke-width', '0.8');
       marker.appendChild(polygon);
