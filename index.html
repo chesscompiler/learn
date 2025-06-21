@@ -57,7 +57,7 @@ title: Chess Compiler Blog
       {% for post in site.posts %}
         <div class="blog-card">
           <div class="blog-card-text">
-            <a href="{{ page.url | absolute_url }}" class="blog-title">{{ post.title }}</a>
+            <a href="{{ post.url }}" class="blog-title">{{ post.title }}</a>
             <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 160 }}</div>
             <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
           </div>
