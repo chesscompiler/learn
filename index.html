@@ -24,7 +24,6 @@ title: Chess Compiler Blog
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="learn.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -54,8 +53,20 @@ title: Chess Compiler Blog
   </header>
   <main class="main-content">
     <h1 style="margin-bottom:2rem;">Learn</h1>
-    <div id="blog-list" class="blog-list"></div>
-    <div id="blog-content" style="display:none;" class="markdown-body"></div>
+    <div id="blog-list" class="blog-list">
+      {% for post in site.posts %}
+        <div class="blog-card">
+          <div class="blog-card-text">
+            <a href="{{ post.url }}" class="blog-title">{{ post.title }}</a>
+            <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 160 }}</div>
+            <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
+          </div>
+          {% if post.image %}
+            <img src="{{ post.image }}" alt="{{ post.title }}">
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </main>
   <script>
   // Mobile nav toggle (same as main site)
@@ -80,94 +91,6 @@ title: Chess Compiler Blog
       }
     });
   });
-
-  // Blog loader
-  let blogs = [];
-
-  function renderBlogList() {
-    const list = document.getElementById('blog-list');
-    list.innerHTML = '';
-    blogs.forEach((blog, idx) => {
-      const card = document.createElement('div');
-      card.className = 'blog-card';
-      card.innerHTML = `
-        <div class="blog-card-text">
-          <a href="?blog=${blog.slug}" class="blog-title">${blog.title}</a>
-          <div class="blog-desc">${blog.desc}</div>
-          <div class="blog-date">${blog.date}</div>
-        </div>
-        <img src="${blog.image}" alt="${blog.title}">
-      `;
-      card.onclick = (e) => {
-        // Allow default link behavior if clicking the anchor
-        if (e.target.tagName === 'A') return;
-        history.pushState({}, '', `?blog=${blog.slug}`);
-        loadBlogBySlug(blog.slug);
-      };
-      list.appendChild(card);
-    });
-  }
-
-  function loadBlogBySlug(slug) {
-    const blog = blogs.find(b => b.slug === slug);
-    const learnHeader = document.querySelector('h1[style*="margin-bottom:2rem;"]');
-    if (!blog) {
-      document.getElementById('blog-list').style.display = 'block';
-      document.getElementById('blog-content').style.display = 'none';
-      if (learnHeader) learnHeader.style.display = '';
-      document.title = 'Chess Compiler Learn - Chess Blogs & Tutorials in 3D';
-      return;
-    }
-    fetch(blog.file)
-      .then(r => r.text())
-      .then(md => {
-        // Remove YAML frontmatter
-        const content = md.replace(/^---[\s\S]*?---/, '').trim();
-        document.getElementById('blog-list').style.display = 'none';
-        const blogContent = document.getElementById('blog-content');
-        // Enhanced marked config for tables, task lists, HTML, etc.
-        blogContent.innerHTML = marked.parse(content, {
-          gfm: true,
-          breaks: true,
-          headerIds: true,
-          mangle: false,
-          sanitize: false // allow inline HTML
-        });
-        blogContent.style.display = 'block';
-        if (learnHeader) learnHeader.style.display = 'none';
-        document.title = blog.title + ' | Chess Compiler Learn';
-        window.scrollTo({top:0,behavior:'smooth'});
-      });
-  }
-
-  // Routing: check for ?blog=slug in URL
-  function getQueryParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name);
-  }
-
-  function handleRouting() {
-    const slug = getQueryParam('blog');
-    const learnHeader = document.querySelector('h1[style*="margin-bottom:2rem;"]');
-    if (slug) {
-      loadBlogBySlug(slug);
-    } else {
-      document.getElementById('blog-list').style.display = 'grid';
-      document.getElementById('blog-content').style.display = 'none';
-      renderBlogList();
-      if (learnHeader) learnHeader.style.display = '';
-      document.title = 'Chess Compiler Learn - Chess Blogs & Tutorials in 3D';
-    }
-  }
-
-  // Fetch blogs.json and initialize
-  fetch('blogs.json')
-    .then(r => r.json())
-    .then(data => {
-      blogs = data;
-      handleRouting();
-      window.onpopstate = handleRouting;
-    });
   </script>
 </body>
 </html>
