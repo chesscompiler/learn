@@ -1,5 +1,5 @@
 title: Chess Compiler Learn
 description: Chess blogs and tutorials
-baseurl: ""
-url: ""
+baseurl: "/learn"
+url: "https://chesscompiler.github.io"
 theme: null
