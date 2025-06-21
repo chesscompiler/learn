@@ -53,16 +53,16 @@ title: Chess Compiler Blog
   </header>
   <main class="main-content">
     <h1 style="margin-bottom:2rem;">Learn</h1>
-    <div id="blog-list" class="blog-list">
+    <div id="blog-list" class="blog-list" style="display: grid;">
       {% for post in site.posts %}
         <div class="blog-card">
           <div class="blog-card-text">
             <a href="{{ post.url }}" class="blog-title">{{ post.title }}</a>
             <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 160 }}</div>
-            <div class="blog-date">{{ post.date | date: "%B %d, %Y" }}</div>
+            <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
           </div>
           {% if post.image %}
-            <img src="{{ post.image }}" alt="{{ post.title }}">
+            <img src="{{ post.image }}" alt="{{ post.title }}" />
           {% endif %}
         </div>
       {% endfor %}

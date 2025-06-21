@@ -1,13 +1,9 @@
 ---
-title: "How to Play Chess: The Ultimate Beginner’s Guide"
+title: "🧠 How to Play Chess: The Ultimate Beginner’s Guide ♟️"
 date: 2025-06-21
 image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg"
 layout: post
 ---
-# 🧠 How to Play Chess: The Ultimate Beginner’s Guide ♟️
-
-![Chess Set](https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg)
-
 Chess is more than just a game — it’s a battlefield of brains, a masterclass in strategy, and a way to sharpen your mind while having fun. Whether you're brand new to the game or just brushing up, this guide will walk you through everything from setup to special rules.
 
 > 💡 **Pro Tip:** Use **Chess Compiler** to practice puzzles and accelerate your chess improvement!
