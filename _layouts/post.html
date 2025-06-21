@@ -35,7 +35,7 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    .article-image-wrapper img { display: none; width: 100%; max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1em; }
+    .article-image-wrapper img { display: none; max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1em; }
     .article-image-wrapper img.loaded { display: block; }
     .article-image-wrapper .article-skeleton.hide { display: none; }
     /* In-article images float right, responsive */
@@ -80,8 +80,6 @@
           <img data-src="{{ page.image }}" alt="{{ page.title }}" />
         </div>
       {% endif %}
-      <chess-board fen="8/8/8/3R4/8/8/8/8 w - - 0 1" highlight="d5,d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5" arrows="d5-d1,d5-d8,d5-a5,d5-h5"></chess-board>
-
       <div style="color:#888;font-size:0.95em;margin-bottom:2em;">{{ page.date | date: "%B %d, %Y" }}</div>
       {{ content }}
     </article>
@@ -120,12 +118,14 @@
   .inline-chess-square.dark { background: #b58863; }
   .inline-chess-square.highlighted {
     background: #ffff00cc !important;
+    outline: 0.1px solid #0000001a;
   }
   .inline-chess-square.from-square {
     background: #ff6b6bcc !important;
   }
   .inline-chess-square.to-square {
     background: #4ecdc4cc !important;
+    outline: 0.1px solid #0000001a;
   }
   /* Prevent global img rules from affecting board pieces */
   .inline-chess-board .inline-chess-piece {
