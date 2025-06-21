@@ -5,10 +5,10 @@
   <title>{{ page.title }} | Chess Compiler Learn - Chess Blogs & Tutorials in 3D</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
-  <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 150 }}">
   <meta name="keywords" content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
   <meta property="og:title" content="{{ page.title }}">
-  <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
+  <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 150 }}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Chess Compiler">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
@@ -43,29 +43,176 @@
       {{ content }}
     </article>
   </main>
+  <style>
+  .inline-chess-board-container {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0;
+  }
+  .inline-chess-board {
+    position: relative;
+    border: 3px solid #2d3748;
+    border-radius: 8px;
+    background: #2d3748;
+    display: inline-block;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .inline-chess-board-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+  }
+  .inline-chess-square {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .inline-chess-square.light { background: #f0d9b5; }
+  .inline-chess-square.dark { background: #b58863; }
+  .inline-chess-square.highlighted { background: #ffff0080 !important; box-shadow: 0 0 0 2px #ffd700; }
+  .inline-chess-piece { width: 90%; height: 90%; object-fit: contain; user-select: none; }
+  .inline-chess-arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+  </style>
   <script>
-  // Mobile nav toggle (same as main site)
-  const menuBtn = document.getElementById('menu-toggle');
-  const nav = document.getElementById('main-nav');
-  const glassNav = document.querySelector('.glass-nav');
-  menuBtn.addEventListener('click', () => {
-    nav.classList.toggle('open');
-    menuBtn.classList.toggle('open');
-    document.body.classList.toggle('nav-open');
-    if (window.innerWidth <= 768) {
-      glassNav.classList.toggle('menu-open', nav.classList.contains('open'));
-    }
-  });
-  document.querySelectorAll('#main-nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuBtn.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (window.innerWidth <= 768) {
-        glassNav.classList.remove('menu-open');
+  // Inline Chess Board Renderer for blog posts
+  (function() {
+    const pieceImages = {
+      'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
+      'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
+    };
+    const baseImageUrl = 'https://raw.githubusercontent.com/lichess-org/lila/refs/heads/master/public/piece/pirouetti/';
+    function renderChessBoard(el, fen, highlights, arrows) {
+      // Container
+      const container = document.createElement('div');
+      container.className = 'inline-chess-board-container';
+      const board = document.createElement('div');
+      board.className = 'inline-chess-board';
+      const grid = document.createElement('div');
+      grid.className = 'inline-chess-board-grid';
+      // Parse FEN
+      const fenParts = fen.split(' ');
+      const position = fenParts[0];
+      const ranks = position.split('/');
+      for (let rank = 0; rank < 8; rank++) {
+        let file = 0;
+        for (let char of ranks[rank]) {
+          if (isNaN(char)) {
+            const sq = createSquare(rank, file, char);
+            grid.appendChild(sq);
+            file++;
+          } else {
+            for (let i = 0; i < parseInt(char); i++) {
+              const sq = createSquare(rank, file, null);
+              grid.appendChild(sq);
+              file++;
+            }
+          }
+        }
       }
+      board.appendChild(grid);
+      // SVG for arrows
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('inline-chess-arrows');
+      svg.setAttribute('width', '304');
+      svg.setAttribute('height', '304');
+      svg.style.position = 'absolute';
+      svg.style.top = '0';
+      svg.style.left = '0';
+      board.appendChild(svg);
+      container.appendChild(board);
+      el.replaceWith(container);
+      // Highlights
+      if (highlights && highlights.length) {
+        highlights.forEach(sq => {
+          const s = grid.querySelector(`[data-square="${sq}"]`);
+          if (s) s.classList.add('highlighted');
+        });
+      }
+      // Arrows
+      if (arrows && arrows.length) {
+        arrows.forEach(arr => {
+          const [from, to] = arr.split('-');
+          if (from && to) drawArrow(grid, svg, from, to);
+        });
+      }
+    }
+    function createSquare(rank, file, piece) {
+      const sq = document.createElement('div');
+      sq.className = 'inline-chess-square ' + ((rank + file) % 2 === 0 ? 'light' : 'dark');
+      sq.dataset.square = String.fromCharCode(97 + file) + (8 - rank);
+      if (piece) {
+        const img = document.createElement('img');
+        img.className = 'inline-chess-piece';
+        img.src = baseImageUrl + pieceImages[piece] + '.svg';
+        img.alt = piece;
+        img.onerror = function() {
+          const fallback = { 'K': '♔','Q': '♕','R': '♖','B': '♗','N': '♘','P': '♙','k': '♚','q': '♛','r': '♜','b': '♝','n': '♞','p': '♟' };
+          const span = document.createElement('span');
+          span.className = 'inline-chess-piece';
+          span.textContent = fallback[piece] || piece;
+          span.style.fontSize = '22px';
+          this.parentNode.replaceChild(span, this);
+        };
+        sq.appendChild(img);
+      }
+      return sq;
+    }
+    function drawArrow(grid, svg, from, to) {
+      const fromSq = grid.querySelector(`[data-square="${from}"]`);
+      const toSq = grid.querySelector(`[data-square="${to}"]`);
+      if (!fromSq || !toSq) return;
+      const getPos = sq => {
+        const idx = Array.from(grid.children).indexOf(sq);
+        const x = idx % 8;
+        const y = Math.floor(idx / 8);
+        return [x * 38 + 19, y * 38 + 19];
+      };
+      const [x1, y1] = getPos(fromSq);
+      const [x2, y2] = getPos(toSq);
+      // Arrow line
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', '#ff6b6b');
+      line.setAttribute('stroke-width', '4');
+      line.setAttribute('marker-end', 'url(#inline-arrowhead)');
+      // Arrowhead marker
+      let defs = svg.querySelector('defs');
+      if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        svg.appendChild(defs);
+        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'inline-arrowhead');
+        marker.setAttribute('markerWidth', '10');
+        marker.setAttribute('markerHeight', '7');
+        marker.setAttribute('refX', '9');
+        marker.setAttribute('refY', '3.5');
+        marker.setAttribute('orient', 'auto');
+        const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+        polygon.setAttribute('fill', '#ff6b6b');
+        marker.appendChild(polygon);
+        defs.appendChild(marker);
+      }
+      svg.appendChild(line);
+    }
+    // Scan for <chess-board ...> tags
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('chess-board').forEach(el => {
+        const fen = el.getAttribute('fen') || '8/8/8/8/8/8/8/8 w - - 0 1';
+        const highlights = (el.getAttribute('highlight')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+        const arrows = (el.getAttribute('arrows')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
+        renderChessBoard(el, fen, highlights, arrows);
+      });
     });
-  });
+  })();
   </script>
 </body>
 </html>

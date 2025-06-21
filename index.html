@@ -33,6 +33,13 @@ title: Chess Compiler Blog
     "url": "https://chesscompiler.github.io/learn/",
     "about": [
       { "@type": "Thing", "name": "Chess" },
+      { "@type": "Thing", "name": "Chess Compiler" },
+      { "@type": "Thing", "name": "Chess Strategy" },
+      { "@type": "Thing", "name": "Chess Puzzles" },
+      { "@type": "Thing", "name": "Chess Lessons" },
+      { "@type": "Thing", "name": "3D Chess" },
+      { "@type": "Thing", "name": "Chess Tips" },
+      { "@type": "Thing", "name": "Chess Guides" }
       { "@type": "Thing", "name": "Chess Tutorials" },
       { "@type": "Thing", "name": "Chess Blogs" }
     ]
@@ -58,7 +65,7 @@ title: Chess Compiler Blog
         <div class="blog-card">
           <div class="blog-card-text">
             <a href="{{ post.url | prepend: '/learn' }}" class="blog-title">{{ post.title }}</a>
-            <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 160 }}</div>
+            <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 150 }}</div>
             <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
           </div>
           {% if post.image %}

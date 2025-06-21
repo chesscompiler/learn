@@ -23,6 +23,8 @@ Before the first move, let’s get your board right. Here’s how:
   - 1 Queen
   - 1 King
 
+<chess-board fen="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"></chess-board>
+
 **Correct Setup:**
 
 1. Pawns go on the second row (or *rank*) from each player.
@@ -52,6 +54,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - Moves one square in *any direction* — horizontal, vertical, or diagonal.
 - You must keep your king safe at all costs — if he's threatened and can't escape, it’s *checkmate*.
 
+<chess-board fen="8/8/8/3K1k2/8/8/8/8 w - - 0 1" highlight="d5,e5,d4,e4,c5,c4,c6,d6,e6" arrows="d5-e5,d5-d4,d5-e4,d5-c4,d5-c5,d5-c6,d5-d6,d5-e6"></chess-board>
+
 🛡️ *Tip: Castling helps safeguard your king — more on that later!*
 
 ---
@@ -63,6 +67,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - The **Queen** is the most powerful piece.
 - She can move *any number of squares* vertically, horizontally, or diagonally.
 - Use her for aggressive attacks, tactical threats, or long-range support.
+
+<chess-board fen="8/8/8/3Q4/8/8/8/8 w - - 0 1" highlight="d5,d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5,a1,b2,c3,e6,f7,g8,a8,b7,c6,e4,f3,g2,h1" arrows="d5-d1,d5-d8,d5-a5,d5-h5,d5-a1,d5-h1,d5-a8,d5-h8"></chess-board>
 
 👑 *Promotion: When a pawn reaches the other side of the board, it often becomes a queen.*
 
@@ -76,6 +82,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - It's excellent for endgame power plays and controlling open lines.
 - A rook pairs wonderfully with the king for the special move called **castling**.
 
+<chess-board fen="8/8/8/3R4/8/8/8/8 w - - 0 1" highlight="d5,d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5" arrows="d5-d1,d5-d8,d5-a5,d5-h5"></chess-board>
+
 🔧 *Rooks are often quiet early in the game but become stars in the endgame.*
 
 ---
@@ -87,6 +95,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - Bishops move diagonally and have long reach.
 - They stay on the color they started on for the entire game.
 - A pair of bishops can control wide zones of the board when working together.
+
+<chess-board fen="8/8/8/3B4/8/8/8/8 w - - 0 1" highlight="d5,a2,g8,a8,g2,a1,g1,a7,g7" arrows="d5-a2,d5-g8,d5-a8,d5-g2"></chess-board>
 
 ⚔️ *Keep your bishops active — they’re deadly in open positions!*
 
@@ -100,6 +110,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - It's the only piece that can *jump over others*.
 - Great for forking (attacking two pieces at once) and controlling central squares.
 
+<chess-board fen="8/8/8/3N4/8/8/8/8 w - - 0 1" highlight="c7,e7,b6,f6,b4,f4,c3,e3" arrows="d5-c7,d5-e7,d5-b6,d5-f6,d5-b4,d5-f4,d5-c3,d5-e3"></chess-board>
+
 🔄 *Knights are tricksters — place them near the center for maximum impact!*
 
 ---
@@ -111,6 +123,8 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - Pawns move forward one square, or two squares from their starting position.
 - They capture diagonally and can *never move backward*.
 - Upon reaching the last rank, a pawn can promote to any piece (except the king).
+
+<chess-board fen="8/8/8/8/3P4/8/8/8 w - - 0 1" highlight="d5,d6,c6,e6" arrows="d5-d6,d5-c6,d5-e6"></chess-board>
 
 🪙 *Don’t underestimate pawns — they may start small but can end up queens!*
 
@@ -124,8 +138,16 @@ Beyond movement, chess has unique rules that make it exciting and strategic.
 - **Checkmate**: The king is trapped. Game over.
 - **Stalemate**: The player has no legal moves, but the king isn't in check. It’s a draw.
 - **Castling**: A move that slides the king two squares toward a rook, and the rook jumps over.
+
+<chess-board fen="r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1" arrows="e1-g1,h1-f1,e1-c1,a1-d1"></chess-board>
+
 - **En Passant**: A special pawn capture that can happen immediately after an opponent moves their pawn two squares forward.
+
+<chess-board fen="8/8/8/3pP3/8/8/8/8 w - d6 0 1" arrows="e5-d6"></chess-board>
+
 - **Pawn Promotion**: A pawn reaching the far end of the board becomes another piece (usually a queen).
+
+<chess-board fen="4P3/8/8/8/8/8/8/8 w - - 0 1" arrows="e8-e7"></chess-board>
 
 > 🎯 Master these rules with bite-sized drills on **Chess Compiler**!
 
