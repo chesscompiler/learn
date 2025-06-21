@@ -37,21 +37,31 @@
   </script>
 </head>
 <body>
-  <header class="glass-nav">
-    <a href="/" class="logo">Chess Compiler</div>
-    <button id="menu-toggle" class="menu-btn" aria-label="Open menu">
-      <span class="material-icons">menu</span>
-    </button>
-    <nav id="main-nav">
-      <a href="/#features" class="nav-link hide-on-mobile">Features</a>
-      <a href="/#puzzles" class="nav-link hide-on-mobile">Puzzles</a>
-      <a href="/learn" class="nav-cta nav-link">Learn</a>
-    </nav>
-  </header>
-  <main class="main-content">
-    <h1 style="margin-bottom:2rem;">Learn</h1>
-    <div id="blog-list" class="blog-list"></div>
-    <div id="blog-content" style="display:none;" class="markdown-body"></div>
+  <nav style="background:#222;padding:1em 0;margin-bottom:2em;">
+    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+      <a href="/" style="color:#fff;font-weight:bold;font-size:1.3em;text-decoration:none;">Chess Compiler</a>
+      <div>
+        <a href="/" style="color:#fff;margin-right:1.5em;text-decoration:none;">Home</a>
+        <a href="/about" style="color:#fff;margin-right:1.5em;text-decoration:none;">About</a>
+        <a href="/contact" style="color:#fff;text-decoration:none;">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <main style="max-width:900px;margin:0 auto;">
+    <h1>Chess Compiler Blog</h1>
+    <div style="margin-top:2em;">
+      {% for post in site.posts %}
+        <article style="margin-bottom:2.5em;">
+          <h2><a href="{{ post.url }}" style="color:#222;text-decoration:none;">{{ post.title }}</a></h2>
+          <div style="color:#888;font-size:0.95em;">{{ post.date | date: "%B %d, %Y" }}</div>
+          {% if post.image %}
+            <img src="{{ post.image }}" alt="{{ post.title }}" style="max-width:100%;margin:1em 0;" />
+          {% endif %}
+          <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+          <a href="{{ post.url }}" style="color:#0077cc;">Read more →</a>
+        </article>
+      {% endfor %}
+    </div>
   </main>
   <script>
   // Mobile nav toggle (same as main site)
