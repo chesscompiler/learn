@@ -68,7 +68,7 @@ Understanding each piece is key to unlocking chess strategy. Each has its own st
 - She can move *any number of squares* vertically, horizontally, or diagonally.
 - Use her for aggressive attacks, tactical threats, or long-range support.
 
-<chess-board fen="8/8/8/3Q4/8/8/8/8 w - - 0 1" highlight="d1,d8,a5,h5,a2,h1,a8,h8" arrows="d5-d8,d5-d1,d5-a5,d5-h5,d5-a2,d5-h1,d5-a8,d5-h8">
+<chess-board fen="8/8/8/3Q4/8/8/8/8 w - - 0 1" arrows="d5-d8,d5-d1,d5-a5,d5-h5,d5-a2,d5-h1,d5-a8,d5-g8">
 </chess-board>
 
 👑 *Promotion: When a pawn reaches the other side of the board, it often becomes a queen.*

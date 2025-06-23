@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Blog Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      overflow-x: hidden;
+    }
+
+    .editor-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .editor-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #30363d;
+    }
+
+    .preview-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #161b22;
+    }
+
+    .panel-header {
+      padding: 1rem 1.5rem;
+      background: #21262d;
+      border-bottom: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #f0f6fc;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-indicator {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      background: #1a7f37;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .status-indicator.show {
+      opacity: 1;
+    }
+
+    .editor-textarea {
+      flex: 1;
+      background: #0d1117;
+      border: none;
+      outline: none;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e6edf3;
+      resize: none;
+      tab-size: 2;
+    }
+
+    .editor-textarea::placeholder {
+      color: #7d8590;
+    }
+
+    .preview-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    /* Markdown styles */
+    .markdown-body {
+      line-height: 1.6;
+      color: #e6edf3;
+    }
+
+    .markdown-body h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #f0f6fc;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 0.5rem;
+    }
+
+    .markdown-body h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem 0;
+      color: #f0f6fc;
+    }
+
+    .markdown-body h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem 0;
+      color: #f0f6fc;
+    }
+
+    .markdown-body p {
+      margin-bottom: 1rem;
+      color: #e6edf3;
+    }
+
+    .markdown-body ul, .markdown-body ol {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+    }
+
+    .markdown-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    .markdown-body code {
+      background: #21262d;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      color: #79c0ff;
+    }
+
+    .markdown-body pre {
+      background: #21262d;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      border: 1px solid #30363d;
+    }
+
+    .markdown-body pre code {
+      background: none;
+      padding: 0;
+      color: #e6edf3;
+    }
+
+    .markdown-body blockquote {
+      border-left: 4px solid #30363d;
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    .markdown-body hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 2rem 0;
+    }
+
+    .markdown-body a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin: 1rem 0;
+    }
+
+    /* Article header styles */
+    .article-header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 1.5rem;
+    }
+
+    .article-image-wrapper {
+      float: right;
+      max-width: 340px;
+      width: 40vw;
+      margin: 0 0 1.2em 2em;
+      display: block;
+      clear: none;
+    }
+
+    @media (max-width: 700px) {
+      .article-image-wrapper {
+        float: none;
+        display: block;
+        margin: 1.2em auto;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    .article-image-wrapper img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 0;
+    }
+
+    .article-meta {
+      color: #8b949e;
+      font-size: 0.95em;
+      margin-top: 0.5rem;
+    }
+
+    .markdown-body strong {
+      font-weight: 600;
+      color: #f0f6fc;
+    }
+
+    .markdown-body em {
+      font-style: italic;
+    }
+
+    /* Chess board styles */
+    .inline-chess-board-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .inline-chess-board {
+      position: relative;
+      border: 3px solid #30363d;
+      border-radius: 8px;
+      background: #21262d;
+      display: inline-block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .inline-chess-board-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+    }
+
+    .inline-chess-square {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      position: relative;
+      transition: all 0.2s;
+      z-index: 1;
+    }
+
+    .inline-chess-square.light { 
+      background: #f0d9b5; 
+    }
+
+    .inline-chess-square.dark { 
+      background: #b58863; 
+    }
+
+    .inline-chess-square.highlighted {
+      background: #ffff00cc !important;
+      outline: 0.1px solid #0000001a;
+    }
+
+    .inline-chess-square.from-square {
+      background: #ff6b6bcc !important;
+    }
+
+    .inline-chess-square.to-square {
+      background: #4ecdc4cc !important;
+      outline: 0.1px solid #0000001a;
+    }
+
+    .inline-chess-board .inline-chess-piece {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      user-select: none;
+      display: block;
+      float: none;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      max-width: unset;
+      max-height: unset;
+      z-index: 20;
+    }
+
+    .inline-chess-arrows {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .inline-chess-coord {
+      position: absolute;
+      font-size: 12px;
+      font-weight: bold;
+      color: #7d8590;
+      pointer-events: none;
+      user-select: none;
+      z-index: 20;
+    }
+
+    .inline-chess-file-coord {
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .inline-chess-rank-coord {
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .editor-container {
+        flex-direction: column;
+      }
+      
+      .editor-panel {
+        border-right: none;
+        border-bottom: 1px solid #30363d;
+      }
+      
+      .editor-panel, .preview-panel {
+        height: 50vh;
+      }
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #21262d;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #30363d;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #484f58;
+    }
+  </style>
+</head>
+<body>
+  <div class="editor-container">
+    <div class="editor-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="material-icons">edit</span>
+          Markdown Editor
+        </div>
+        <div class="status-indicator" id="saveStatus">Saved</div>
+      </div>
+      <textarea 
+        class="editor-textarea" 
+        id="markdownEditor"
+        placeholder="Start writing your chess blog post...
+
+Example:
+---
+title: &quot;My Chess Journey&quot;
+date: 2025-06-23
+image: &quot;https://example.com/image.jpg&quot;
+layout: post
+---
+
+# Welcome to Chess
+
+This is a basic chess position:
+&lt;chess-board fen=&quot;rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1&quot;&gt;&lt;/chess-board&gt;
+
+You can highlight squares and draw arrows:
+&lt;chess-board fen=&quot;rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1&quot; highlight=&quot;e4&quot; arrows=&quot;e2-e4&quot;&gt;&lt;/chess-board&gt;
+"></textarea>
+    </div>
+    
+    <div class="preview-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="material-icons">visibility</span>
+          Live Preview
+        </div>
+      </div>
+      <div class="preview-content">
+        <div class="markdown-body" id="previewContent">
+          <p>Start typing in the editor to see your preview...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Parse YAML front matter
+    function parseYAML(yamlStr) {
+      const lines = yamlStr.split('\n').filter(line => line.trim());
+      const data = {};
+      
+      lines.forEach(line => {
+        const colonIndex = line.indexOf(':');
+        if (colonIndex > 0) {
+          const key = line.substring(0, colonIndex).trim();
+          let value = line.substring(colonIndex + 1).trim();
+          // Remove quotes if present
+          if ((value.startsWith('"') && value.endsWith('"')) || 
+              (value.startsWith("'") && value.endsWith("'"))) {
+            value = value.slice(1, -1);
+          }
+          data[key] = value;
+        }
+      });
+      
+      return data;
+    }
+
+    // Simple markdown parser
+    function parseMarkdown(md) {
+      const result = { frontMatter: {}, content: '' };
+      
+      // Extract YAML front matter
+      const yamlMatch = md.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+      if (yamlMatch) {
+        result.frontMatter = parseYAML(yamlMatch[1]);
+        md = yamlMatch[2];
+      } else {
+        md = md.replace(/^---[\s\S]*?---\n?/, '');
+      }
+      
+      // Headers
+      md = md.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+      md = md.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+      md = md.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+      
+      // Bold and italic
+      md = md.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
+      md = md.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      md = md.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      
+      // Code blocks
+      md = md.replace(/```[\s\S]*?```/g, function(match) {
+        const content = match.slice(3, -3).trim();
+        return `<pre><code>${content}</code></pre>`;
+      });
+      
+      // Inline code
+      md = md.replace(/`([^`]+)`/g, '<code>$1</code>');
+      
+      // Links
+      md = md.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      
+      // Images
+      md = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
+      
+      // Blockquotes
+      md = md.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
+      
+      // Horizontal rules
+      md = md.replace(/^---$/gm, '<hr>');
+      
+      // Lists
+      md = md.replace(/^\* (.*)$/gm, '<li>$1</li>');
+      md = md.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+      
+      // Line breaks and paragraphs
+      md = md.replace(/\n\n/g, '</p><p>');
+      md = '<p>' + md + '</p>';
+      md = md.replace(/<p><\/p>/g, '');
+      md = md.replace(/<p>(<h[1-6]>)/g, '$1');
+      md = md.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+      md = md.replace(/<p>(<ul>)/g, '$1');
+      md = md.replace(/(<\/ul>)<\/p>/g, '$1');
+      md = md.replace(/<p>(<blockquote>)/g, '$1');
+      md = md.replace(/(<\/blockquote>)<\/p>/g, '$1');
+      md = md.replace(/<p>(<hr>)/g, '$1');
+      md = md.replace(/(<hr>)<\/p>/g, '$1');
+      md = md.replace(/<p>(<pre>)/g, '$1');
+      md = md.replace(/(<\/pre>)<\/p>/g, '$1');
+      
+      result.content = md;
+      return result;
+    }
+
+    // Chess board renderer
+    const pieceImages = {
+      'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
+      'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
+    };
+
+    function renderChessBoard(el, fen, highlights, arrows) {
+      const container = document.createElement('div');
+      container.className = 'inline-chess-board-container';
+      const board = document.createElement('div');
+      board.className = 'inline-chess-board';
+      board.style.position = 'relative';
+
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('inline-chess-arrows');
+      svg.setAttribute('width', '304');
+      svg.setAttribute('height', '304');
+      svg.style.position = 'absolute';
+      svg.style.top = '0';
+      svg.style.left = '0';
+      board.appendChild(svg);
+
+      const grid = document.createElement('div');
+      grid.className = 'inline-chess-board-grid';
+
+      const fenParts = fen.split(' ');
+      const position = fenParts[0];
+      const ranks = position.split('/');
+
+      for (let rank = 0; rank < 8; rank++) {
+        let file = 0;
+        for (let char of ranks[rank]) {
+          if (isNaN(char)) {
+            const sq = createSquare(rank, file, char);
+            grid.appendChild(sq);
+            file++;
+          } else {
+            for (let i = 0; i < parseInt(char); i++) {
+              const sq = createSquare(rank, file, null);
+              grid.appendChild(sq);
+              file++;
+            }
+          }
+        }
+      }
+
+      board.appendChild(grid);
+
+      // Add coordinates
+      for (let i = 0; i < 8; i++) {
+        const coord = document.createElement('div');
+        coord.className = 'inline-chess-coord inline-chess-file-coord';
+        coord.textContent = String.fromCharCode(97 + i);
+        coord.style.left = `${i * 38 + 19}px`;
+        coord.style.bottom = '-20px';
+        board.appendChild(coord);
+      }
+
+      for (let i = 0; i < 8; i++) {
+        const coord = document.createElement('div');
+        coord.className = 'inline-chess-coord inline-chess-rank-coord';
+        coord.textContent = 8 - i;
+        coord.style.top = `${i * 38 + 19}px`;
+        coord.style.left = '-20px';
+        board.appendChild(coord);
+      }
+
+      container.appendChild(board);
+      el.replaceWith(container);
+
+      // Highlights
+      if (highlights && highlights.length) {
+        highlights.forEach(sq => {
+          const s = grid.querySelector(`[data-square="${sq}"]`);
+          if (s) s.classList.add('highlighted');
+        });
+      }
+
+      // Arrows
+      if (arrows && arrows.length) {
+        arrows.forEach(arr => {
+          const [from, to] = arr.split('-');
+          if (from && to) drawArrow(grid, svg, from, to);
+        });
+      }
+    }
+
+    function createSquare(rank, file, piece) {
+      const sq = document.createElement('div');
+      sq.className = 'inline-chess-square ' + ((rank + file) % 2 === 0 ? 'light' : 'dark');
+      sq.dataset.square = String.fromCharCode(97 + file) + (8 - rank);
+
+      if (piece) {
+        const img = document.createElement('img');
+        img.className = 'inline-chess-piece';
+        img.src = `https://chesscompiler.github.io/assests/${pieceImages[piece]}.svg`;
+        img.alt = piece;
+        img.onerror = function() {
+          const fallback = {
+            'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
+            'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
+          };
+          const span = document.createElement('span');
+          span.className = 'inline-chess-piece';
+          span.textContent = fallback[piece] || piece;
+          span.style.fontSize = '22px';
+          this.parentNode.replaceChild(span, this);
+        };
+        sq.appendChild(img);
+      }
+      return sq;
+    }
+
+    function drawArrow(grid, svg, from, to, color = '#ff6b6b') {
+      const fromSq = grid.querySelector(`[data-square="${from}"]`);
+      const toSq = grid.querySelector(`[data-square="${to}"]`);
+      if (!fromSq || !toSq) return;
+
+      const getPos = sq => {
+        const idx = Array.from(grid.children).indexOf(sq);
+        const x = idx % 8;
+        const y = Math.floor(idx / 8);
+        return [x * 38 + 19, y * 38 + 19];
+      };
+
+      const [x1, y1] = getPos(fromSq);
+      const [x2, y2] = getPos(toSq);
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', color);
+      line.setAttribute('stroke-width', '2.2');
+      line.setAttribute('stroke-linecap', 'round');
+      line.setAttribute('marker-end', 'url(#inline-arrowhead)');
+
+      let defs = svg.querySelector('defs');
+      if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        svg.appendChild(defs);
+      }
+
+      let oldMarker = defs.querySelector('#inline-arrowhead');
+      if (oldMarker) oldMarker.remove();
+
+      let marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      marker.setAttribute('id', 'inline-arrowhead');
+      marker.setAttribute('markerWidth', '6');
+      marker.setAttribute('markerHeight', '4');
+      marker.setAttribute('refX', '5.5');
+      marker.setAttribute('refY', '2');
+      marker.setAttribute('orient', 'auto');
+
+      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      polygon.setAttribute('points', '0 0, 6 2, 0 4');
+      polygon.setAttribute('fill', color);
+      polygon.setAttribute('stroke', '#fff');
+      polygon.setAttribute('stroke-width', '0.8');
+      marker.appendChild(polygon);
+      defs.appendChild(marker);
+
+      svg.appendChild(line);
+
+      fromSq.classList.add('from-square');
+      toSq.classList.add('to-square');
+    }
+
+    // Editor functionality
+    const editor = document.getElementById('markdownEditor');
+    const preview = document.getElementById('previewContent');
+    const saveStatus = document.getElementById('saveStatus');
+
+    // Auto-save functionality
+    let saveTimeout;
+    function showSaveStatus() {
+      saveStatus.textContent = 'Saving...';
+      saveStatus.classList.add('show');
+      
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        saveStatus.textContent = 'Saved';
+        setTimeout(() => {
+          saveStatus.classList.remove('show');
+        }, 1000);
+      }, 500);
+    }
+
+    // Load saved content
+    const savedContent = localStorage.getItem('chessMarkdownEditor');
+    if (savedContent) {
+      editor.value = savedContent;
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const markdown = editor.value;
+      const parsed = parseMarkdown(markdown);
+      
+      let html = '';
+      
+      // Add article header if front matter exists
+      if (parsed.frontMatter.title || parsed.frontMatter.image || parsed.frontMatter.date) {
+        html += '<div class="article-header">';
+        
+        if (parsed.frontMatter.title) {
+          html += `<h1>${parsed.frontMatter.title}</h1>`;
+        }
+        
+        if (parsed.frontMatter.image) {
+          html += `<div class="article-image-wrapper">
+            <img src="${parsed.frontMatter.image}" alt="${parsed.frontMatter.title || 'Article image'}" />
+          </div>`;
+        }
+        
+        if (parsed.frontMatter.date) {
+          const date = new Date(parsed.frontMatter.date);
+          const formattedDate = date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+          html += `<div class="article-meta">${formattedDate}</div>`;
+        }
+        
+        html += '</div>';
+      }
+      
+      html += parsed.content;
+      preview.innerHTML = html;
+
+      // Process chess boards
+      const chessBoards = preview.querySelectorAll('chess-board');
+      chessBoards.forEach(el => {
+        const fen = el.getAttribute('fen') || '8/8/8/8/8/8/8/8 w - - 0 1';
+        const highlights = (el.getAttribute('highlight') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+        const arrows = (el.getAttribute('arrows') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+        renderChessBoard(el, fen, highlights, arrows);
+      });
+
+      // Save to localStorage
+      localStorage.setItem('chessMarkdownEditor', markdown);
+      showSaveStatus();
+    }
+
+    // Update preview on input
+    editor.addEventListener('input', updatePreview);
+
+    // Handle tab key for indentation
+    editor.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 2;
+      }
+    });
+
+    // Initial update
+    updatePreview();
+  </script>
+</body>
+</html>
