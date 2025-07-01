@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3G0720L78"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-W3G0720L78');
+  </script>
   <meta charset="UTF-8">
+
   <title>{{ page.title }} | Chess Compiler Learn - Chess Blogs & Tutorials in 3D</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 150 }}">
-  <meta name="keywords" content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
+  <meta name="keywords"
+    content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 150 }}">
   <meta property="og:type" content="article">
@@ -20,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="/learn/learn.css">
-  
+
   <!-- JSON-LD Structured Data for Articles -->
   <script type="application/ld+json">
   {
@@ -142,13 +154,33 @@
       display: block;
       margin-bottom: 1em;
     }
+
     @keyframes skeleton-loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
     }
-    .article-image-wrapper img { display: none; max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1em; }
-    .article-image-wrapper img.loaded { display: block; }
-    .article-image-wrapper .article-skeleton.hide { display: none; }
+
+    .article-image-wrapper img {
+      display: none;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1em;
+    }
+
+    .article-image-wrapper img.loaded {
+      display: block;
+    }
+
+    .article-image-wrapper .article-skeleton.hide {
+      display: none;
+    }
+
     /* In-article images float right, responsive */
     .markdown-body .article-image-wrapper {
       float: right;
@@ -158,6 +190,7 @@
       display: block;
       clear: none;
     }
+
     @media (max-width: 700px) {
       .markdown-body .article-image-wrapper {
         float: none;
@@ -166,10 +199,14 @@
         width: 100%;
         max-width: 100%;
       }
-      .article-skeleton { height: 180px; }
+
+      .article-skeleton {
+        height: 180px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="glass-nav">
     <a href="/" class="logo">Chess Compiler</a>
@@ -186,277 +223,319 @@
     <article class="markdown-body">
       <h1>{{ page.title }}</h1>
       {% if page.image %}
-        <div class="article-image-wrapper">
-          <span class="article-skeleton"></span>
-          <img data-src="{{ page.image }}" alt="{{ page.title }}" />
-        </div>
+      <div class="article-image-wrapper">
+        <span class="article-skeleton"></span>
+        <img data-src="{{ page.image }}" alt="{{ page.title }}" />
+      </div>
       {% endif %}
       <div style="color:#888;font-size:0.95em;margin-bottom:2em;">
         <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
         {% if page.last_modified_at %}
-          • Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B %d, %Y" }}</time>
+        • Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B
+          %d, %Y" }}</time>
         {% endif %}
       </div>
       {{ content }}
     </article>
   </main>
   <style>
-  .inline-chess-board-container {
-    display: flex;
-    justify-content: center;
-    margin: 2em 0;
-  }
-  .inline-chess-board {
-    position: relative;
-    border: 3px solid #2d3748;
-    border-radius: 8px;
-    background: #2d3748;
-    display: inline-block;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-  }
-  .inline-chess-board-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-  }
-  .inline-chess-square {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    position: relative;
-    transition: all 0.2s;
-    z-index: 1;
-  }
-  .inline-chess-square.light { background: #f0d9b5; }
-  .inline-chess-square.dark { background: #b58863; }
-  .inline-chess-square.highlighted {
-    background: #ffff00cc !important;
-    outline: 0.1px solid #0000001a;
-  }
-  .inline-chess-square.from-square {
-    background: #ff6b6bcc !important;
-  }
-  .inline-chess-square.to-square {
-    background: #4ecdc4cc !important;
-    outline: 0.1px solid #0000001a;
-  }
-  /* Prevent global img rules from affecting board pieces */
-  .inline-chess-board .inline-chess-piece {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    user-select: none;
-    display: block;
-    float: none;
-    margin: 0;
-    box-shadow: none;
-    border-radius: 0;
-    max-width: unset;
-    max-height: unset;
-    z-index: 20;
-  }
-  .inline-chess-arrows {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10;
-  }
-  .inline-chess-coord {
-    position: absolute;
-    font-size: 12px;
-    font-weight: bold;
-    color: #a0a0a0;
-    pointer-events: none;
-    user-select: none;
-    z-index: 20;
-  }
-  .inline-chess-file-coord {
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .inline-chess-rank-coord {
-    left: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+    .inline-chess-board-container {
+      display: flex;
+      justify-content: center;
+      margin: 2em 0;
+    }
+
+    .inline-chess-board {
+      position: relative;
+      border: 3px solid #2d3748;
+      border-radius: 8px;
+      background: #2d3748;
+      display: inline-block;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .inline-chess-board-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+    }
+
+    .inline-chess-square {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      position: relative;
+      transition: all 0.2s;
+      z-index: 1;
+    }
+
+    .inline-chess-square.light {
+      background: #f0d9b5;
+    }
+
+    .inline-chess-square.dark {
+      background: #b58863;
+    }
+
+    .inline-chess-square.highlighted {
+      background: #ffff00cc !important;
+      outline: 0.1px solid #0000001a;
+    }
+
+    .inline-chess-square.from-square {
+      background: #ff6b6bcc !important;
+    }
+
+    .inline-chess-square.to-square {
+      background: #4ecdc4cc !important;
+      outline: 0.1px solid #0000001a;
+    }
+
+    /* Prevent global img rules from affecting board pieces */
+    .inline-chess-board .inline-chess-piece {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+      user-select: none;
+      display: block;
+      float: none;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      max-width: unset;
+      max-height: unset;
+      z-index: 20;
+    }
+
+    .inline-chess-arrows {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .inline-chess-coord {
+      position: absolute;
+      font-size: 12px;
+      font-weight: bold;
+      color: #a0a0a0;
+      pointer-events: none;
+      user-select: none;
+      z-index: 20;
+    }
+
+    .inline-chess-file-coord {
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .inline-chess-rank-coord {
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   </style>
   <script>
-  // Inline Chess Board Renderer for blog posts
-  (function() {
-    const pieceImages = {
-      'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
-      'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
-    };
-    const baseImageUrl = '/assests/';
-    function renderChessBoard(el, fen, highlights, arrows) {
-      // Container
-      const container = document.createElement('div');
-      container.className = 'inline-chess-board-container';
-      const board = document.createElement('div');
-      board.className = 'inline-chess-board';
-      board.style.position = 'relative';
-      // SVG for arrows (should be under the grid)
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.classList.add('inline-chess-arrows');
-      svg.setAttribute('width', '304');
-      svg.setAttribute('height', '304');
-      svg.style.position = 'absolute';
-      svg.style.top = '0';
-      svg.style.left = '0';
-      board.appendChild(svg);
-      const grid = document.createElement('div');
-      grid.className = 'inline-chess-board-grid';
-      // Parse FEN
-      const fenParts = fen.split(' ');
-      const position = fenParts[0];
-      const ranks = position.split('/');
-      for (let rank = 0; rank < 8; rank++) {
-        let file = 0;
-        for (let char of ranks[rank]) {
-          if (isNaN(char)) {
-            const sq = createSquare(rank, file, char);
-            grid.appendChild(sq);
-            file++;
-          } else {
-            for (let i = 0; i < parseInt(char); i++) {
-              const sq = createSquare(rank, file, null);
+    // Inline Chess Board Renderer for blog posts
+    (function () {
+      const pieceImages = {
+        'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
+        'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
+      };
+      const baseImageUrl = '/assests/';
+      function renderChessBoard(el, fen, highlights, arrows) {
+        // Container
+        const container = document.createElement('div');
+        container.className = 'inline-chess-board-container';
+        const board = document.createElement('div');
+        board.className = 'inline-chess-board';
+        board.style.position = 'relative';
+        // SVG for arrows (should be under the grid)
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('inline-chess-arrows');
+        svg.setAttribute('width', '304');
+        svg.setAttribute('height', '304');
+        svg.style.position = 'absolute';
+        svg.style.top = '0';
+        svg.style.left = '0';
+        board.appendChild(svg);
+        const grid = document.createElement('div');
+        grid.className = 'inline-chess-board-grid';
+        // Parse FEN
+        const fenParts = fen.split(' ');
+        const position = fenParts[0];
+        const ranks = position.split('/');
+        for (let rank = 0; rank < 8; rank++) {
+          let file = 0;
+          for (let char of ranks[rank]) {
+            if (isNaN(char)) {
+              const sq = createSquare(rank, file, char);
               grid.appendChild(sq);
               file++;
+            } else {
+              for (let i = 0; i < parseInt(char); i++) {
+                const sq = createSquare(rank, file, null);
+                grid.appendChild(sq);
+                file++;
+              }
             }
           }
         }
+        board.appendChild(grid);
+        // Add coordinates (files a-h)
+        for (let i = 0; i < 8; i++) {
+          const coord = document.createElement('div');
+          coord.className = 'inline-chess-coord inline-chess-file-coord';
+          coord.textContent = String.fromCharCode(97 + i);
+          coord.style.left = `${i * 38 + 19}px`;
+          coord.style.bottom = '-20px';
+          board.appendChild(coord);
+        }
+        // Add coordinates (ranks 1-8)
+        for (let i = 0; i < 8; i++) {
+          const coord = document.createElement('div');
+          coord.className = 'inline-chess-coord inline-chess-rank-coord';
+          coord.textContent = 8 - i;
+          coord.style.top = `${i * 38 + 19}px`;
+          coord.style.left = '-20px';
+          board.appendChild(coord);
+        }
+        container.appendChild(board);
+        el.replaceWith(container);
+        // Highlights
+        if (highlights && highlights.length) {
+          highlights.forEach(sq => {
+            const s = grid.querySelector(`[data-square="${sq}"]`);
+            if (s) s.classList.add('highlighted');
+          });
+        }
+        // Arrows
+        if (arrows && arrows.length) {
+          arrows.forEach(arr => {
+            const [from, to] = arr.split('-');
+            if (from && to) drawArrow(grid, svg, from, to);
+          });
+        }
       }
-      board.appendChild(grid);
-      // Add coordinates (files a-h)
-      for (let i = 0; i < 8; i++) {
-        const coord = document.createElement('div');
-        coord.className = 'inline-chess-coord inline-chess-file-coord';
-        coord.textContent = String.fromCharCode(97 + i);
-        coord.style.left = `${i * 38 + 19}px`;
-        coord.style.bottom = '-20px';
-        board.appendChild(coord);
+      function createSquare(rank, file, piece) {
+        const sq = document.createElement('div');
+        sq.className = 'inline-chess-square ' + ((rank + file) % 2 === 0 ? 'light' : 'dark');
+        sq.dataset.square = String.fromCharCode(97 + file) + (8 - rank);
+        if (piece) {
+          const img = document.createElement('img');
+          img.className = 'inline-chess-piece';
+          img.src = baseImageUrl + pieceImages[piece] + '.svg';
+          img.alt = piece;
+          img.onerror = function () {
+            const fallback = { 'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙', 'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟' };
+            const span = document.createElement('span');
+            span.className = 'inline-chess-piece';
+            span.textContent = fallback[piece] || piece;
+            span.style.fontSize = '22px';
+            this.parentNode.replaceChild(span, this);
+          };
+          sq.appendChild(img);
+        }
+        return sq;
       }
-      // Add coordinates (ranks 1-8)
-      for (let i = 0; i < 8; i++) {
-        const coord = document.createElement('div');
-        coord.className = 'inline-chess-coord inline-chess-rank-coord';
-        coord.textContent = 8 - i;
-        coord.style.top = `${i * 38 + 19}px`;
-        coord.style.left = '-20px';
-        board.appendChild(coord);
-      }
-      container.appendChild(board);
-      el.replaceWith(container);
-      // Highlights
-      if (highlights && highlights.length) {
-        highlights.forEach(sq => {
-          const s = grid.querySelector(`[data-square="${sq}"]`);
-          if (s) s.classList.add('highlighted');
-        });
-      }
-      // Arrows
-      if (arrows && arrows.length) {
-        arrows.forEach(arr => {
-          const [from, to] = arr.split('-');
-          if (from && to) drawArrow(grid, svg, from, to);
-        });
-      }
-    }
-    function createSquare(rank, file, piece) {
-      const sq = document.createElement('div');
-      sq.className = 'inline-chess-square ' + ((rank + file) % 2 === 0 ? 'light' : 'dark');
-      sq.dataset.square = String.fromCharCode(97 + file) + (8 - rank);
-      if (piece) {
-        const img = document.createElement('img');
-        img.className = 'inline-chess-piece';
-        img.src = baseImageUrl + pieceImages[piece] + '.svg';
-        img.alt = piece;
-        img.onerror = function() {
-          const fallback = { 'K': '♔','Q': '♕','R': '♖','B': '♗','N': '♘','P': '♙','k': '♚','q': '♛','r': '♜','b': '♝','n': '♞','p': '♟' };
-          const span = document.createElement('span');
-          span.className = 'inline-chess-piece';
-          span.textContent = fallback[piece] || piece;
-          span.style.fontSize = '22px';
-          this.parentNode.replaceChild(span, this);
+      function drawArrow(grid, svg, from, to, color = '#ff6b6b') {
+        const fromSq = grid.querySelector(`[data-square="${from}"]`);
+        const toSq = grid.querySelector(`[data-square="${to}"]`);
+        if (!fromSq || !toSq) return;
+        const getPos = sq => {
+          const idx = Array.from(grid.children).indexOf(sq);
+          const x = idx % 8;
+          const y = Math.floor(idx / 8);
+          return [x * 38 + 19, y * 38 + 19];
         };
-        sq.appendChild(img);
+        const [x1, y1] = getPos(fromSq);
+        const [x2, y2] = getPos(toSq);
+        // Arrow line
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', color);
+        line.setAttribute('stroke-width', '2.2');
+        line.setAttribute('stroke-linecap', 'round');
+        line.setAttribute('marker-end', 'url(#inline-arrowhead)');
+        // Arrowhead marker (recreate for color)
+        let defs = svg.querySelector('defs');
+        if (!defs) {
+          defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+          svg.appendChild(defs);
+        }
+        // Remove previous marker to allow color/stroke update
+        let oldMarker = defs.querySelector('#inline-arrowhead');
+        if (oldMarker) oldMarker.remove();
+        let marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'inline-arrowhead');
+        marker.setAttribute('markerWidth', '6');
+        marker.setAttribute('markerHeight', '4');
+        marker.setAttribute('refX', '5.5');
+        marker.setAttribute('refY', '2');
+        marker.setAttribute('orient', 'auto');
+        const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        polygon.setAttribute('points', '0 0, 6 2, 0 4');
+        polygon.setAttribute('fill', color);
+        polygon.setAttribute('stroke', '#fff');
+        polygon.setAttribute('stroke-width', '0.8');
+        marker.appendChild(polygon);
+        defs.appendChild(marker);
+        svg.appendChild(line);
+        // Highlight from and to squares
+        fromSq.classList.add('from-square');
+        toSq.classList.add('to-square');
       }
-      return sq;
-    }
-    function drawArrow(grid, svg, from, to, color = '#ff6b6b') {
-      const fromSq = grid.querySelector(`[data-square="${from}"]`);
-      const toSq = grid.querySelector(`[data-square="${to}"]`);
-      if (!fromSq || !toSq) return;
-      const getPos = sq => {
-        const idx = Array.from(grid.children).indexOf(sq);
-        const x = idx % 8;
-        const y = Math.floor(idx / 8);
-        return [x * 38 + 19, y * 38 + 19];
-      };
-      const [x1, y1] = getPos(fromSq);
-      const [x2, y2] = getPos(toSq);
-      // Arrow line
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x1);
-      line.setAttribute('y1', y1);
-      line.setAttribute('x2', x2);
-      line.setAttribute('y2', y2);
-      line.setAttribute('stroke', color);
-      line.setAttribute('stroke-width', '2.2');
-      line.setAttribute('stroke-linecap', 'round');
-      line.setAttribute('marker-end', 'url(#inline-arrowhead)');
-      // Arrowhead marker (recreate for color)
-      let defs = svg.querySelector('defs');
-      if (!defs) {
-        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        svg.appendChild(defs);
-      }
-      // Remove previous marker to allow color/stroke update
-      let oldMarker = defs.querySelector('#inline-arrowhead');
-      if (oldMarker) oldMarker.remove();
-      let marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-      marker.setAttribute('id', 'inline-arrowhead');
-      marker.setAttribute('markerWidth', '6');
-      marker.setAttribute('markerHeight', '4');
-      marker.setAttribute('refX', '5.5');
-      marker.setAttribute('refY', '2');
-      marker.setAttribute('orient', 'auto');
-      const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-      polygon.setAttribute('points', '0 0, 6 2, 0 4');
-      polygon.setAttribute('fill', color);
-      polygon.setAttribute('stroke', '#fff');
-      polygon.setAttribute('stroke-width', '0.8');
-      marker.appendChild(polygon);
-      defs.appendChild(marker);
-      svg.appendChild(line);
-      // Highlight from and to squares
-      fromSq.classList.add('from-square');
-      toSq.classList.add('to-square');
-    }
-    // Scan for <chess-board ...> tags
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('chess-board').forEach(el => {
-        const fen = el.getAttribute('fen') || '8/8/8/8/8/8/8/8 w - - 0 1';
-        const highlights = (el.getAttribute('highlight')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
-        const arrows = (el.getAttribute('arrows')||'').split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
-        renderChessBoard(el, fen, highlights, arrows);
+      // Scan for <chess-board ...> tags
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('chess-board').forEach(el => {
+          const fen = el.getAttribute('fen') || '8/8/8/8/8/8/8/8 w - - 0 1';
+          const highlights = (el.getAttribute('highlight') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+          const arrows = (el.getAttribute('arrows') || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+          renderChessBoard(el, fen, highlights, arrows);
+        });
       });
-    });
-  })();
+    })();
 
-  // Lazy load article images with skeleton animation (excluding chess board pieces)
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.article-image-wrapper').forEach(container => {
-      const img = container.querySelector('img');
-      const skeleton = container.querySelector('.article-skeleton');
-      if (img && skeleton && !img.classList.contains('inline-chess-piece')) {
+    // Lazy load article images with skeleton animation (excluding chess board pieces)
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.article-image-wrapper').forEach(container => {
+        const img = container.querySelector('img');
+        const skeleton = container.querySelector('.article-skeleton');
+        if (img && skeleton && !img.classList.contains('inline-chess-piece')) {
+          setTimeout(() => {
+            img.src = img.getAttribute('data-src');
+            img.onload = () => {
+              img.classList.add('loaded');
+              skeleton.classList.add('hide');
+            };
+          }, 600 + Math.random() * 800);
+        }
+      });
+      // For any other images in the article (not chess pieces), add skeleton effect
+      document.querySelectorAll('.markdown-body img:not(.inline-chess-piece):not([data-skeleton-applied])').forEach(img => {
+        // Skip if already inside a skeleton wrapper
+        if (img.closest('.article-image-wrapper')) return;
+        // Wrap in skeleton container
+        const wrapper = document.createElement('span');
+        wrapper.className = 'article-image-wrapper';
+        const skeleton = document.createElement('span');
+        skeleton.className = 'article-skeleton';
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(skeleton);
+        wrapper.appendChild(img);
+        img.setAttribute('data-skeleton-applied', 'true');
+        img.setAttribute('data-src', img.src);
+        img.src = '';
         setTimeout(() => {
           img.src = img.getAttribute('data-src');
           img.onload = () => {
@@ -464,32 +543,9 @@
             skeleton.classList.add('hide');
           };
         }, 600 + Math.random() * 800);
-      }
+      });
     });
-    // For any other images in the article (not chess pieces), add skeleton effect
-    document.querySelectorAll('.markdown-body img:not(.inline-chess-piece):not([data-skeleton-applied])').forEach(img => {
-      // Skip if already inside a skeleton wrapper
-      if (img.closest('.article-image-wrapper')) return;
-      // Wrap in skeleton container
-      const wrapper = document.createElement('span');
-      wrapper.className = 'article-image-wrapper';
-      const skeleton = document.createElement('span');
-      skeleton.className = 'article-skeleton';
-      img.parentNode.insertBefore(wrapper, img);
-      wrapper.appendChild(skeleton);
-      wrapper.appendChild(img);
-      img.setAttribute('data-skeleton-applied', 'true');
-      img.setAttribute('data-src', img.src);
-      img.src = '';
-      setTimeout(() => {
-        img.src = img.getAttribute('data-src');
-        img.onload = () => {
-          img.classList.add('loaded');
-          skeleton.classList.add('hide');
-        };
-      }, 600 + Math.random() * 800);
-    });
-  });
   </script>
 </body>
+
 </html>

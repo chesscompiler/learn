@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3G0720L78"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-W3G0720L78');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chess Blog Editor</title>
@@ -129,7 +139,8 @@
       color: #e6edf3;
     }
 
-    .markdown-body ul, .markdown-body ol {
+    .markdown-body ul,
+    .markdown-body ol {
       margin-bottom: 1rem;
       padding-left: 2rem;
     }
@@ -253,7 +264,7 @@
       border-radius: 8px;
       background: #21262d;
       display: inline-block;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
     .inline-chess-board-grid {
@@ -274,12 +285,12 @@
       z-index: 1;
     }
 
-    .inline-chess-square.light { 
-      background: #f0d9b5; 
+    .inline-chess-square.light {
+      background: #f0d9b5;
     }
 
-    .inline-chess-square.dark { 
-      background: #b58863; 
+    .inline-chess-square.dark {
+      background: #b58863;
     }
 
     .inline-chess-square.highlighted {
@@ -348,13 +359,14 @@
       .editor-container {
         flex-direction: column;
       }
-      
+
       .editor-panel {
         border-right: none;
         border-bottom: 1px solid #30363d;
       }
-      
-      .editor-panel, .preview-panel {
+
+      .editor-panel,
+      .preview-panel {
         height: 50vh;
       }
     }
@@ -378,6 +390,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="editor-container">
     <div class="editor-panel">
@@ -388,10 +401,7 @@
         </div>
         <div class="status-indicator" id="saveStatus">Saved</div>
       </div>
-      <textarea 
-        class="editor-textarea" 
-        id="markdownEditor"
-        placeholder="Start writing your chess blog post...
+      <textarea class="editor-textarea" id="markdownEditor" placeholder="Start writing your chess blog post...
 
 Example:
 ---
@@ -410,7 +420,7 @@ You can highlight squares and draw arrows:
 &lt;chess-board fen=&quot;rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1&quot; highlight=&quot;e4&quot; arrows=&quot;e2-e4&quot;&gt;&lt;/chess-board&gt;
 "></textarea>
     </div>
-    
+
     <div class="preview-panel">
       <div class="panel-header">
         <div class="panel-title">
@@ -431,28 +441,28 @@ You can highlight squares and draw arrows:
     function parseYAML(yamlStr) {
       const lines = yamlStr.split('\n').filter(line => line.trim());
       const data = {};
-      
+
       lines.forEach(line => {
         const colonIndex = line.indexOf(':');
         if (colonIndex > 0) {
           const key = line.substring(0, colonIndex).trim();
           let value = line.substring(colonIndex + 1).trim();
           // Remove quotes if present
-          if ((value.startsWith('"') && value.endsWith('"')) || 
-              (value.startsWith("'") && value.endsWith("'"))) {
+          if ((value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))) {
             value = value.slice(1, -1);
           }
           data[key] = value;
         }
       });
-      
+
       return data;
     }
 
     // Simple markdown parser
     function parseMarkdown(md) {
       const result = { frontMatter: {}, content: '' };
-      
+
       // Extract YAML front matter
       const yamlMatch = md.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
       if (yamlMatch) {
@@ -461,42 +471,42 @@ You can highlight squares and draw arrows:
       } else {
         md = md.replace(/^---[\s\S]*?---\n?/, '');
       }
-      
+
       // Headers
       md = md.replace(/^### (.*$)/gm, '<h3>$1</h3>');
       md = md.replace(/^## (.*$)/gm, '<h2>$1</h2>');
       md = md.replace(/^# (.*$)/gm, '<h1>$1</h1>');
-      
+
       // Bold and italic
       md = md.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
       md = md.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       md = md.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-      
+
       // Code blocks
-      md = md.replace(/```[\s\S]*?```/g, function(match) {
+      md = md.replace(/```[\s\S]*?```/g, function (match) {
         const content = match.slice(3, -3).trim();
         return `<pre><code>${content}</code></pre>`;
       });
-      
+
       // Inline code
       md = md.replace(/`([^`]+)`/g, '<code>$1</code>');
-      
+
       // Links
       md = md.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-      
+
       // Images
       md = md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
-      
+
       // Blockquotes
       md = md.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
-      
+
       // Horizontal rules
       md = md.replace(/^---$/gm, '<hr>');
-      
+
       // Lists
       md = md.replace(/^\* (.*)$/gm, '<li>$1</li>');
       md = md.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-      
+
       // Line breaks and paragraphs
       md = md.replace(/\n\n/g, '</p><p>');
       md = '<p>' + md + '</p>';
@@ -511,7 +521,7 @@ You can highlight squares and draw arrows:
       md = md.replace(/(<hr>)<\/p>/g, '$1');
       md = md.replace(/<p>(<pre>)/g, '$1');
       md = md.replace(/(<\/pre>)<\/p>/g, '$1');
-      
+
       result.content = md;
       return result;
     }
@@ -613,7 +623,7 @@ You can highlight squares and draw arrows:
         img.className = 'inline-chess-piece';
         img.src = `https://chesscompiler.github.io/assests/${pieceImages[piece]}.svg`;
         img.alt = piece;
-        img.onerror = function() {
+        img.onerror = function () {
           const fallback = {
             'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
             'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
@@ -695,7 +705,7 @@ You can highlight squares and draw arrows:
     function showSaveStatus() {
       saveStatus.textContent = 'Saving...';
       saveStatus.classList.add('show');
-      
+
       clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
         saveStatus.textContent = 'Saved';
@@ -715,36 +725,36 @@ You can highlight squares and draw arrows:
     function updatePreview() {
       const markdown = editor.value;
       const parsed = parseMarkdown(markdown);
-      
+
       let html = '';
-      
+
       // Add article header if front matter exists
       if (parsed.frontMatter.title || parsed.frontMatter.image || parsed.frontMatter.date) {
         html += '<div class="article-header">';
-        
+
         if (parsed.frontMatter.title) {
           html += `<h1>${parsed.frontMatter.title}</h1>`;
         }
-        
+
         if (parsed.frontMatter.image) {
           html += `<div class="article-image-wrapper">
             <img src="${parsed.frontMatter.image}" alt="${parsed.frontMatter.title || 'Article image'}" />
           </div>`;
         }
-        
+
         if (parsed.frontMatter.date) {
           const date = new Date(parsed.frontMatter.date);
-          const formattedDate = date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+          const formattedDate = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
           });
           html += `<div class="article-meta">${formattedDate}</div>`;
         }
-        
+
         html += '</div>';
       }
-      
+
       html += parsed.content;
       preview.innerHTML = html;
 
@@ -766,7 +776,7 @@ You can highlight squares and draw arrows:
     editor.addEventListener('input', updatePreview);
 
     // Handle tab key for indentation
-    editor.addEventListener('keydown', function(e) {
+    editor.addEventListener('keydown', function (e) {
       if (e.key === 'Tab') {
         e.preventDefault();
         const start = this.selectionStart;
@@ -780,4 +790,5 @@ You can highlight squares and draw arrows:
     updatePreview();
   </script>
 </body>
+
 </html>

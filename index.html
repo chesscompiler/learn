@@ -4,22 +4,36 @@ title: Chess Compiler Blog
 ---
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3G0720L78"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-W3G0720L78');
+  </script>
   <meta charset="UTF-8">
   <title>Chess Compiler Learn - Chess Blogs & Tutorials in 3D</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="https://chesscompiler.github.io/learn/">
-  <meta name="description" content="Chess Compiler Learn: Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
-  <meta name="keywords" content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
+  <meta name="description"
+    content="Chess Compiler Learn: Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
+  <meta name="keywords"
+    content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
   <meta property="og:title" content="Chess Compiler Learn - Chess Blogs & Tutorials in 3D">
-  <meta property="og:description" content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
+  <meta property="og:description"
+    content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Chess Compiler">
   <meta property="og:url" content="https://chesscompiler.github.io/learn/">
   <meta property="og:image" content="https://chesscompiler.github.io/assets/og-learn.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Chess Compiler Learn - Chess Blogs & Tutorials in 3D">
-  <meta name="twitter:description" content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
+  <meta name="twitter:description"
+    content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
   <meta name="twitter:image" content="https://chesscompiler.github.io/assets/og-learn.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -34,13 +48,33 @@ title: Chess Compiler Blog
       border-radius: 8px;
       display: block;
     }
+
     @keyframes skeleton-loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
     }
-    .blog-card img { display: none; width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
-    .blog-card img.loaded { display: block; }
-    .blog-card .skeleton.hide { display: none; }
+
+    .blog-card img {
+      display: none;
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .blog-card img.loaded {
+      display: block;
+    }
+
+    .blog-card .skeleton.hide {
+      display: none;
+    }
+
     /* Responsive blog card text truncation */
     .blog-card-text {
       max-height: 4.5em;
@@ -50,6 +84,7 @@ title: Chess Compiler Blog
       -webkit-box-orient: vertical;
       margin-bottom: 0.5em;
     }
+
     .blog-title {
       display: block;
       font-weight: 600;
@@ -59,6 +94,7 @@ title: Chess Compiler Blog
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
     .blog-desc {
       font-size: 0.98em;
       overflow: hidden;
@@ -92,6 +128,7 @@ title: Chess Compiler Blog
   }
   </script>
 </head>
+
 <body>
   <header class="glass-nav">
     <a href="/" class="logo">Chess Compiler</a>
@@ -108,61 +145,62 @@ title: Chess Compiler Blog
     <h1 style="margin-bottom:2rem;">Learn</h1>
     <div id="blog-list" class="blog-list" style="display: grid;">
       {% for post in site.posts %}
-        <div class="blog-card">
-          <div class="blog-card-text">
-            <a href="{{ post.url | prepend: '/learn' }}" class="blog-title">{{ post.title }}</a>
-            <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 150 }}</div>
-          </div>
-          {% if post.image %}
-            <div class="image-skeleton-container">
-              <span class="skeleton"></span>
-              <img data-src="{{ post.image }}" alt="{{ post.title }}" />
-              <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
-            </div>
-          {% endif %}
+      <div class="blog-card">
+        <div class="blog-card-text">
+          <a href="{{ post.url | prepend: '/learn' }}" class="blog-title">{{ post.title }}</a>
+          <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 150 }}</div>
         </div>
+        {% if post.image %}
+        <div class="image-skeleton-container">
+          <span class="skeleton"></span>
+          <img data-src="{{ post.image }}" alt="{{ post.title }}" />
+          <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
+        </div>
+        {% endif %}
+      </div>
       {% endfor %}
     </div>
   </main>
   <script>
-  // Mobile nav toggle (same as main site)
-  const menuBtn = document.getElementById('menu-toggle');
-  const nav = document.getElementById('main-nav');
-  const glassNav = document.querySelector('.glass-nav');
-  menuBtn.addEventListener('click', () => {
-    nav.classList.toggle('open');
-    menuBtn.classList.toggle('open');
-    document.body.classList.toggle('nav-open');
-    if (window.innerWidth <= 768) {
-      glassNav.classList.toggle('menu-open', nav.classList.contains('open'));
-    }
-  });
-  document.querySelectorAll('#main-nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuBtn.classList.remove('open');
-      document.body.classList.remove('nav-open');
+    // Mobile nav toggle (same as main site)
+    const menuBtn = document.getElementById('menu-toggle');
+    const nav = document.getElementById('main-nav');
+    const glassNav = document.querySelector('.glass-nav');
+    menuBtn.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      menuBtn.classList.toggle('open');
+      document.body.classList.toggle('nav-open');
       if (window.innerWidth <= 768) {
-        glassNav.classList.remove('menu-open');
+        glassNav.classList.toggle('menu-open', nav.classList.contains('open'));
       }
     });
-  });
+    document.querySelectorAll('#main-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        menuBtn.classList.remove('open');
+        document.body.classList.remove('nav-open');
+        if (window.innerWidth <= 768) {
+          glassNav.classList.remove('menu-open');
+        }
+      });
+    });
 
-  // Lazy load images with skeleton animation
-  document.querySelectorAll('.image-skeleton-container').forEach(container => {
-    const img = container.querySelector('img');
-    const skeleton = container.querySelector('.skeleton');
-    if (img && skeleton) {
-      // Simulate slow loading
-      setTimeout(() => {
-        img.src = img.getAttribute('data-src');
-        img.onload = () => {
-          img.classList.add('loaded');
-          skeleton.classList.add('hide');
-        };
-      }, 600 + Math.random() * 800); // 600-1400ms delay
-    }
-  });
+    // Lazy load images with skeleton animation
+    document.querySelectorAll('.image-skeleton-container').forEach(container => {
+      const img = container.querySelector('img');
+      const skeleton = container.querySelector('.skeleton');
+      if (img && skeleton) {
+        // Simulate slow loading
+        setTimeout(() => {
+          img.src = img.getAttribute('data-src');
+          img.onload = () => {
+            img.classList.add('loaded');
+            skeleton.classList.add('hide');
+          };
+        }, 600 + Math.random() * 800); // 600-1400ms delay
+      }
+    });
   </script>
 </body>
+
 </html>
