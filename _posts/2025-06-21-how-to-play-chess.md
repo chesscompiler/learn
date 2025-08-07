@@ -149,7 +149,7 @@ Beyond movement, chess has unique rules that make it exciting and strategic.
 
 - **Pawn Promotion**: A pawn reaching the far end of the board becomes another piece (usually a queen).
 
-<chess-board fen="4P3/8/8/8/8/8/8/8 w - - 0 1" arrows="e8-e7"></chess-board>
+<chess-board fen="8/4P3/8/8/8/8/8/8 w - - 0 1" arrows="e7-e8"></chess-board>
 
 > 🎯 Master these rules with bite-sized drills on **Chess Compiler**!
 
