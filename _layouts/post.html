@@ -31,7 +31,7 @@
   <meta name="twitter:image" content="{{ page.image }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="/learn/learn.css">
+  <link rel="stylesheet" href="../learn.css">
 
   <!-- JSON-LD Structured Data for Articles -->
   <script type="application/ld+json">
@@ -344,7 +344,7 @@
   </style>
   <script>
     // Inline Chess Board Renderer for blog posts
-    (function () {
+    //(function () {
       const pieceImages = {
         'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
         'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
@@ -504,7 +504,7 @@
           renderChessBoard(el, fen, highlights, arrows);
         });
       });
-    })();
+    //})();
 
     // Lazy load article images with skeleton animation (excluding chess board pieces)
     document.addEventListener('DOMContentLoaded', function () {
@@ -546,6 +546,7 @@
       });
     });
   </script>
+  <script src="preview-handler.js"></script>
 </body>
 
 </html>
