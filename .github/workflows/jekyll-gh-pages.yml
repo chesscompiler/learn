@@ -40,8 +40,15 @@ jobs:
           source: ./
           destination: ./_site
 
+      # ✅ Copy _layouts/post.html into the output folder to get published
+      - name: Copy post layout for publishing
+        run: |
+          mkdir -p _site/layouts
+          cp _layouts/post.html _site/layouts/post.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+
 
   # Deployment job
   deploy:
