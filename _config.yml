@@ -3,6 +3,11 @@ description: Chess blogs and tutorials
 baseurl: "/learn"
 url: "https://chesscompiler.github.io"
 theme: null
+
 social:
   instagram: "chesscompiler"
-  youtube: "chesscompiler"  
+  youtube: "chesscompiler"
+
+# 📁 Folders and files to include in the site output
+include:          # <--- ADD THIS SECTION
+  - "_layouts"

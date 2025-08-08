@@ -56,7 +56,7 @@
       border-bottom: 1px solid #30363d;
       display: flex;
       align-items: center;
-      justify-content: between;
+      justify-content: space-between;
       gap: 1rem;
     }
 
@@ -120,75 +120,6 @@
     .icon-btn.active {
       color: #58a6ff;
       background: rgba(88, 166, 255, 0.1);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      padding: 0.5rem;
-      min-width: 200px;
-      display: none;
-      z-index: 100;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .dropdown-menu.show {
-      display: block;
-    }
-
-    .dropdown-item {
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      transition: background-color 0.2s;
-    }
-
-    .dropdown-item:hover {
-      background: #30363d;
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background: #30363d;
-      margin: 0.5rem 0;
-    }
-
-    .form-group {
-      margin-bottom: 0.75rem;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #f0f6fc;
-      margin-bottom: 0.25rem;
-    }
-
-    .form-input,
-    .form-select {
-      width: 100%;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      color: #e6edf3;
-      padding: 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus,
-    .form-select:focus {
-      outline: none;
-      border-color: #1f6feb;
     }
 
     .status-indicator {
@@ -346,7 +277,7 @@
       border-radius: 12px;
       padding: 2rem;
       min-width: 500px;
-      max-width: 600px;
+      max-width: 800px;
       max-height: 80vh;
       overflow-y: auto;
       transform: scale(0.9);
@@ -390,6 +321,36 @@
       color: #e6edf3;
     }
 
+    .form-group {
+      margin-bottom: 0.75rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #f0f6fc;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      color: #e6edf3;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #1f6feb;
+    }
+
     .form-help {
       font-size: 0.75rem;
       color: #7d8590;
@@ -412,6 +373,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      border: none;
     }
 
     .btn-primary {
@@ -434,9 +396,186 @@
       background: #30363d;
     }
 
+    .btn-danger {
+      background: #da3633;
+      border: 1px solid #f85149;
+      color: white;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #f85149;
+    }
+
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    /* File Explorer Modal Styles */
+    .file-modal {
+      min-width: 700px;
+      max-width: 900px;
+    }
+
+    .file-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #30363d;
+    }
+
+    .file-tab {
+      padding: 0.75rem 1rem;
+      background: none;
+      border: none;
+      color: #7d8590;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .file-tab:hover {
+      color: #e6edf3;
+      background: #30363d;
+    }
+
+    .file-tab.active {
+      color: #58a6ff;
+      background: rgba(88, 166, 255, 0.1);
+      border-bottom: 2px solid #58a6ff;
+    }
+
+    .file-list {
+      min-height: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background: #0d1117;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #30363d;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .file-item:last-child {
+      border-bottom: none;
+    }
+
+    .file-item:hover {
+      background: #161b22;
+    }
+
+    .file-item.selected {
+      background: rgba(88, 166, 255, 0.1);
+      border-color: #58a6ff;
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .file-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7d8590;
+    }
+
+    .file-details {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: #e6edf3;
+      margin-bottom: 0.25rem;
+    }
+
+    .file-meta {
+      font-size: 0.75rem;
+      color: #7d8590;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .file-item:hover .file-actions {
+      opacity: 1;
+    }
+
+    .file-action-btn {
+      background: none;
+      border: none;
+      color: #7d8590;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .file-action-btn:hover {
+      color: #e6edf3;
+      background: #30363d;
+    }
+
+    .file-action-btn.danger:hover {
+      color: #f85149;
+      background: rgba(248, 81, 73, 0.1);
+    }
+
+    .upload-zone {
+      border: 2px dashed #30363d;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: #58a6ff;
+      background: rgba(88, 166, 255, 0.05);
+    }
+
+    .upload-zone input[type="file"] {
+      display: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #7d8590;
+    }
+
+    .empty-state .material-icons {
+      font-size: 48px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
     }
 
     /* AI Chat Interface - Floating Style */
@@ -480,16 +619,6 @@
       background: #0d1117;
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
-    }
-
-    .model-selector {
-      background: #0d1117;
-      border: 1px solid #30363d;
-      color: #e6edf3;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      min-width: 150px;
     }
 
     .ai-chat-body {
@@ -594,7 +723,8 @@
         height: 50vh;
       }
 
-      .modal {
+      .modal,
+      .file-modal {
         min-width: 90vw;
         margin: 1rem;
       }
@@ -627,6 +757,22 @@
     .hidden-input {
       display: none;
     }
+
+    /* Rename Input Styles */
+    .rename-input {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      color: #e6edf3;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      width: 100%;
+    }
+
+    .rename-input:focus {
+      outline: none;
+      border-color: #1f6feb;
+    }
   </style>
 </head>
 
@@ -645,38 +791,9 @@
         <div class="header-controls">
           <div class="status-indicator" id="saveStatus">Saved</div>
 
-          <!-- File Management Dropdown -->
-          <div class="icon-btn" id="fileMenuBtn" title="File Management">
+          <!-- File Management -->
+          <div class="icon-btn" id="fileManagerBtn" title="File Manager">
             <span class="material-icons">folder</span>
-            <div class="dropdown-menu" id="fileMenu">
-              <div class="form-group">
-                <label class="form-label">Load File</label>
-                <select class="form-select" id="fileSelector">
-                  <option value="">Select a file...</option>
-                </select>
-              </div>
-              <div class="dropdown-divider"></div>
-              <div class="form-group">
-                <label class="form-label">Filename</label>
-                <input type="text" class="form-input" id="uploadFilename" placeholder="filename.md">
-              </div>
-              <div class="dropdown-item" id="savePostBtn">
-                <span class="material-icons" style="font-size: 16px;">publish</span>
-                Save as Post
-              </div>
-              <div class="dropdown-item" id="saveDraftBtn">
-                <span class="material-icons" style="font-size: 16px;">draft</span>
-                Save as Draft
-              </div>
-              <div class="dropdown-divider"></div>
-              <div class="file-upload">
-                <input type="file" id="imageUpload" accept="image/*" multiple>
-                <div class="dropdown-item file-upload-btn">
-                  <span class="material-icons" style="font-size: 16px;">image</span>
-                  Upload Images
-                </div>
-              </div>
-            </div>
           </div>
 
           <!-- AI Chat Toggle -->
@@ -779,6 +896,65 @@ The opening phase is crucial for setting up a good position...
     </div>
   </div>
 
+  <!-- File Manager Modal -->
+  <div class="modal-overlay" id="fileModal">
+    <div class="modal file-modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="material-icons">folder</span>
+          File Manager
+        </div>
+        <button class="modal-close" id="fileModalClose">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="file-tabs">
+          <button class="file-tab active" data-folder="_posts">
+            <span class="material-icons" style="font-size: 16px;">article</span>
+            Posts
+          </button>
+          <button class="file-tab" data-folder="_drafts">
+            <span class="material-icons" style="font-size: 16px;">draft</span>
+            Drafts
+          </button>
+          <button class="file-tab" data-folder="images">
+            <span class="material-icons" style="font-size: 16px;">image</span>
+            Images
+          </button>
+        </div>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileUpload" multiple accept=".md,.markdown,image/*">
+          <div>
+            <span class="material-icons" style="font-size: 32px; margin-bottom: 0.5rem;">cloud_upload</span>
+            <div>Drag files here or click to upload</div>
+            <div style="font-size: 0.8rem; color: #7d8590; margin-top: 0.5rem;">
+              Supports .md, .markdown files and images
+            </div>
+          </div>
+        </div>
+
+        <div class="file-list" id="fileList">
+          <div class="empty-state" id="emptyState">
+            <span class="material-icons">folder_open</span>
+            <div>No files found</div>
+            <div style="font-size: 0.8rem; margin-top: 0.5rem;">Upload some files to get started</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="fileModalCancel">Cancel</button>
+        <button class="btn btn-primary" id="loadSelectedFile" disabled>
+          <span class="material-icons" style="font-size: 18px;">open_in_new</span>
+          Load File
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- GitHub Settings Modal -->
   <div class="modal-overlay" id="githubModal">
     <div class="modal">
@@ -868,8 +1044,6 @@ The opening phase is crucial for setting up a good position...
         // GitHub elements
         this.githubModal = document.getElementById('githubModal');
         this.settingsBtn = document.getElementById('settingsBtn');
-        this.fileSelector = document.getElementById('fileSelector');
-        this.uploadFilename = document.getElementById('uploadFilename');
         this.githubStatusDot = document.getElementById('githubStatusDot');
         this.githubStatusText = document.getElementById('githubStatusText');
         this.modalClose = document.getElementById('modalClose');
@@ -878,12 +1052,16 @@ The opening phase is crucial for setting up a good position...
         this.githubRepo = document.getElementById('githubRepo');
         this.githubToken = document.getElementById('githubToken');
 
-        // File management elements
-        this.fileMenuBtn = document.getElementById('fileMenuBtn');
-        this.fileMenu = document.getElementById('fileMenu');
-        this.savePostBtn = document.getElementById('savePostBtn');
-        this.saveDraftBtn = document.getElementById('saveDraftBtn');
-        this.imageUpload = document.getElementById('imageUpload');
+        // File manager elements
+        this.fileManagerBtn = document.getElementById('fileManagerBtn');
+        this.fileModal = document.getElementById('fileModal');
+        this.fileModalClose = document.getElementById('fileModalClose');
+        this.fileModalCancel = document.getElementById('fileModalCancel');
+        this.loadSelectedFileBtn = document.getElementById('loadSelectedFile');
+        this.fileList = document.getElementById('fileList');
+        this.emptyState = document.getElementById('emptyState');
+        this.uploadZone = document.getElementById('uploadZone');
+        this.fileUpload = document.getElementById('fileUpload');
 
         // AI Chat elements
         this.aiChatToggle = document.getElementById('aiChatToggle');
@@ -901,6 +1079,13 @@ The opening phase is crucial for setting up a good position...
         this.updateTimeout = null;
         this.isFrameReady = false;
         this.aiChatOpen = false;
+        this.currentFolder = '_posts';
+        this.selectedFile = null;
+        this.files = {
+          '_posts': [],
+          '_drafts': [],
+          'images': []
+        };
 
         // GitHub state
         this.github = {
@@ -943,22 +1128,23 @@ The opening phase is crucial for setting up a good position...
         this.modalClose.addEventListener('click', () => this.hideGitHubModal());
         this.cancelBtn.addEventListener('click', () => this.hideGitHubModal());
         this.connectBtn.addEventListener('click', () => this.saveSettings());
-        this.fileSelector.addEventListener('change', () => this.loadSelectedFile());
 
-        // File management
-        this.fileMenuBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          this.fileMenu.classList.toggle('show');
-          if (this.fileMenu.classList.contains('show')) {
-            this.autofillFilename();
-          }
+        // File manager event listeners
+        this.fileManagerBtn.addEventListener('click', () => this.showFileModal());
+        this.fileModalClose.addEventListener('click', () => this.hideFileModal());
+        this.fileModalCancel.addEventListener('click', () => this.hideFileModal());
+        this.loadSelectedFileBtn.addEventListener('click', () => this.loadSelectedFile());
+
+        // File tabs
+        document.querySelectorAll('.file-tab').forEach(tab => {
+          tab.addEventListener('click', () => this.switchFolder(tab.dataset.folder));
         });
-        // Prevent dropdown from closing on inner clicks
-        this.fileMenu.addEventListener('click', (e) => e.stopPropagation());
 
-        this.savePostBtn.addEventListener('click', () => this.uploadToGitHub('_posts'));
-        this.saveDraftBtn.addEventListener('click', () => this.uploadToGitHub('_drafts'));
-        this.imageUpload.addEventListener('change', () => this.uploadImages());
+        // Upload zone
+        this.uploadZone.addEventListener('click', () => this.fileUpload.click());
+        this.uploadZone.addEventListener('dragover', (e) => this.handleDragOver(e));
+        this.uploadZone.addEventListener('drop', (e) => this.handleDrop(e));
+        this.fileUpload.addEventListener('change', () => this.handleFileUpload());
 
         // AI Chat
         this.aiChatToggle.addEventListener('click', () => this.toggleAIChat());
@@ -971,17 +1157,16 @@ The opening phase is crucial for setting up a good position...
           }
         });
 
-        // Modal overlay click to close
+        // Modal overlay clicks to close
         this.githubModal.addEventListener('click', (e) => {
           if (e.target === this.githubModal) {
             this.hideGitHubModal();
           }
         });
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-          if (!this.fileMenuBtn.contains(e.target) && !this.fileMenu.contains(e.target)) {
-            this.fileMenu.classList.remove('show');
+        this.fileModal.addEventListener('click', (e) => {
+          if (e.target === this.fileModal) {
+            this.hideFileModal();
           }
         });
 
@@ -1041,6 +1226,41 @@ When editing existing text, maintain the author's voice while improving clarity,
 
       hideGitHubModal() {
         this.githubModal.classList.remove('show');
+      }
+
+      showFileModal() {
+        if (!this.github.connected) {
+          this.showStatus('Please connect to GitHub first', 'error');
+          return;
+        }
+        this.fileModal.classList.add('show');
+        this.loadFileList();
+      }
+
+      hideFileModal() {
+        this.fileModal.classList.remove('show');
+        this.selectedFile = null;
+        this.loadSelectedFileBtn.disabled = true;
+      }
+
+      switchFolder(folder) {
+        this.currentFolder = folder;
+        
+        // Update tab appearance
+        document.querySelectorAll('.file-tab').forEach(tab => {
+          tab.classList.toggle('active', tab.dataset.folder === folder);
+        });
+
+        // Update upload zone accept types
+        if (folder === 'images') {
+          this.fileUpload.accept = 'image/*';
+          this.uploadZone.querySelector('div > div:last-child').textContent = 'Supports images (jpg, png, gif, etc.)';
+        } else {
+          this.fileUpload.accept = '.md,.markdown';
+          this.uploadZone.querySelector('div > div:last-child').textContent = 'Supports .md, .markdown files';
+        }
+
+        this.renderFileList();
       }
 
       async saveSettings() {
@@ -1103,7 +1323,6 @@ When editing existing text, maintain the author's voice while improving clarity,
 
           // Update UI
           this.updateGitHubStatus();
-          this.loadFileList();
 
           this.hideGitHubModal();
           this.showStatus('Settings saved successfully!', 'success');
@@ -1148,7 +1367,6 @@ When editing existing text, maintain the author's voice while improving clarity,
           };
 
           this.updateGitHubStatus();
-          this.loadFileList();
 
         } catch (error) {
           this.github.connected = false;
@@ -1172,73 +1390,34 @@ When editing existing text, maintain the author's voice while improving clarity,
         if (!this.github.connected) return;
 
         try {
-          // Load both posts and drafts
-          const [postsResponse, draftsResponse] = await Promise.all([
-            fetch(`https://api.github.com/repos/${this.github.repo}/contents/_posts`, {
+          const folders = ['_posts', '_drafts', 'images'];
+          const promises = folders.map(folder =>
+            fetch(`https://api.github.com/repos/${this.github.repo}/contents/${folder}`, {
               headers: {
                 'Authorization': `Bearer ${this.github.token}`,
                 'Accept': 'application/vnd.github.v3+json'
               }
-            }).catch(() => ({ ok: false, status: 404 })),
-            fetch(`https://api.github.com/repos/${this.github.repo}/contents/_drafts`, {
-              headers: {
-                'Authorization': `Bearer ${this.github.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-              }
-            }).catch(() => ({ ok: false, status: 404 }))
-          ]);
+            }).then(response => ({ folder, response })).catch(() => ({ folder, response: { ok: false, status: 404 } }))
+          );
 
-          this.fileSelector.innerHTML = '<option value="">Select a file to load...</option>';
+          const results = await Promise.all(promises);
 
-          // Add posts
-          if (postsResponse.ok) {
-            const posts = await postsResponse.json();
-            const markdownPosts = posts.filter(file =>
-              file.type === 'file' && (file.name.endsWith('.md') || file.name.endsWith('.markdown'))
-            );
-
-            if (markdownPosts.length > 0) {
-              const postsGroup = document.createElement('optgroup');
-              postsGroup.label = 'Posts';
-              markdownPosts.forEach(file => {
-                const option = document.createElement('option');
-                option.value = file.sha;
-                option.textContent = file.name;
-                option.dataset.downloadUrl = file.download_url;
-                option.dataset.filename = file.name;
-                option.dataset.type = '_posts';
-                postsGroup.appendChild(option);
+          for (const { folder, response } of results) {
+            if (response.ok) {
+              const files = await response.json();
+              this.files[folder] = files.filter(file => {
+                if (folder === 'images') {
+                  return file.type === 'file' && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file.name);
+                } else {
+                  return file.type === 'file' && /\.(md|markdown)$/i.test(file.name);
+                }
               });
-              this.fileSelector.appendChild(postsGroup);
+            } else {
+              this.files[folder] = [];
             }
           }
 
-          // Add drafts
-          if (draftsResponse.ok) {
-            const drafts = await draftsResponse.json();
-            const markdownDrafts = drafts.filter(file =>
-              file.type === 'file' && (file.name.endsWith('.md') || file.name.endsWith('.markdown'))
-            );
-
-            if (markdownDrafts.length > 0) {
-              const draftsGroup = document.createElement('optgroup');
-              draftsGroup.label = 'Drafts';
-              markdownDrafts.forEach(file => {
-                const option = document.createElement('option');
-                option.value = file.sha;
-                option.textContent = file.name;
-                option.dataset.downloadUrl = file.download_url;
-                option.dataset.filename = file.name;
-                option.dataset.type = '_drafts';
-                draftsGroup.appendChild(option);
-              });
-              this.fileSelector.appendChild(draftsGroup);
-            }
-          }
-
-          if (this.fileSelector.children.length === 1) {
-            this.fileSelector.innerHTML = '<option value="">No markdown files found</option>';
-          }
+          this.renderFileList();
 
         } catch (error) {
           console.error('Error loading file list:', error);
@@ -1246,17 +1425,109 @@ When editing existing text, maintain the author's voice while improving clarity,
         }
       }
 
-      async loadSelectedFile() {
-        const selectedOption = this.fileSelector.selectedOptions[0];
-        if (!selectedOption || !selectedOption.value) return;
+      renderFileList() {
+        const files = this.files[this.currentFolder] || [];
+        
+        if (files.length === 0) {
+          this.fileList.innerHTML = `
+            <div class="empty-state">
+              <span class="material-icons">folder_open</span>
+              <div>No ${this.currentFolder === 'images' ? 'images' : 'files'} found</div>
+              <div style="font-size: 0.8rem; margin-top: 0.5rem;">Upload some files to get started</div>
+            </div>
+          `;
+          return;
+        }
 
-        const downloadUrl = selectedOption.dataset.downloadUrl;
-        const filename = selectedOption.dataset.filename;
+        this.fileList.innerHTML = files.map(file => `
+          <div class="file-item" data-sha="${file.sha}" data-name="${file.name}" data-download-url="${file.download_url}">
+            <div class="file-info">
+              <div class="file-icon">
+                <span class="material-icons">${this.getFileIcon(file.name)}</span>
+              </div>
+              <div class="file-details">
+                <div class="file-name">${file.name}</div>
+                <div class="file-meta">Size: ${this.formatFileSize(file.size)} • Modified: ${new Date(file.last_modified || Date.now()).toLocaleDateString()}</div>
+              </div>
+            </div>
+            <div class="file-actions">
+              ${this.currentFolder !== 'images' ? `<button class="file-action-btn" onclick="window.editor.renameFile('${file.sha}', '${file.name}')" title="Rename">
+                <span class="material-icons" style="font-size: 16px;">edit</span>
+              </button>` : ''}
+              <button class="file-action-btn danger" onclick="window.editor.deleteFile('${file.sha}', '${file.name}')" title="Delete">
+                <span class="material-icons" style="font-size: 16px;">delete</span>
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        // Add click handlers for file selection
+        document.querySelectorAll('.file-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            if (e.target.closest('.file-actions')) return;
+            
+            document.querySelectorAll('.file-item').forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+            
+            this.selectedFile = {
+              sha: item.dataset.sha,
+              name: item.dataset.name,
+              downloadUrl: item.dataset.downloadUrl,
+              folder: this.currentFolder
+            };
+            
+            this.loadSelectedFileBtn.disabled = false;
+          });
+        });
+      }
+
+      getFileIcon(filename) {
+        const ext = filename.split('.').pop().toLowerCase();
+        if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'].includes(ext)) {
+          return 'image';
+        } else if (['md', 'markdown'].includes(ext)) {
+          return 'article';
+        }
+        return 'description';
+      }
+
+      formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      async loadSelectedFile() {
+        if (!this.selectedFile) return;
+
+        // Only load markdown files into editor
+        if (this.selectedFile.folder === 'images') {
+          // For images, just copy the path to clipboard or insert into editor
+          const imagePath = `./images/${this.selectedFile.name}`;
+          const imageMarkdown = `![${this.selectedFile.name}](${imagePath})`;
+          
+          const cursorPos = this.editor.selectionStart;
+          const beforeCursor = this.editor.value.substring(0, cursorPos);
+          const afterCursor = this.editor.value.substring(cursorPos);
+
+          this.editor.value = beforeCursor + '\n\n' + imageMarkdown + '\n\n' + afterCursor;
+          localStorage.setItem('chessMarkdownEditor', this.editor.value);
+          
+          if (this.autoRefresh) {
+            this.updatePreview();
+          }
+          
+          this.hideFileModal();
+          this.showStatus(`Inserted ${this.selectedFile.name} into editor`, 'success');
+          return;
+        }
 
         try {
           this.showStatus('Loading file...', 'loading');
 
-          const response = await fetch(downloadUrl);
+          const response = await fetch(this.selectedFile.downloadUrl);
           if (!response.ok) {
             throw new Error(`Failed to load file: ${response.statusText}`);
           }
@@ -1264,18 +1535,17 @@ When editing existing text, maintain the author's voice while improving clarity,
           const content = await response.text();
           this.editor.value = content;
 
-          // Update filename for potential upload
-          this.uploadFilename.value = filename;
-
           // Save to localStorage
           localStorage.setItem('chessMarkdownEditor', content);
 
-          this.showStatus(`Loaded ${filename}`, 'success');
+          this.showStatus(`Loaded ${this.selectedFile.name}`, 'success');
 
           // Update preview if auto-refresh is enabled
           if (this.autoRefresh) {
             this.updatePreview();
           }
+
+          this.hideFileModal();
 
         } catch (error) {
           console.error('Error loading file:', error);
@@ -1283,62 +1553,25 @@ When editing existing text, maintain the author's voice while improving clarity,
         }
       }
 
-      async uploadToGitHub(folder) {
-        if (!this.github.connected) {
-          this.showStatus('Please connect to GitHub first', 'error');
-          return;
-        }
-
-        const filename = this.uploadFilename.value.trim();
-        const content = this.editor.value.trim();
-
-        if (!filename || !content) {
-          this.showStatus('Please provide both filename and content', 'error');
-          return;
-        }
-
-        if (!filename.endsWith('.md') && !filename.endsWith('.markdown')) {
-          this.showStatus('Filename must end with .md or .markdown', 'error');
-          return;
-        }
-
-        this.showStatus('Uploading...', 'loading');
+      async renameFile(sha, currentName) {
+        const newName = prompt('Enter new filename:', currentName);
+        if (!newName || newName === currentName) return;
 
         try {
-          // Check if file already exists
-          let sha = null;
-          try {
-            const existingFileResponse = await fetch(
-              `https://api.github.com/repos/${this.github.repo}/contents/${folder}/${filename}`,
-              {
-                headers: {
-                  'Authorization': `Bearer ${this.github.token}`,
-                  'Accept': 'application/vnd.github.v3+json'
-                }
-              }
-            );
+          this.showStatus('Renaming file...', 'loading');
 
-            if (existingFileResponse.ok) {
-              const existingFile = await existingFileResponse.json();
-              sha = existingFile.sha;
-            }
-          } catch (error) {
-            // File doesn't exist, which is fine
-          }
+          // Get current file content
+          const file = this.files[this.currentFolder].find(f => f.sha === sha);
+          if (!file) throw new Error('File not found');
 
-          // Upload the file
-          const uploadData = {
-            message: sha ? `Update ${filename}` : `Add ${filename}`,
-            content: btoa(unescape(encodeURIComponent(content))), // Base64 encode with proper UTF-8 handling
-            branch: 'main' // or 'master', adjust as needed
-          };
+          const contentResponse = await fetch(file.download_url);
+          if (!contentResponse.ok) throw new Error('Failed to fetch file content');
 
-          if (sha) {
-            uploadData.sha = sha; // Required for updates
-          }
+          const content = await contentResponse.text();
 
-          const uploadResponse = await fetch(
-            `https://api.github.com/repos/${this.github.repo}/contents/${folder}/${filename}`,
+          // Create new file
+          const createResponse = await fetch(
+            `https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${newName}`,
             {
               method: 'PUT',
               headers: {
@@ -1346,115 +1579,186 @@ When editing existing text, maintain the author's voice while improving clarity,
                 'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify(uploadData)
+              body: JSON.stringify({
+                message: `Rename ${currentName} to ${newName}`,
+                content: btoa(unescape(encodeURIComponent(content))),
+                branch: 'main'
+              })
             }
           );
 
-          if (!uploadResponse.ok) {
-            const errorData = await uploadResponse.json();
-            throw new Error(errorData.message || `Upload failed: ${uploadResponse.statusText}`);
+          if (!createResponse.ok) {
+            throw new Error(`Failed to create new file: ${createResponse.statusText}`);
           }
 
-          const result = await uploadResponse.json();
-          const action = sha ? 'updated' : 'uploaded';
-          const folderName = folder === '_posts' ? 'post' : 'draft';
-          this.showStatus(`Successfully ${action} ${filename} as ${folderName}!`, 'success');
+          // Delete old file
+          const deleteResponse = await fetch(
+            `https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${currentName}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${this.github.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: `Delete old file ${currentName}`,
+                sha: sha,
+                branch: 'main'
+              })
+            }
+          );
 
-          // Refresh file list and close menu
-          setTimeout(() => {
-            this.loadFileList();
-            this.fileMenu.classList.remove('show');
-          }, 1000);
+          if (!deleteResponse.ok) {
+            console.warn('Failed to delete old file, but rename succeeded');
+          }
+
+          this.showStatus(`Renamed ${currentName} to ${newName}`, 'success');
+          this.loadFileList();
+
+        } catch (error) {
+          console.error('Error renaming file:', error);
+          this.showStatus(`Failed to rename file: ${error.message}`, 'error');
+        }
+      }
+
+      async deleteFile(sha, filename) {
+        if (!confirm(`Are you sure you want to delete "${filename}"?`)) return;
+
+        try {
+          this.showStatus('Deleting file...', 'loading');
+
+          const response = await fetch(
+            `https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${filename}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${this.github.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: `Delete ${filename}`,
+                sha: sha,
+                branch: 'main'
+              })
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`Failed to delete file: ${response.statusText}`);
+          }
+
+          this.showStatus(`Deleted ${filename}`, 'success');
+          this.loadFileList();
+
+        } catch (error) {
+          console.error('Error deleting file:', error);
+          this.showStatus(`Failed to delete file: ${error.message}`, 'error');
+        }
+      }
+
+      handleDragOver(e) {
+        e.preventDefault();
+        this.uploadZone.classList.add('drag-over');
+      }
+
+      handleDrop(e) {
+        e.preventDefault();
+        this.uploadZone.classList.remove('drag-over');
+        this.fileUpload.files = e.dataTransfer.files;
+        this.handleFileUpload();
+      }
+
+      async handleFileUpload() {
+        const files = Array.from(this.fileUpload.files);
+        if (files.length === 0) return;
+
+        this.showStatus('Uploading files...', 'loading');
+
+        try {
+          for (const file of files) {
+            await this.uploadSingleFile(file);
+          }
+
+          this.showStatus(`Successfully uploaded ${files.length} file(s)!`, 'success');
+          this.loadFileList();
 
         } catch (error) {
           console.error('Upload error:', error);
           this.showStatus(`Upload failed: ${error.message}`, 'error');
         }
+
+        this.fileUpload.value = '';
       }
 
-      async uploadImages() {
-        if (!this.github.connected) {
-          this.showStatus('Please connect to GitHub first', 'error');
-          return;
-        }
+      async uploadSingleFile(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          
+          reader.onload = async () => {
+            try {
+              const base64Content = reader.result.split(',')[1];
+              const filename = file.name;
 
-        const files = this.imageUpload.files;
-        if (files.length === 0) return;
-
-        this.showStatus('Uploading images...', 'loading');
-
-        try {
-          const uploadPromises = Array.from(files).map(async (file) => {
-            const reader = new FileReader();
-            return new Promise((resolve, reject) => {
-              reader.onload = async () => {
-                try {
-                  const base64Content = reader.result.split(',')[1];
-                  const filename = file.name;
-
-                  const uploadData = {
-                    message: `Add image ${filename}`,
-                    content: base64Content,
-                    branch: 'main'
-                  };
-
-                  const uploadResponse = await fetch(
-                    `https://api.github.com/repos/${this.github.repo}/contents/images/${filename}`,
-                    {
-                      method: 'PUT',
-                      headers: {
-                        'Authorization': `Bearer ${this.github.token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(uploadData)
+              // Check if file already exists
+              let sha = null;
+              try {
+                const existingFileResponse = await fetch(
+                  `https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${filename}`,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${this.github.token}`,
+                      'Accept': 'application/vnd.github.v3+json'
                     }
-                  );
-
-                  if (!uploadResponse.ok) {
-                    const errorData = await uploadResponse.json();
-                    throw new Error(errorData.message || `Failed to upload ${filename}`);
                   }
+                );
 
-                  resolve(filename);
-                } catch (error) {
-                  reject(error);
+                if (existingFileResponse.ok) {
+                  const existingFile = await existingFileResponse.json();
+                  sha = existingFile.sha;
                 }
+              } catch (error) {
+                // File doesn't exist, which is fine
+              }
+
+              const uploadData = {
+                message: sha ? `Update ${filename}` : `Add ${filename}`,
+                content: base64Content,
+                branch: 'main'
               };
-              reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
-              reader.readAsDataURL(file);
-            });
-          });
 
-          const uploadedFiles = await Promise.all(uploadPromises);
+              if (sha) {
+                uploadData.sha = sha;
+              }
 
-          // Insert image references into the editor
-          const imageMarkdown = uploadedFiles.map(filename =>
-            `![${filename}](./images/${filename})`
-          ).join('\n\n');
+              const uploadResponse = await fetch(
+                `https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${filename}`,
+                {
+                  method: 'PUT',
+                  headers: {
+                    'Authorization': `Bearer ${this.github.token}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(uploadData)
+                }
+              );
 
-          const cursorPos = this.editor.selectionStart;
-          const beforeCursor = this.editor.value.substring(0, cursorPos);
-          const afterCursor = this.editor.value.substring(cursorPos);
+              if (!uploadResponse.ok) {
+                const errorData = await uploadResponse.json();
+                throw new Error(errorData.message || `Failed to upload ${filename}`);
+              }
 
-          this.editor.value = beforeCursor + '\n\n' + imageMarkdown + '\n\n' + afterCursor;
-
-          // Save content and update preview
-          localStorage.setItem('chessMarkdownEditor', this.editor.value);
-          if (this.autoRefresh) {
-            this.updatePreview();
-          }
-
-          this.showStatus(`Successfully uploaded ${uploadedFiles.length} image(s)!`, 'success');
-          this.fileMenu.classList.remove('show');
-
-        } catch (error) {
-          console.error('Image upload error:', error);
-          this.showStatus(`Image upload failed: ${error.message}`, 'error');
-        }
-
-        // Clear the file input
-        this.imageUpload.value = '';
+              resolve(filename);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          
+          reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
+          reader.readAsDataURL(file);
+        });
       }
 
       toggleAIChat() {
@@ -1538,20 +1842,23 @@ When editing existing text, maintain the author's voice while improving clarity,
 
         const systemPrompt = this.aiSystemPrompt.value;
         const modelId = this.aiModelId.value || 'gemini-1.5-flash-latest';
-        const GEN_API = "streamGenerateContent";
 
         const requestBody = {
           contents: [
             {
               role: "user",
-              parts: [{ text: `${systemPrompt}\n\nIMPORTANT: You must respond with valid JSON in this exact format:\n{\n  "content": "the complete markdown content that should replace the entire editor",\n  "message": "brief description of what you did"\n}\n\nCurrent document content:\n${this.editor.value}\n\nUser request: ${message}` }]
+              parts: [{ 
+                text: `${systemPrompt}\n\nIMPORTANT: You must respond with valid JSON in this exact format:\n{\n  "content": "the complete markdown content that should replace the entire editor",\n  "message": "brief description of what you did"\n}\n\nCurrent document content:\n${this.editor.value}\n\nUser request: ${message}` 
+              }]
             }
           ],
-          generationConfig: { "thinkingConfig": { "thinkingBudget": -1 } },
-          tools: [{ "googleSearch": {} }]
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 4000
+          }
         };
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:${GEN_API}?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:streamGenerateContent?key=${apiKey}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestBody)
@@ -1562,14 +1869,63 @@ When editing existing text, maintain the author's voice while improving clarity,
         }
 
         const responseText = await response.text();
-        // The streaming API returns multiple JSON objects. We need to combine them.
-        const combinedJson = JSON.parse(responseText.replace(/,$/, ''));
-        const aiResponse = combinedJson.candidates[0].content.parts[0].text;
-        this.processAIResponse(aiResponse);
+        
+        // Parse streaming response from Gemini
+        let fullResponse = '';
+        try {
+          // Split by lines and parse each JSON chunk
+          const lines = responseText.trim().split('\n').filter(line => line.trim());
+          
+          for (const line of lines) {
+            // Remove trailing comma if present
+            const cleanLine = line.replace(/,$/, '');
+            try {
+              const chunk = JSON.parse(cleanLine);
+              if (chunk.candidates && chunk.candidates[0] && chunk.candidates[0].content && chunk.candidates[0].content.parts) {
+                const parts = chunk.candidates[0].content.parts;
+                for (const part of parts) {
+                  if (part.text) {
+                    fullResponse += part.text;
+                  }
+                }
+              }
+            } catch (parseError) {
+              // Skip invalid JSON chunks
+              continue;
+            }
+          }
+          
+          if (!fullResponse) {
+            throw new Error('No content received from Gemini API');
+          }
+          
+          // Clean up the response - remove markdown code blocks if present
+          let cleanResponse = fullResponse.trim();
+          if (cleanResponse.startsWith('```json\n')) {
+            cleanResponse = cleanResponse.replace(/^```json\n/, '').replace(/\n```$/, '');
+          } else if (cleanResponse.startsWith('```\n')) {
+            cleanResponse = cleanResponse.replace(/^```\n/, '').replace(/\n```$/, '');
+          }
+          
+          this.processAIResponse(cleanResponse);
+          
+        } catch (error) {
+          console.error('Error parsing Gemini response:', error);
+          console.log('Raw response:', responseText);
+          console.log('Full response text:', fullResponse);
+          
+          // Fallback: try to use the full response as content
+          if (fullResponse) {
+            this.processAIResponse(fullResponse);
+          } else {
+            throw new Error('Failed to parse Gemini response');
+          }
+        }
       }
 
       processAIResponse(aiResponse) {
         try {
+          // First try to parse as JSON
           const jsonResponse = JSON.parse(aiResponse);
           if (jsonResponse.content) {
             this.editor.value = jsonResponse.content;
@@ -1578,10 +1934,30 @@ When editing existing text, maintain the author's voice while improving clarity,
             this.showStatus(jsonResponse.message || 'Content updated by AI', 'success');
             this.toggleAIChat();
           } else {
-            throw new Error('Invalid AI response format');
+            throw new Error('Invalid AI response format - missing content field');
           }
         } catch (parseError) {
-          // Fallback for non-JSON responses
+          console.log('Failed to parse as JSON, trying as direct content:', parseError);
+          
+          // Fallback: check if the response contains JSON within text
+          const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            try {
+              const extractedJson = JSON.parse(jsonMatch[0]);
+              if (extractedJson.content) {
+                this.editor.value = extractedJson.content;
+                localStorage.setItem('chessMarkdownEditor', this.editor.value);
+                if (this.autoRefresh) this.updatePreview();
+                this.showStatus(extractedJson.message || 'Content updated by AI', 'success');
+                this.toggleAIChat();
+                return;
+              }
+            } catch (innerParseError) {
+              // Continue to fallback
+            }
+          }
+          
+          // Final fallback: use the response directly as content
           this.editor.value = aiResponse;
           localStorage.setItem('chessMarkdownEditor', this.editor.value);
           if (this.autoRefresh) this.updatePreview();
@@ -1713,17 +2089,6 @@ When editing existing text, maintain the author's voice while improving clarity,
         return data;
       }
 
-      autofillFilename() {
-        const frontMatter = this.processMarkdown(this.editor.value).frontMatter;
-        const title = frontMatter.title;
-        const date = frontMatter.date;
-
-        if (title && date) {
-          const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-          this.uploadFilename.value = `${date}-${slug}.md`;
-        }
-      }
-
       showSaveStatus() {
         this.saveStatus.textContent = 'Saving...';
         this.saveStatus.classList.add('show');
@@ -1757,9 +2122,9 @@ When editing existing text, maintain the author's voice while improving clarity,
       }
     }
 
-    // Initialize the editor
+    // Initialize the editor and expose it globally for file operations
     document.addEventListener('DOMContentLoaded', () => {
-      new ChessEditorPreview();
+      window.editor = new ChessEditorPreview();
     });
   </script>
 </body>
