@@ -18,7 +18,7 @@ The middlegame begins once you've developed your pieces and castled. Now, it's t
 
 Let's look at a classic middlegame scenario:
 
-<chess-board fen="r1bq1rk1/ppp2ppp/2n1pn2/3p4/3P4/2N1PN2/PPP2PPP/R1BQ1RK1 w - - 0 7" highlight="d4,e3,c3" arrows="e3c3,d4d5" />
+<chess-board fen="r1bq1rk1/ppp2ppp/2n1pn2/3p4/3P4/2N1PN2/PPP2PPP/R1BQ1RK1 w - - 0 7" highlight="d4,e3,c3" arrows="e3c3,d4d5"></chess-board>
 
 Here, White has a strong center and active pieces. A natural middlegame plan is to push **d4-d5**, challenging Black's knight and opening lines for attack. Notice how piece coordination and pawn structure guide the strategy!
 
@@ -32,7 +32,7 @@ Middlegames are often battles over key squares and lines. For example, controlli
 
 Middlegames brim with tactical opportunities. Forks, pins, skewers, and discovered attacks can turn the tide instantly. Consider this position:
 
-<chess-board fen="r1bqk2r/ppp2ppp/2n1pn2/3p4/3P1B2/2N1P3/PPP2PPP/R2QK2R w KQkq - 0 8" highlight="f4,d4,e3" arrows="f4c7,d4d5" />
+<chess-board fen="r1bqk2r/ppp2ppp/2n1pn2/3p4/3P1B2/2N1P3/PPP2PPP/R2QK2R w KQkq - 0 8" highlight="f4,d4,e3" arrows="f4c7,d4d5"></chess-board>
 
 White can play **Bxc7**, attacking the rook on a8 and capitalizing on Black's overloaded position. Spotting tactics like these requires pattern recognition—something you can train interactively on platforms like **Chess Compiler**.
 
@@ -54,7 +54,7 @@ Great players don't just react—they build plans. Some popular middlegame theme
 
 Let’s see a kingside attack in action:
 
-<chess-board fen="r1bq1rk1/pppn1ppp/3bpn2/3p4/2PP4/2N1BN2/PP3PPP/R2Q1RK1 w - - 0 9" highlight="g2,g3,h3,g4" arrows="g2g4,g3g4,h3h4" />
+<chess-board fen="r1bq1rk1/pppn1ppp/3bpn2/3p4/2PP4/2N1BN2/PP3PPP/R2Q1RK1 w - - 0 9" highlight="g2,g3,h3,g4" arrows="g2g4,g3g4,h3h4"></chess-board>
 
 White can start a pawn storm with **g4** and **h4**, aiming to open lines against Black’s king. Notice how piece development and pawn structure make such attacks possible.
 
