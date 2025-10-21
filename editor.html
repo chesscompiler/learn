@@ -36,12 +36,8 @@
     .status-indicator.error { background:#da3633; }
     .status-indicator.warning { background:#fb8500; }
 
-    /* filename bar */
-    .filename-bar { padding: 0.75rem 1.5rem; background: #0f1418; border-bottom: 1px solid #30363d; display:flex; gap:0.75rem; align-items:center; }
-    .filename-input { background: #0d1117; border: 1px solid #30363d; color: #e6edf3; padding: 0.5rem; border-radius: 6px; font-size: 0.9rem; min-width: 280px; }
-    .folder-select { background: #0d1117; border: 1px solid #30363d; color: #e6edf3; padding: 0.5rem; border-radius:6px; font-size:0.9rem; }
-    .save-editor-btn { background:#238636; border:1px solid #2ea043; color:white; padding:0.5rem 0.75rem; border-radius:6px; cursor:pointer; display:flex; gap:0.5rem; align-items:center; }
-    .save-editor-btn:disabled { opacity:0.5; cursor:not-allowed; }
+    /* Mobile responsive toggle */
+    .mobile-view-toggle { display: none; background: #238636; border: none; color: white; padding: 0.5rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
 
     .editor-textarea { flex:1; background:#0d1117; border:none; outline:none; padding:1.5rem; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size:14px; line-height:1.6; color:#e6edf3; resize:none; tab-size:2; }
     .editor-textarea::placeholder { color:#7d8590; }
@@ -58,7 +54,7 @@
     .toggle-switch.active .toggle-slider { transform:translateX(20px); }
     .preview-url { font-size:0.7rem; color:#7d8590; font-family:monospace; }
 
-    /* Modal Styles (unchanged) */
+    /* Modal Styles */
     .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:1000; opacity:0; visibility:hidden; transition:all 0.3s ease; }
     .modal-overlay.show { opacity:1; visibility:visible; }
     .modal { background:#21262d; border:1px solid #30363d; border-radius:12px; padding:2rem; min-width:500px; max-width:800px; max-height:80vh; overflow-y:auto; transform:scale(0.9); transition:transform 0.3s ease; }
@@ -79,7 +75,7 @@
     .btn-danger { background:#da3633; border:1px solid #f85149; color:white; }
     .btn:disabled { opacity:0.5; cursor:not-allowed; }
 
-    /* File Manager Styles (unchanged except small spacing) */
+    /* File Manager Styles */
     .file-modal { min-width:700px; max-width:900px; }
     .file-tabs { display:flex; gap:0.5rem; margin-bottom:0.5rem; border-bottom:1px solid #30363d; }
     .file-tab { padding:0.5rem 0.75rem; background:none; border:none; color:#7d8590; cursor:pointer; border-radius:6px 6px 0 0; transition:all 0.2s; font-size:0.9rem; display:flex; align-items:center; gap:0.5rem; }
@@ -100,14 +96,20 @@
     .file-action-btn { background:none; border:none; color:#7d8590; cursor:pointer; padding:0.25rem; border-radius:4px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
     .file-action-btn:hover { color:#e6edf3; background:#30363d; }
     .file-action-btn.danger:hover { color:#f85149; background: rgba(248,81,73,0.1); }
-    .upload-zone { border:2px dashed #30363d; border-radius:8px; padding:1rem; text-align:center; margin-bottom:1rem; transition:all 0.2s; cursor:pointer; }
-    .upload-zone:hover, .upload-zone.drag-over { border-color:#58a6ff; background: rgba(88,166,255,0.05); }
-    .upload-zone input[type="file"] { display:none; }
+
+    /* Save editor as new file section */
+    .save-editor-section { border:2px solid #30363d; border-radius:8px; padding:1rem; margin-bottom:1rem; background:#0d1117; }
+    .save-editor-title { font-size:0.9rem; font-weight:600; color:#f0f6fc; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem; }
+    .save-editor-form { display:flex; flex-direction:column; gap:0.75rem; }
+    .save-editor-inputs { display:flex; gap:0.5rem; align-items:flex-end; }
+    .save-input-group { flex:1; }
+    .save-filename-input, .save-folder-select { width:100%; background:#161b22; border:1px solid #30363d; color:#e6edf3; padding:0.5rem; border-radius:4px; font-size:0.8rem; }
+    .save-editor-btn { background:#238636; border:1px solid #2ea043; color:white; padding:0.5rem 0.75rem; border-radius:4px; cursor:pointer; display:flex; gap:0.5rem; align-items:center; white-space:nowrap; }
 
     .empty-state { text-align:center; padding:1rem; color:#7d8590; }
     .empty-state .material-icons { font-size:36px; margin-bottom:0.5rem; opacity:0.5; }
 
-    /* AI Chat (unchanged) */
+    /* AI Chat */
     .ai-chat { position:fixed; bottom:2rem; right:2rem; width:400px; background:#21262d; border:1px solid #30363d; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.3); transform:translateY(calc(100% + 2rem)); transition:transform 0.3s ease; z-index:200; }
     .ai-chat.open { transform:translateY(0); }
     .ai-chat-header { padding:0.75rem 1rem; border-bottom:1px solid #30363d; display:flex; align-items:center; justify-content:space-between; }
@@ -124,18 +126,39 @@
     /* Misc */
     .hidden-input { display:none; }
     .rename-input { background:#0d1117; border:1px solid #30363d; color:#e6edf3; padding:0.25rem 0.5rem; border-radius:4px; font-size:0.8rem; width:100%; }
+
+    /* Mobile Responsive */
     @media (max-width:768px) {
       .editor-container { flex-direction:column; }
       .editor-panel { border-right:none; border-bottom:1px solid #30363d; }
       .editor-panel, .preview-panel { height:50vh; }
       .modal, .file-modal { min-width:90vw; margin:1rem; }
       .ai-chat { width: calc(100vw - 2rem); right:1rem; bottom:1rem; }
+      
+      .mobile-view-toggle { display:block; }
+      .auto-refresh-toggle { display:none; }
+      
+      /* Mobile view states */
+      .mobile-editor-view .preview-panel { display:none; }
+      .mobile-preview-view .editor-panel { display:none; }
+      .mobile-editor-view .editor-panel, .mobile-preview-view .preview-panel { height:100vh; }
+      
+      .header-controls { flex-wrap:wrap; }
+      .save-editor-inputs { flex-direction:column; }
+      .save-editor-btn { width:100%; justify-content:center; }
+    }
+
+    @media (max-width:480px) {
+      .panel-header { padding:0.75rem 1rem; }
+      .editor-textarea { padding:1rem; font-size:13px; }
+      .file-modal { min-width:95vw; padding:1rem; }
+      .modal { padding:1.5rem; }
     }
   </style>
 </head>
 
 <body>
-  <div class="editor-container">
+  <div class="editor-container" id="editorContainer">
     <div class="editor-panel">
       <div class="panel-header">
         <div class="panel-title">
@@ -147,6 +170,7 @@
         </div>
 
         <div class="header-controls">
+          <button class="mobile-view-toggle" id="mobileToggle">Preview</button>
           <div class="status-indicator" id="saveStatus">Saved</div>
 
           <!-- File Management -->
@@ -166,19 +190,6 @@
         </div>
       </div>
 
-      <!-- Filename bar: type filename, choose folder, save editor content as file -->
-      <div class="filename-bar">
-        <input id="filenameInput" class="filename-input" type="text" />
-        <select id="filenameFolder" class="folder-select" title="Choose destination folder">
-          <option value="_drafts">Drafts (_drafts)</option>
-          <option value="_posts">Posts (_posts)</option>
-        </select>
-        <button id="saveEditorAsFile" class="save-editor-btn" title="Save current editor content to repository as a markdown file">
-          <span class="material-icons">save</span>
-          Save Editor
-        </button>
-      </div>
-
       <textarea class="editor-textarea" id="markdownEditor" placeholder="Write your post..."></textarea>
 
       <!-- AI Chat Interface -->
@@ -195,7 +206,7 @@
         </div>
         <div class="ai-chat-body">
           <div class="ai-input-area">
-            <textarea class="ai-input" id="aiInput" placeholder="Ask the assistant..."></textarea>
+            <textarea class="ai-input" id="aiInput" placeholder="Ask the assistant to help with your chess content..."></textarea>
             <button class="ai-send-btn" id="aiSendBtn" title="Send">
               <span class="material-icons" style="font-size:20px;">send</span>
             </button>
@@ -262,14 +273,29 @@
           </button>
         </div>
 
-        <!-- Upload zone (still supports dragging files) -->
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="fileUpload" multiple accept=".md,.markdown,image/*" />
-          <div>
-            <span class="material-icons" style="font-size:32px; margin-bottom:0.5rem;">cloud_upload</span>
-            <div>Drag files here or click to upload</div>
-            <div style="font-size:0.8rem; color:#7d8590; margin-top:0.5rem;">
-              Supports .md, .markdown files and images
+        <!-- Save current editor content as new file -->
+        <div class="save-editor-section">
+          <div class="save-editor-title">
+            <span class="material-icons">save</span>
+            Save Current Content
+          </div>
+          <div class="save-editor-form">
+            <div class="save-editor-inputs">
+              <div class="save-input-group">
+                <label class="form-label">Filename</label>
+                <input id="saveFilenameInput" class="save-filename-input" type="text" placeholder="Auto-generated filename" />
+              </div>
+              <div class="save-input-group">
+                <label class="form-label">Folder</label>
+                <select id="saveFolderSelect" class="save-folder-select">
+                  <option value="_drafts">Drafts</option>
+                  <option value="_posts">Posts</option>
+                </select>
+              </div>
+              <button id="saveEditorAsFile" class="save-editor-btn">
+                <span class="material-icons">save</span>
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -279,7 +305,7 @@
           <div class="empty-state" id="emptyState">
             <span class="material-icons">folder_open</span>
             <div>No files found</div>
-            <div style="font-size:0.8rem; margin-top:0.5rem;">Upload some files to get started</div>
+            <div style="font-size:0.8rem; margin-top:0.5rem;">Save your content above to create files</div>
           </div>
         </div>
       </div>
@@ -375,6 +401,10 @@
         this.refreshBtn = document.getElementById('refreshBtn');
         this.autoRefreshToggle = document.getElementById('autoRefreshToggle');
 
+        // Mobile toggle
+        this.mobileToggle = document.getElementById('mobileToggle');
+        this.editorContainer = document.getElementById('editorContainer');
+
         // GitHub elements
         this.githubModal = document.getElementById('githubModal');
         this.settingsBtn = document.getElementById('settingsBtn');
@@ -394,12 +424,10 @@
         this.loadSelectedFileBtn = document.getElementById('loadSelectedFile');
         this.fileList = document.getElementById('fileList');
         this.emptyState = document.getElementById('emptyState');
-        this.uploadZone = document.getElementById('uploadZone');
-        this.fileUpload = document.getElementById('fileUpload');
 
-        // Filename UI
-        this.filenameInput = document.getElementById('filenameInput');
-        this.filenameFolder = document.getElementById('filenameFolder');
+        // Save editor elements (moved to file modal)
+        this.saveFilenameInput = document.getElementById('saveFilenameInput');
+        this.saveFolderSelect = document.getElementById('saveFolderSelect');
         this.saveEditorAsFileBtn = document.getElementById('saveEditorAsFile');
 
         // AI Chat elements
@@ -421,6 +449,7 @@
         this.currentFolder = '_posts';
         this.selectedFile = null;
         this.files = { '_posts': [], '_drafts': [], 'images': [] };
+        this.mobileView = 'editor'; // 'editor' or 'preview'
 
         // GitHub state
         this.github = { connected: false, repo: null, token: null, owner: null, repoName: null };
@@ -434,12 +463,11 @@
         if (savedContent) {
           this.editor.value = savedContent;
         } else {
-          // User requested default frontmatter:
           this.editor.value = `---\ntitle: "Mastering Chess Openings"\ndate: 2025-08-08\nlayout: post\n---\n\nStart writing your chess post...`;
         }
 
         // Load saved filename value or compute
-        this.filenameInput.value = this.computeAutoFilename();
+        this.saveFilenameInput.value = this.computeAutoFilename();
 
         // Load saved GitHub credentials and AI settings
         this.loadSettings();
@@ -451,15 +479,15 @@
         // Update filename suggestions on editor input
         this.editor.addEventListener('input', () => {
           const auto = this.computeAutoFilename();
-          // only update filenameInput if user hasn't typed manually recently (simple heuristic)
-          if (!this.filenameInput.dataset.manuallyEdited) {
-            this.filenameInput.value = auto;
+          // only update saveFilenameInput if user hasn't typed manually recently
+          if (!this.saveFilenameInput.dataset.manuallyEdited) {
+            this.saveFilenameInput.value = auto;
           }
         });
 
-        this.filenameInput.addEventListener('input', () => {
+        this.saveFilenameInput.addEventListener('input', () => {
           // mark as manually edited if user changes it
-          this.filenameInput.dataset.manuallyEdited = '1';
+          this.saveFilenameInput.dataset.manuallyEdited = '1';
         });
 
         this.refreshBtn.addEventListener('click', () => this.updatePreview(true));
@@ -471,6 +499,9 @@
             this.updatePreview();
           }
         });
+
+        // Mobile toggle
+        this.mobileToggle.addEventListener('click', () => this.toggleMobileView());
 
         // GitHub event listeners
         this.settingsBtn.addEventListener('click', () => this.showGitHubModal());
@@ -488,12 +519,6 @@
         document.querySelectorAll('.file-tab').forEach(tab => {
           tab.addEventListener('click', () => this.switchFolder(tab.dataset.folder));
         });
-
-        // Upload zone
-        this.uploadZone.addEventListener('click', () => this.fileUpload.click());
-        this.uploadZone.addEventListener('dragover', (e) => this.handleDragOver(e));
-        this.uploadZone.addEventListener('drop', (e) => this.handleDrop(e));
-        this.fileUpload.addEventListener('change', () => this.handleFileUpload());
 
         // Save editor as file button
         this.saveEditorAsFileBtn.addEventListener('click', () => this.saveEditorAsFile());
@@ -527,6 +552,36 @@
 
         // Initialize preview
         this.setupPreviewFrame();
+
+        // Check mobile view
+        this.checkMobileView();
+        window.addEventListener('resize', () => this.checkMobileView());
+      }
+
+      checkMobileView() {
+        if (window.innerWidth <= 768) {
+          this.updateMobileView();
+        } else {
+          this.editorContainer.classList.remove('mobile-editor-view', 'mobile-preview-view');
+        }
+      }
+
+      toggleMobileView() {
+        this.mobileView = this.mobileView === 'editor' ? 'preview' : 'editor';
+        this.updateMobileView();
+      }
+
+      updateMobileView() {
+        if (window.innerWidth <= 768) {
+          this.editorContainer.classList.remove('mobile-editor-view', 'mobile-preview-view');
+          if (this.mobileView === 'editor') {
+            this.editorContainer.classList.add('mobile-editor-view');
+            this.mobileToggle.textContent = 'Preview';
+          } else {
+            this.editorContainer.classList.add('mobile-preview-view');
+            this.mobileToggle.textContent = 'Editor';
+          }
+        }
       }
 
       loadSettings() {
@@ -547,8 +602,20 @@
         if (savedGeminiKey) this.geminiApiKey.value = savedGeminiKey;
         if (savedSystemPrompt) this.aiSystemPrompt.value = savedSystemPrompt;
         else {
-          // default prompt
-          this.aiSystemPrompt.value = `You are a helpful chess writing assistant. You specialize in creating engaging chess blog posts. When asked to generate or edit chess content, respond with JSON in this exact format: {"content":"<the full markdown document>", "message":"<brief description>"}.\nMake sure chess FENs and move notation are correct.`;
+          // Enhanced default prompt with chess instructions and filename request
+          this.aiSystemPrompt.value = `You are a helpful chess writing assistant specializing in creating engaging chess blog posts. Follow the chess content guidelines from the README:
+
+- Use <chess-board> tags for interactive boards with FEN strings
+- Support highlight and arrows attributes for chess visualization
+- Ensure chess FENs and move notation are correct
+- Create engaging, educational content about chess
+
+When generating or editing content, respond with JSON in this exact format:
+{"content":"<the full markdown document>","message":"<brief description>","filename":"<suggested-filename.md>"}
+
+The filename should follow the format: YYYY-MM-DD-title-slug.md (e.g., "2025-08-09-mastering-chess-openings.md")
+
+Current document content is provided in the user message for context.`;
         }
         if (savedModelId) this.aiModelId.value = savedModelId;
         this.aiChatModelName.textContent = this.aiModelId.value;
@@ -564,6 +631,8 @@
         }
         this.fileModal.classList.add('show');
         this.loadFileList();
+        // Update filename when modal opens
+        this.saveFilenameInput.value = this.computeAutoFilename();
       }
       hideFileModal() {
         this.fileModal.classList.remove('show');
@@ -576,13 +645,6 @@
         document.querySelectorAll('.file-tab').forEach(tab => {
           tab.classList.toggle('active', tab.dataset.folder === folder);
         });
-        if (folder === 'images') {
-          this.fileUpload.accept = 'image/*';
-          this.uploadZone.querySelector('div > div:last-child').textContent = 'Supports images (jpg, png, gif, etc.)';
-        } else {
-          this.fileUpload.accept = '.md,.markdown';
-          this.uploadZone.querySelector('div > div:last-child').textContent = 'Supports .md, .markdown files';
-        }
         this.renderFileList();
       }
 
@@ -677,22 +739,44 @@
           const promises = folders.map(folder =>
             fetch(`https://api.github.com/repos/${this.github.repo}/contents/${folder}`, {
               headers: { 'Authorization': `Bearer ${this.github.token}`, 'Accept': 'application/vnd.github.v3+json' }
-            }).then(response => ({ folder, response })).catch(() => ({ folder, response: { ok: false, status: 404 } }))
+            }).then(async response => {
+              if (response.ok) {
+                const files = await response.json();
+                // Get additional file info including last modified date
+                const enrichedFiles = await Promise.all(files.map(async file => {
+                  if (file.type === 'file') {
+                    try {
+                      const commitResponse = await fetch(`https://api.github.com/repos/${this.github.repo}/commits?path=${folder}/${file.name}&per_page=1`, {
+                        headers: { 'Authorization': `Bearer ${this.github.token}`, 'Accept': 'application/vnd.github.v3+json' }
+                      });
+                      if (commitResponse.ok) {
+                        const commits = await commitResponse.json();
+                        if (commits.length > 0) {
+                          file.last_modified = commits[0].commit.committer.date;
+                        }
+                      }
+                    } catch (e) {
+                      // Ignore error, use default
+                    }
+                  }
+                  return file;
+                }));
+                return { folder, files: enrichedFiles };
+              } else {
+                return { folder, files: [] };
+              }
+            }).catch(() => ({ folder, files: [] }))
           );
           const results = await Promise.all(promises);
-          for (const { folder, response } of results) {
-            if (response.ok) {
-              const files = await response.json();
-              this.files[folder] = files.filter(file => {
-                if (folder === 'images') {
-                  return file.type === 'file' && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file.name);
-                } else {
-                  return file.type === 'file' && /\.(md|markdown)$/i.test(file.name);
-                }
-              });
-            } else {
-              this.files[folder] = [];
-            }
+          
+          for (const { folder, files } of results) {
+            this.files[folder] = files.filter(file => {
+              if (folder === 'images') {
+                return file.type === 'file' && /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file.name);
+              } else {
+                return file.type === 'file' && /\.(md|markdown)$/i.test(file.name);
+              }
+            });
           }
           this.renderFileList();
         } catch (error) {
@@ -708,32 +792,47 @@
             <div class="empty-state">
               <span class="material-icons">folder_open</span>
               <div>No ${this.currentFolder === 'images' ? 'images' : 'files'} found</div>
-              <div style="font-size:0.8rem; margin-top:0.5rem;">Upload some files to get started</div>
+              <div style="font-size:0.8rem; margin-top:0.5rem;">Save your content above to create files</div>
             </div>
           `;
           return;
         }
-        this.fileList.innerHTML = files.map(file => `
-          <div class="file-item" data-sha="${file.sha}" data-name="${file.name}" data-download-url="${file.download_url}">
-            <div class="file-info">
-              <div class="file-icon">
-                <span class="material-icons">${this.getFileIcon(file.name)}</span>
+        
+        // Sort files by last modified date (newest first)
+        const sortedFiles = [...files].sort((a, b) => {
+          const dateA = new Date(a.last_modified || 0);
+          const dateB = new Date(b.last_modified || 0);
+          return dateB - dateA;
+        });
+
+        this.fileList.innerHTML = sortedFiles.map(file => {
+          const lastModified = file.last_modified ? 
+            new Date(file.last_modified).toLocaleString() : 
+            'Unknown';
+          
+          return `
+            <div class="file-item" data-sha="${file.sha}" data-name="${file.name}" data-download-url="${file.download_url}">
+              <div class="file-info">
+                <div class="file-icon">
+                  <span class="material-icons">${this.getFileIcon(file.name)}</span>
+                </div>
+                <div class="file-details">
+                  <div class="file-name">${file.name}</div>
+                  <div class="file-meta">Size: ${this.formatFileSize(file.size)} • Modified: ${lastModified}</div>
+                </div>
               </div>
-              <div class="file-details">
-                <div class="file-name">${file.name}</div>
-                <div class="file-meta">Size: ${this.formatFileSize(file.size)} • Modified: ${new Date(file.last_modified || Date.now()).toLocaleDateString()}</div>
+              <div class="file-actions">
+                ${this.currentFolder !== 'images' ? `<button class="file-action-btn" onclick="window.editor.renameFile('${file.sha}', '${file.name}')" title="Rename">
+                  <span class="material-icons" style="font-size:16px;">edit</span>
+                </button>` : ''}
+                <button class="file-action-btn danger" onclick="window.editor.deleteFile('${file.sha}', '${file.name}')" title="Delete">
+                  <span class="material-icons" style="font-size:16px;">delete</span>
+                </button>
               </div>
             </div>
-            <div class="file-actions">
-              ${this.currentFolder !== 'images' ? `<button class="file-action-btn" onclick="window.editor.renameFile('${file.sha}', '${file.name}')" title="Rename">
-                <span class="material-icons" style="font-size:16px;">edit</span>
-              </button>` : ''}
-              <button class="file-action-btn danger" onclick="window.editor.deleteFile('${file.sha}', '${file.name}')" title="Delete">
-                <span class="material-icons" style="font-size:16px;">delete</span>
-              </button>
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
+        
         document.querySelectorAll('.file-item').forEach(item => {
           item.addEventListener('click', (e) => {
             if (e.target.closest('.file-actions')) return;
@@ -786,7 +885,7 @@
           const content = await response.text();
           this.editor.value = content;
           localStorage.setItem('chessMarkdownEditor', content);
-          this.filenameInput.value = this.computeAutoFilename(); // update autofill
+          this.saveFilenameInput.value = this.computeAutoFilename(); // update autofill
           this.showStatus(`Loaded ${this.selectedFile.name}`, 'success');
           if (this.autoRefresh) this.updatePreview();
           this.hideFileModal();
@@ -844,70 +943,17 @@
         }
       }
 
-      handleDragOver(e) { e.preventDefault(); this.uploadZone.classList.add('drag-over'); }
-      handleDrop(e) { e.preventDefault(); this.uploadZone.classList.remove('drag-over'); this.fileUpload.files = e.dataTransfer.files; this.handleFileUpload(); }
-      async handleFileUpload() {
-        const files = Array.from(this.fileUpload.files);
-        if (files.length === 0) return;
-        this.showStatus('Uploading files...', 'loading');
-        try {
-          for (const file of files) await this.uploadSingleFile(file);
-          this.showStatus(`Successfully uploaded ${files.length} file(s)!`, 'success');
-          this.loadFileList();
-        } catch (error) {
-          console.error('Upload error:', error);
-          this.showStatus(`Upload failed: ${error.message}`, 'error');
-        }
-        this.fileUpload.value = '';
-      }
-
-      async uploadSingleFile(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = async () => {
-            try {
-              const base64Content = reader.result.split(',')[1];
-              const filename = file.name;
-              let sha = null;
-              try {
-                const existingFileResponse = await fetch(`https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${filename}`, {
-                  headers: { 'Authorization': `Bearer ${this.github.token}`, 'Accept': 'application/vnd.github.v3+json' }
-                });
-                if (existingFileResponse.ok) {
-                  const existingFile = await existingFileResponse.json();
-                  sha = existingFile.sha;
-                }
-              } catch (error) { /* file may not exist */ }
-              const uploadData = { message: sha ? `Update ${filename}` : `Add ${filename}`, content: base64Content, branch: 'main' };
-              if (sha) uploadData.sha = sha;
-              const uploadResponse = await fetch(`https://api.github.com/repos/${this.github.repo}/contents/${this.currentFolder}/${filename}`, {
-                method: 'PUT',
-                headers: { 'Authorization': `Bearer ${this.github.token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                body: JSON.stringify(uploadData)
-              });
-              if (!uploadResponse.ok) {
-                const errorData = await uploadResponse.json();
-                throw new Error(errorData.message || `Failed to upload ${filename}`);
-              }
-              resolve(filename);
-            } catch (error) { reject(error); }
-          };
-          reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
-          reader.readAsDataURL(file);
-        });
-      }
-
-      // Save current editor content as a markdown file to the selected folder (without selecting an external file)
+      // Save current editor content as a markdown file to the selected folder
       async saveEditorAsFile() {
         if (!this.github.connected) {
           this.showStatus('Please connect to GitHub first', 'error');
           return;
         }
-        let folder = this.filenameFolder.value || '_drafts';
-        let filename = (this.filenameInput.value || '').trim();
+        let folder = this.saveFolderSelect.value || '_drafts';
+        let filename = (this.saveFilenameInput.value || '').trim();
         if (!filename) {
           filename = this.computeAutoFilename();
-          this.filenameInput.value = filename;
+          this.saveFilenameInput.value = filename;
         }
         // Ensure .md extension
         if (!/\.md$/i.test(filename)) filename = filename.replace(/\.+$/, '') + '.md';
@@ -970,8 +1016,8 @@
         // fallback
         const now = new Date();
         const pad = (n) => (n < 10 ? '0' + n : n);
-        const stamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-        return `draft${stamp}.md`;
+        const stamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+        return `draft-${stamp}.md`;
       }
 
       // AI helpers
@@ -1007,14 +1053,18 @@
         const systemPrompt = this.aiSystemPrompt.value;
         const modelId = this.aiModelId.value || 'gpt-4o-mini';
 
+        // Include current editor content in the message
+        const currentContent = this.editor.value;
+        const fullMessage = `Current document content:\n\`\`\`markdown\n${currentContent}\n\`\`\`\n\nUser request: ${message}`;
+
         const response = await fetch('https://models.inference.ai.azure.com/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.github.token}` },
           body: JSON.stringify({
             model: modelId,
             messages: [
-              { role: 'system', content: `${systemPrompt}\n\nIMPORTANT: Respond with valid JSON exactly like: {"content":"<full markdown>","message":"<short note>"}` },
-              { role: 'user', content: message }
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: fullMessage }
             ],
             temperature: 0.7,
             max_tokens: 4000
@@ -1029,7 +1079,6 @@
         this.processAIResponse(aiResponse);
       }
 
-      // Use Gemini generateContent with responseSchema so we receive structured JSON (content + message)
       async sendGeminiAIMessage(message) {
         const apiKey = this.geminiApiKey.value.trim();
         if (!apiKey) throw new Error('Please provide your Google Gemini API Key');
@@ -1037,10 +1086,13 @@
         const systemPrompt = this.aiSystemPrompt.value;
         const modelId = this.aiModelId.value || 'gemini-1.5-flash-latest';
 
-        // Build generationConfig similar to the example provided by user
+        // Include current editor content in the message  
+        const currentContent = this.editor.value;
+        const fullPrompt = `${systemPrompt}\n\nCurrent document content:\n\`\`\`markdown\n${currentContent}\n\`\`\`\n\nUser request: ${message}`;
+
         const requestBody = {
           contents: [{
-            parts: [{ text: `${systemPrompt}\n\nIMPORTANT: You MUST return valid JSON exactly in the shape: { "content": "<the full markdown content>", "message": "<brief note>" }.\nCurrent document content:\n${this.editor.value}\n\nUser request: ${message}` }]
+            parts: [{ text: fullPrompt }]
           }],
           generationConfig: {
             responseMimeType: "application/json",
@@ -1048,9 +1100,10 @@
               type: "OBJECT",
               properties: {
                 content: { type: "STRING" },
-                message: { type: "STRING" }
+                message: { type: "STRING" },
+                filename: { type: "STRING" }
               },
-              propertyOrdering: ["content", "message"]
+              propertyOrdering: ["content", "message", "filename"]
             },
             temperature: 0.7,
             maxOutputTokens: 4000
@@ -1070,26 +1123,18 @@
 
         const data = await response.json();
 
-        // Gemini response structure: inspect candidates -> content -> parts[].text
         let fullText = '';
         try {
           if (data && data.candidates && data.candidates.length) {
-            const c = data.candidates[0];
-            if (c && c.content && c.content.parts) {
-              for (const p of c.content.parts) {
-                if (p.text) fullText += p.text;
+            const candidate = data.candidates[0];
+            if (candidate && candidate.content && candidate.content.parts) {
+              for (const part of candidate.content.parts) {
+                if (part.text) fullText += part.text;
               }
             }
-          } else if (data.output && Array.isArray(data.output)) {
-            // fallback in case of different shape
-            for (const out of data.output) {
-              if (out.content && out.content[0] && out.content[0].text) fullText += out.content[0].text;
-            }
-          } else {
-            fullText = JSON.stringify(data);
           }
 
-          // sanitize code fences if present
+          // Clean up any markdown code fences
           if (fullText.startsWith('```json')) {
             fullText = fullText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
           } else if (fullText.startsWith('```')) {
@@ -1110,14 +1155,23 @@
             this.editor.value = jsonResponse.content;
             localStorage.setItem('chessMarkdownEditor', this.editor.value);
             if (this.autoRefresh) this.updatePreview();
+            
+            // Update filename if provided by AI
+            if (jsonResponse.filename) {
+              this.saveFilenameInput.value = jsonResponse.filename;
+              // Clear the manually edited flag since AI provided a new filename
+              delete this.saveFilenameInput.dataset.manuallyEdited;
+            } else {
+              // Fallback to computed filename
+              this.saveFilenameInput.value = this.computeAutoFilename();
+            }
+            
             this.showStatus(jsonResponse.message || 'Content updated by AI', 'success');
             this.toggleAIChat();
-            // update filename suggestion from new frontmatter
-            this.filenameInput.value = this.computeAutoFilename();
             return;
           }
         } catch (parseError) {
-          // try to extract JSON embedded in text
+          // Try to extract JSON embedded in text
           const jsonMatch = (aiResponse || '').toString().match(/\{[\s\S]*\}/);
           if (jsonMatch) {
             try {
@@ -1126,24 +1180,32 @@
                 this.editor.value = extracted.content;
                 localStorage.setItem('chessMarkdownEditor', this.editor.value);
                 if (this.autoRefresh) this.updatePreview();
+                
+                // Update filename if provided by AI
+                if (extracted.filename) {
+                  this.saveFilenameInput.value = extracted.filename;
+                  delete this.saveFilenameInput.dataset.manuallyEdited;
+                } else {
+                  this.saveFilenameInput.value = this.computeAutoFilename();
+                }
+                
                 this.showStatus(extracted.message || 'Content updated by AI', 'success');
                 this.toggleAIChat();
-                this.filenameInput.value = this.computeAutoFilename();
                 return;
               }
             } catch (innerErr) {
-              // fall through
+              // Fall through to final fallback
             }
           }
         }
 
-        // final fallback: treat response as direct markdown content
+        // Final fallback: treat response as direct markdown content
         this.editor.value = aiResponse;
         localStorage.setItem('chessMarkdownEditor', this.editor.value);
         if (this.autoRefresh) this.updatePreview();
+        this.saveFilenameInput.value = this.computeAutoFilename();
         this.showStatus('Content updated by AI', 'success');
         this.toggleAIChat();
-        this.filenameInput.value = this.computeAutoFilename();
       }
 
       setupPreviewFrame() {
@@ -1151,8 +1213,12 @@
         this.previewUrl.textContent = postHtmlUrl;
         this.previewFrame.src = postHtmlUrl;
         this.previewFrame.onload = () => {
-          this.previewLoading.style.display = 'none'; this.previewFrame.style.display = 'block';
-          setTimeout(() => { this.isFrameReady = true; this.updatePreview(); }, 500);
+          this.previewLoading.style.display = 'none'; 
+          this.previewFrame.style.display = 'block';
+          setTimeout(() => { 
+            this.isFrameReady = true; 
+            this.updatePreview(); 
+          }, 500);
         };
         this.previewFrame.onerror = () => {
           this.previewLoading.innerHTML = `
@@ -1165,9 +1231,16 @@
       }
 
       handleFrameMessage(event) {
-        if (event.data.type === 'preview-ready') { this.isFrameReady = true; this.updatePreview(); }
-        else if (event.data.type === 'preview-updated') { console.log('Preview updated successfully'); }
-        else if (event.data.type === 'preview-error') { console.error('Preview error:', event.data.error); }
+        if (event.data.type === 'preview-ready') { 
+          this.isFrameReady = true; 
+          this.updatePreview(); 
+        }
+        else if (event.data.type === 'preview-updated') { 
+          console.log('Preview updated successfully'); 
+        }
+        else if (event.data.type === 'preview-error') { 
+          console.error('Preview error:', event.data.error); 
+        }
       }
 
       handleEditorInput() {
@@ -1212,7 +1285,11 @@
           result.frontMatter = this.parseYAML(yamlMatch[1]);
           result.content = yamlMatch[2];
         } else {
-          result.frontMatter = { title: "Preview Post", date: new Date().toISOString().split('T')[0], layout: "post" };
+          result.frontMatter = { 
+            title: "Preview Post", 
+            date: new Date().toISOString().split('T')[0], 
+            layout: "post" 
+          };
           result.content = markdown.replace(/^---[\s\S]*?---\n?/, '');
         }
         return result;
@@ -1247,8 +1324,12 @@
 
       showStatus(message, type = 'info') {
         this.saveStatus.classList.remove('error', 'warning');
-        if (type === 'error') { this.saveStatus.classList.add('error'); }
-        else if (type === 'warning') { this.saveStatus.classList.add('warning'); }
+        if (type === 'error') { 
+          this.saveStatus.classList.add('error'); 
+        }
+        else if (type === 'warning') { 
+          this.saveStatus.classList.add('warning'); 
+        }
         this.saveStatus.textContent = message;
         this.saveStatus.classList.add('show');
         if (type !== 'loading') {
