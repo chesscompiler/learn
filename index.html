@@ -162,29 +162,6 @@ title: Chess Compiler Blog
     </div>
   </main>
   <script>
-    // Mobile nav toggle (same as main site)
-    const menuBtn = document.getElementById('menu-toggle');
-    const nav = document.getElementById('main-nav');
-    const glassNav = document.querySelector('.glass-nav');
-    menuBtn.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      menuBtn.classList.toggle('open');
-      document.body.classList.toggle('nav-open');
-      if (window.innerWidth <= 768) {
-        glassNav.classList.toggle('menu-open', nav.classList.contains('open'));
-      }
-    });
-    document.querySelectorAll('#main-nav a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        menuBtn.classList.remove('open');
-        document.body.classList.remove('nav-open');
-        if (window.innerWidth <= 768) {
-          glassNav.classList.remove('menu-open');
-        }
-      });
-    });
-
     // Lazy load images with skeleton animation
     document.querySelectorAll('.image-skeleton-container').forEach(container => {
       const img = container.querySelector('img');
@@ -201,6 +178,21 @@ title: Chess Compiler Blog
       }
     });
   </script>
+    <script type="module">
+        import { injectGlassNav } from '/nav-module/glassNav.js';
+        injectGlassNav({
+            navLinks: [
+                { href: '/board', label: 'Board' },
+                { href: '/puzzles', label: 'Puzzles' },
+                { href: '/videos', label: 'Videos' },
+                { href: '/', label: 'Get Started', cta: true }
+            ],
+            logoText: 'Chess Compiler',
+            logoImgAlt: 'Chess Compiler Logo',
+            logoImgWidth: 32,
+            logoImgHeight: 32
+        });
+    </script>
 </body>
 
 </html>
