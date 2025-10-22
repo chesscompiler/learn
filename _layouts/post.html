@@ -25,13 +25,13 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Chess Compiler">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
-<meta property="og:image" content="{% if page.image %}{% if page.image instanceof Array %}{{ page.image | first | absolute_url }}{% else %}{{ page.image | absolute_url }}{% endif %}{% else %}{{ site.url }}/assets/images/chess-compiler-logo.png{% endif %}">
+<meta property="og:image" content="{% if page.image %}{% if page.image.size > 0 %}{{ page.image | first | absolute_url }}{% else %}{{ page.image | absolute_url }}{% endif %}{% else %}{{ site.url }}/assets/images/chess-compiler-logo.png{% endif %}">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page.title }}">
 <meta name="twitter:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}">
-<meta name="twitter:image" content="{% if page.image %}{% if page.image instanceof Array %}{{ page.image | first | absolute_url }}{% else %}{{ page.image | absolute_url }}{% endif %}{% else %}{{ site.url }}/assets/images/chess-compiler-logo.png{% endif %}">
+<meta name="twitter:image" content="{% if page.image %}{% if page.image.size > 0 %}{{ page.image | first | absolute_url }}{% else %}{{ page.image | absolute_url }}{% endif %}{% else %}{{ site.url }}/assets/images/chess-compiler-logo.png{% endif %}">
 
 <!-- Fonts / styles -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -55,7 +55,7 @@
   "inLanguage": "{{ page.lang | default: 'en-US' }}",
   "image": [
     {%- if page.image -%}
-      {%- if page.image instanceof Array -%}
+      {%- if page.image.size > 0 -%}
         {%- for img in page.image -%}
           "{{ img | absolute_url }}" {%- unless forloop.last -%},{%- endunless -%}
         {%- endfor -%}
@@ -331,7 +331,7 @@
     //(function () {
       const pieceImages = {
         'K': 'wK', 'Q': 'wQ', 'R': 'wR', 'B': 'wB', 'N': 'wN', 'P': 'wP',
-        'k': 'bK', 'q': 'bQ', 'r': 'bR', 'b': 'bB', 'n': 'bN', 'p': 'bP'
+        'k': 'bK', 'q': 'bQ', 'r': 'bR', 'n': 'bN', 'p': 'bP'
       };
       const baseImageUrl = '/assests/';
       function renderChessBoard(el, fen, highlights, arrows) {
