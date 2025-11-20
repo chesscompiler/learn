@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
       let theme = 'light';
-      // Check documentElement because the script applies it there, but let's check body/html compat
       const root = document.documentElement;
 
       if (root.classList.contains('light-theme')) {
@@ -27,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Search Logic ---
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
-  const blogList = document.getElementById('blog-list'); // The original list to hide (if present)
+  const blogList = document.getElementById('blog-list');
   const searchStatus = document.getElementById('search-status');
 
   // Global access to ad config for search results
   let globalAdSnippet = null;
+  let searchActive = false; // To track if a search is active waiting for ads
 
   // --- Ad Injection System Helpers ---
   function constructAd(snippet) {
@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If query param exists, set input
     if (queryParam) {
       searchInput.value = queryParam;
+      searchActive = true;
     }
 
     // Fetch the search index
@@ -102,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch(query) {
       if (query.length === 0) {
+        searchActive = false;
         searchResults.style.display = 'none';
         searchResults.innerHTML = '';
         if (blogList) blogList.style.display = 'grid'; // Show original list
         if (searchStatus) searchStatus.innerText = '';
 
-        // Clear query param without refreshing
         const url = new URL(window.location);
         url.searchParams.delete('q');
         url.searchParams.delete('tag');
@@ -116,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      if (blogList) blogList.style.display = 'none'; // Hide original list
+      searchActive = true;
+      if (blogList) blogList.style.display = 'none';
       searchResults.style.display = 'grid';
 
       const filteredPosts = posts.filter(post => {
@@ -126,10 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return titleMatch || excerptMatch || tagsMatch;
       });
 
-      // Update URL with query param
       const url = new URL(window.location);
       url.searchParams.set('q', query);
-      // If on specific page, maybe nice to see, but main usage is linking
       window.history.replaceState({}, '', url);
 
       displayResults(filteredPosts, query);
@@ -145,14 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchStatus) searchStatus.innerText = `${results.length} result${results.length === 1 ? '' : 's'} found`;
 
-    // Clear results
     searchResults.innerHTML = '';
 
     const isDesktop = window.innerWidth >= 1024;
 
     results.forEach((post, index) => {
-      // Create post card string or element. Here we are using innerHTML injection.
-      // We can construct the HTML string.
       const cardHtml = `
       <div class="blog-card glass-panel">
         ${post.image ? `
@@ -176,17 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       `;
 
-      // Inject post
       searchResults.insertAdjacentHTML('beforeend', cardHtml);
 
-      // Mobile Search Ad Injection Logic
-      // Inject after 2nd item (index 1) if we have a global snippet and it's mobile
-      // Limit to 1 ad for search results to be safe/unobtrusive, or max 3 total?
-      // Let's just add one after the 2nd result.
+      // Mobile Search Ad Injection: Inject after 2nd item (index 1)
       if (!isDesktop && globalAdSnippet && index === 1) {
          const adWrapper = constructAd(globalAdSnippet);
-         // We need to insert this element. But we are doing string injection for posts.
-         // So we append the element.
          searchResults.appendChild(adWrapper);
       }
     });
@@ -194,43 +185,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function highlightMatch(text, query) {
       if (!query) return text;
-      // Simple highlight
       const regex = new RegExp(`(${query})`, 'gi');
       return text.replace(regex, '<span class="highlight">$1</span>');
   }
 
   // --- Ad Injection System ---
   (function() {
-    const AD_CONFIG_URL = '/learn/assets/js/ad_config.json';
+    const baseUrl = window.location.pathname.startsWith('/learn') ? '/learn' : '';
+    const AD_CONFIG_URL = `${baseUrl}/assets/js/ad_config.json`;
     const MAX_ADS_PER_PAGE = 3;
 
     function injectAds(config) {
+      console.log('Ad config loaded:', config);
       const snippets = config.adSnippets;
       if (!snippets || !snippets.length) return;
 
-      globalAdSnippet = snippets[0]; // Store for Search Usage
+      globalAdSnippet = snippets[0];
+
+      // If search is active, we might need to re-render results to show ads
+      // But wait, displayResults uses globalAdSnippet. If we re-render, it will pick it up.
+      if (searchActive && searchInput && searchInput.value) {
+          // Trigger search again to inject ads into results if results are already shown
+          searchInput.dispatchEvent(new Event('input'));
+      }
 
       const width = window.innerWidth;
-      const isDesktop = width >= 1024; // Large screen threshold
+      const isDesktop = width >= 1024;
 
       let placed = 0;
       const snippet = snippets[0];
 
       if (isDesktop) {
-        // Desktop Logic: Side of the page
-
-        // Relaxed logic: Allow sidebar if margin is at least 250px
-        // Sidebar width can be 220px to fit better.
         const contentWidth = 800;
         const margin = (width - contentWidth) / 2;
         const sidebarWidth = 240;
 
-        if (margin > (sidebarWidth + 40)) { // 20px padding each side
+        // Relaxed Logic: Check if we have space, or if very large screen
+        // Or just check if margin > sidebarWidth + padding
+        if (margin > (sidebarWidth + 20)) {
+          console.log('Injecting desktop sidebar ads');
           const sideContainer = document.createElement('div');
           sideContainer.id = 'ad-sidebar-right';
           sideContainer.style.position = 'fixed';
           sideContainer.style.top = '150px';
-          // Position it nicely in the margin
+
           const rightPos = (margin - sidebarWidth) / 2;
           sideContainer.style.right = Math.max(20, rightPos) + 'px';
           sideContainer.style.width = sidebarWidth + 'px';
@@ -247,31 +245,47 @@ document.addEventListener('DOMContentLoaded', () => {
              sideContainer.appendChild(ad);
              placed++;
           }
+        } else {
+            console.log('Not enough space for sidebar ads. Margin:', margin);
         }
 
       } else {
-        // Mobile Logic: Randomly after sections like h tags (only for blogs/reading pages)
+        // Mobile Logic
         const articleBody = document.querySelector('.markdown-body');
         if (articleBody) {
-          const headings = Array.from(articleBody.querySelectorAll('h2, h3'));
-          // Shuffle
-          headings.sort(() => Math.random() - 0.5);
+          let targets = Array.from(articleBody.querySelectorAll('h2, h3'));
 
-          for (const h of headings) {
-            if (placed >= MAX_ADS_PER_PAGE) break;
-            const ad = constructAd(snippet);
-            // Insert after the heading
-            h.parentNode.insertBefore(ad, h.nextSibling);
-            placed++;
+          // Fallback to paragraphs if no headings
+          if (targets.length === 0) {
+             console.log('No headings found, using paragraphs for ad injection.');
+             targets = Array.from(articleBody.querySelectorAll('p'));
+             // Filter out short paragraphs or p in blockquotes if possible? No, keep simple.
+          }
+
+          if (targets.length > 0) {
+             console.log(`Found ${targets.length} targets for ad injection.`);
+             targets.sort(() => Math.random() - 0.5);
+
+             for (const t of targets) {
+                if (placed >= MAX_ADS_PER_PAGE) break;
+                const ad = constructAd(snippet);
+                t.parentNode.insertBefore(ad, t.nextSibling);
+                placed++;
+             }
+          } else {
+              console.log('No suitable targets found for mobile ad injection.');
           }
         }
-        // Note: Search page mobile injection is handled in displayResults
       }
     }
 
     // Initialize
+    console.log('Fetching ad config from:', AD_CONFIG_URL);
     fetch(AD_CONFIG_URL)
-      .then(r => r.json())
+      .then(r => {
+          if (!r.ok) throw new Error('Network response was not ok ' + r.statusText);
+          return r.json();
+      })
       .then(injectAds)
       .catch(e => console.warn('Ad config not loaded', e));
 
