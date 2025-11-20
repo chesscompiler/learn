@@ -1,5 +1,5 @@
 {% assign related_posts = "" | split: "" %}
-{% assign max_related = 3 %}
+{% assign max_related = 4 %}
 {% assign min_common_tags = 1 %}
 
 {% for post in site.posts %}
@@ -29,12 +29,23 @@
 {% endif %}
 
 {% if related_posts.size > 0 %}
-<section class="related-posts" style="margin-top: 4rem; border-top: 1px solid var(--card-border); padding-top: 2rem;">
-  <h3 style="color: var(--purple1); margin-bottom: 1.5rem;">Related Posts</h3>
-  <div class="blog-list">
-    {% for post in related_posts limit:3 %}
-      {% include post-card.html post=post %}
+<div class="sidebar-related">
+  <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 1rem; margin-top: 0;">Related Posts</h3>
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for post in related_posts limit:4 %}
+      <a href="{{ post.url | relative_url }}" class="compact-card">
+        {% if post.image %}
+        <div class="compact-card-bg" style="background-image: url('{{ post.image | relative_url }}');"></div>
+        {% else %}
+        <div class="compact-card-bg" style="background-color: var(--card-bg);"></div>
+        {% endif %}
+        <div class="compact-card-overlay"></div>
+        <div class="compact-card-content">
+           <div class="compact-card-title">{{ post.title }}</div>
+           <div class="compact-card-date">{{ post.date | date: "%B %d, %Y" }}</div>
+        </div>
+      </a>
     {% endfor %}
   </div>
-</section>
+</div>
 {% endif %}

@@ -2,16 +2,16 @@
 layout: default
 title: Chess Compiler Learn
 ---
-<div style="text-align: center; margin-bottom: 4rem;">
-  <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--blue1);">Learn Chess</h1>
-  <p style="font-size: 1.2rem; color: var(--text-sub); max-width: 600px; margin: 0 auto;">
-    Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates.
+<div class="hero-section" style="text-align: center; padding: 2rem 0 4rem 0;">
+  <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(90deg, var(--blue1), var(--purple2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Master the Board</h1>
+  <p style="font-size: 1.25rem; color: var(--text-sub); max-width: 650px; margin: 0 auto; line-height: 1.6;">
+    Deepen your understanding of chess with our tutorials, strategy guides, and interactive puzzles.
   </p>
 </div>
 
 {% include search.html %}
 
-<div id="blog-list" class="blog-list">
+<div id="blog-list" class="blog-list" style="margin-top: 3rem;">
   {% for post in paginator.posts %}
     {% include post-card.html post=post %}
   {% endfor %}

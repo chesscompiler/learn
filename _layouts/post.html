@@ -1,44 +1,48 @@
 ---
 layout: default
 ---
-<article class="markdown-body glass-panel" style="padding: 2rem;">
-  <h1>{{ page.title }}</h1>
+<div class="post-layout-grid">
+    <!-- Main Content Column -->
+    <article class="markdown-body glass-panel" style="padding: 2.5rem;">
+      <h1 style="margin-top: 0;">{{ page.title }}</h1>
 
-  <div class="post-meta" style="color: var(--text-muted); font-size: 0.95em; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-    <div>
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-      {% if page.last_modified_at %}
-      • Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B %d, %Y" }}</time>
+      <div class="post-meta" style="color: var(--text-muted); font-size: 0.95em; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
+        <div>
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+          {% if page.last_modified_at %}
+          • Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%B %d, %Y" }}</time>
+          {% endif %}
+        </div>
+
+        {% if page.tags %}
+        <div class="tags-container" style="margin: 0;">
+          {% for tag in page.tags %}
+            <a href="{{ '/search/?q=' | append: tag | relative_url }}" class="tag-chip">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {% if page.image %}
+      <div class="article-image-wrapper">
+        <img src="{{ page.image }}" alt="{{ page.title }}" style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.1);" />
+      </div>
       {% endif %}
-    </div>
 
-    {% if page.tags %}
-    <div class="tags-container">
-      {% for tag in page.tags %}
-        <a href="{{ '/tags/' | append: tag | slugify | append: '/' | relative_url }}" class="tag-chip">{{ tag }}</a>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
+      {{ content }}
+    </article>
 
-  {% if page.image %}
-  <div class="article-image-wrapper">
-    <img src="{{ page.image }}" alt="{{ page.title }}" style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem;" />
-  </div>
-  {% endif %}
+    <!-- Sidebar Column -->
+    <aside class="sidebar">
+        {% include related-posts.html %}
+    </aside>
+</div>
 
-  {{ content }}
-</article>
-
-{% include related-posts.html %}
 
 <style>
   /* Inline overrides for specific post layout needs if any */
   .inline-chess-board-container { display: flex; justify-content: center; margin: 2em 0; }
-  /* Styles for the chess board renderer are now expected to be either in learn.css or inline here.
-     Since the previous post.html had a large script for rendering chess boards, we need to preserve that functionality.
-     I will re-add the chess board script below.
-  */
+  /* Styles for the chess board renderer */
   .inline-chess-board { position: relative; border: 3px solid #2d3748; border-radius: 8px; background: #2d3748; display: inline-block; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
   .inline-chess-board-grid { display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); }
   .inline-chess-square { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 22px; position: relative; transition: all 0.2s; z-index: 1; }
@@ -55,9 +59,9 @@ layout: default
 </style>
 
 <script>
-    // Inline Chess Board Renderer for blog posts (Preserved from original)
+    // Inline Chess Board Renderer for blog posts
     const pieceImages = { 'K':'wK','Q':'wQ','R':'wR','B':'wB','N':'wN','P':'wP','k':'bK','q':'bQ','r':'bR','b':'bB','n':'bN','p':'bP' };
-    const baseImageUrl = '/assests/'; // Note: Typo in original code 'assests' preserved, check if it should be 'assets'
+    const baseImageUrl = '/assests/'; // Note: Typo in original code 'assests' preserved
 
     function renderChessBoard(el, fen, highlights, arrows) {
       const container = document.createElement('div');

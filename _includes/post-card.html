@@ -6,7 +6,7 @@
     {% if include.post.tags %}
     <div class="tags-container">
       {% for tag in include.post.tags %}
-        <a href="{{ '/tags/' | append: tag | slugify | append: '/' | relative_url }}" class="tag-chip mini">{{ tag }}</a>
+        <a href="{{ '/search/?q=' | append: tag | relative_url }}" class="tag-chip mini">{{ tag }}</a>
       {% endfor %}
     </div>
     {% endif %}

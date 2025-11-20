@@ -1,10 +1,21 @@
 {% assign recent_posts = site.posts | slice: 0, 4 %}
 {% if recent_posts.size > 0 %}
-<section class="recent-posts" style="margin-top: 3rem;">
-  <h2 style="color: var(--blue1); margin-bottom: 1.5rem;">Recent Posts</h2>
-  <div class="blog-list">
+<section class="recent-posts" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--card-border);">
+  <h2 style="color: var(--text-main); margin-bottom: 1.5rem;">Latest Updates</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
     {% for post in recent_posts %}
-      {% include post-card.html post=post %}
+      <a href="{{ post.url | relative_url }}" class="compact-card" style="height: 220px;">
+        {% if post.image %}
+        <div class="compact-card-bg" style="background-image: url('{{ post.image | relative_url }}');"></div>
+        {% else %}
+        <div class="compact-card-bg" style="background-color: var(--card-bg);"></div>
+        {% endif %}
+        <div class="compact-card-overlay"></div>
+        <div class="compact-card-content">
+           <div class="compact-card-title" style="font-size: 1.2rem;">{{ post.title }}</div>
+           <div class="compact-card-date">{{ post.date | date: "%B %d, %Y" }}</div>
+        </div>
+      </a>
     {% endfor %}
   </div>
 </section>

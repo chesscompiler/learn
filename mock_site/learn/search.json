@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Mastering Chess Strategy",
+    "url": "/learn/mastering-chess-strategy.html",
+    "date": "2023-10-27",
+    "excerpt": "Learn the core principles of chess strategy...",
+    "tags": "strategy, guide",
+    "image": "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "title": "Openings for Beginners",
+    "url": "/learn/openings.html",
+    "date": "2023-11-01",
+    "excerpt": "Start your game strong with these openings...",
+    "tags": "openings, beginners",
+    "image": ""
+  },
+    {
+    "title": "Advanced Tactics",
+    "url": "/learn/tactics.html",
+    "date": "2023-11-05",
+    "excerpt": "Tactical patterns you must know...",
+    "tags": "tactics, strategy",
+    "image": "https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  }
+]
