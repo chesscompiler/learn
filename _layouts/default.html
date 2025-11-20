@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body>
+
+  <!-- External Nav Injection -->
+  <script type="module">
+    import { injectGlassNav } from '/nav-module/glassNav.js';
+    injectGlassNav({
+      navLinks: [
+        { href: '/learn', label: 'Learn' },
+        { href: '/board', label: 'Board' },
+        { href: '/videos', label: 'Videos' },
+        { href: '/', label: 'Get Started', cta: true }
+      ],
+      logoText: 'Chess Compiler',
+      logoImgAlt: 'Chess Compiler Logo',
+      logoImgWidth: 32,
+      logoImgHeight: 32
+    });
+  </script>
+
+  <main class="main-content">
+    {{ content }}
+  </main>
+
+  {% include theme-toggle.html %}
+  {% include footer.html %}
+
+</body>
+</html>

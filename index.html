@@ -1,201 +1,38 @@
 ---
 layout: default
-title: Chess Compiler Blog
+title: Chess Compiler Learn
 ---
-<!DOCTYPE html>
-<html lang="en">
+<div style="text-align: center; margin-bottom: 4rem;">
+  <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--blue1);">Learn Chess</h1>
+  <p style="font-size: 1.2rem; color: var(--text-sub); max-width: 600px; margin: 0 auto;">
+    Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates.
+  </p>
+</div>
 
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3G0720L78"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+{% include search.html %}
 
-    gtag('config', 'G-W3G0720L78');
-  </script>
-  <meta charset="UTF-8">
-  <title>Chess Compiler Learn - Chess Blogs & Tutorials in 3D</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://chesscompiler.github.io/learn/">
-  <meta name="description"
-    content="Chess Compiler Learn: Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
-  <meta name="keywords"
-    content="chess, chess tutorials, chess blogs, chess lessons, chess puzzles, 3D chess, learn chess, chess strategy, chess tips, chess guides, chesscompiler">
-  <meta property="og:title" content="Chess Compiler Learn - Chess Blogs & Tutorials in 3D">
-  <meta property="og:description"
-    content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Chess Compiler">
-  <meta property="og:url" content="https://chesscompiler.github.io/learn/">
-  <meta property="og:image" content="https://chesscompiler.github.io/assets/og-learn.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chess Compiler Learn - Chess Blogs & Tutorials in 3D">
-  <meta name="twitter:description"
-    content="Explore 3D chess tutorials, strategy blogs, puzzles, and platform updates. Improve your chess with our educational content and guides.">
-  <meta name="twitter:image" content="https://chesscompiler.github.io/assets/og-learn.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="learn.css">
-  <style>
-    .skeleton {
-      width: 100%;
-      height: 60px;
-      background: linear-gradient(90deg, #23272f 25%, #2d3748 50%, #23272f 75%);
-      background-size: 200% 100%;
-      animation: skeleton-loading 1.2s infinite linear;
-      border-radius: 8px;
-      display: block;
-    }
+<div id="blog-list" class="blog-list">
+  {% for post in paginator.posts %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>
 
-    @keyframes skeleton-loading {
-      0% {
-        background-position: 200% 0;
-      }
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | relative_url }}" class="previous">Previous</a>
+  {% else %}
+    <span class="previous disabled">Previous</span>
+  {% endif %}
 
-      100% {
-        background-position: -200% 0;
-      }
-    }
+  <span class="current">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
 
-    .blog-card img {
-      display: none;
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
+  {% else %}
+    <span class="next disabled">Next</span>
+  {% endif %}
+</div>
+{% endif %}
 
-    .blog-card img.loaded {
-      display: block;
-    }
-
-    .blog-card .skeleton.hide {
-      display: none;
-    }
-
-    /* Responsive blog card text truncation */
-    .blog-card-text {
-      max-height: 4.5em;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      margin-bottom: 0.5em;
-    }
-
-    .blog-title {
-      display: block;
-      font-weight: 600;
-      font-size: 1.1em;
-      margin-bottom: 0.3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .blog-desc {
-      font-size: 0.98em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      white-space: normal;
-      max-height: 2.8em;
-    }
-  </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Chess Compiler Learn",
-    "description": "Chess blogs and tutorials: 3D chess lessons, strategy guides, and puzzles.",
-    "url": "https://chesscompiler.github.io/learn/",
-    "about": [
-      { "@type": "Thing", "name": "Chess" },
-      { "@type": "Thing", "name": "Chess Compiler" },
-      { "@type": "Thing", "name": "Chess Strategy" },
-      { "@type": "Thing", "name": "Chess Puzzles" },
-      { "@type": "Thing", "name": "Chess Lessons" },
-      { "@type": "Thing", "name": "3D Chess" },
-      { "@type": "Thing", "name": "Chess Tips" },
-      { "@type": "Thing", "name": "Chess Guides" },
-      { "@type": "Thing", "name": "Chess Tutorials" },
-      { "@type": "Thing", "name": "Chess Blogs" }
-    ]
-  }
-  </script>
-</head>
-
-<body>
-  <main class="main-content">
-    <h1 style="margin-bottom:2rem;">Learn</h1>
-    <div id="blog-list" class="blog-list" style="display: grid;">
-      {% for post in site.posts %}
-      <div class="blog-card">
-        <div class="blog-card-text">
-          <a href="{{ post.url | prepend: '/learn' }}" class="blog-title">{{ post.title }}</a>
-          <div class="blog-desc">{{ post.excerpt | strip_html | truncate: 150 }}</div>
-        </div>
-        {% if post.image %}
-        <div class="image-skeleton-container">
-          <span class="skeleton"></span>
-          <img data-src="{{ post.image }}" alt="{{ post.title }}" />
-          <div class="blog-date">{{ post.date | date: "%Y-%m-%d" }}</div>
-        </div>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
-  </main>
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/learn">Learn</a>
-        <a href="/board">Board</a>
-        <a href="/videos">Puzzles</a>
-        <a href="/#features">Features</a>
-      </div>
-      <div class="footer-copy">
-        &copy; {% assign year = "now" | date: "%Y" %} Chess Compiler. All rights reserved.
-      </div>
-    </div>
-  </footer>
-  <script>
-    // Lazy load images with skeleton animation
-    document.querySelectorAll('.image-skeleton-container').forEach(container => {
-      const img = container.querySelector('img');
-      const skeleton = container.querySelector('.skeleton');
-      if (img && skeleton) {
-        // Simulate slow loading
-        setTimeout(() => {
-          img.src = img.getAttribute('data-src');
-          img.onload = () => {
-            img.classList.add('loaded');
-            skeleton.classList.add('hide');
-          };
-        }, 600 + Math.random() * 800); // 600-1400ms delay
-      }
-    });
-  </script>
-    <script type="module">
-        import { injectGlassNav } from '/nav-module/glassNav.js';
-        injectGlassNav({
-            navLinks: [
-                { href: '/board', label: 'Board' },
-                { href: '/videos', label: 'Videos' },
-                { href: '/', label: 'Get Started', cta: true }
-            ],
-            logoText: 'Chess Compiler',
-            logoImgAlt: 'Chess Compiler Logo',
-            logoImgWidth: 32,
-            logoImgHeight: 32
-        });
-    </script>
-</body>
-
-</html>
-
+{% include recent-posts.html %}

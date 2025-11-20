@@ -1,0 +1,23 @@
+<div class="blog-card glass-panel">
+  <div class="blog-card-text">
+    <a href="{{ include.post.url | relative_url }}" class="blog-title">{{ include.post.title }}</a>
+    <div class="blog-desc">{{ include.post.excerpt | strip_html | truncate: 120 }}</div>
+
+    {% if include.post.tags %}
+    <div class="tags-container">
+      {% for tag in include.post.tags %}
+        <a href="{{ '/tags/' | append: tag | slugify | append: '/' | relative_url }}" class="tag-chip mini">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% if include.post.image %}
+  <div class="image-skeleton-container">
+    <img src="{{ include.post.image }}" alt="{{ include.post.title }}" loading="lazy" />
+    <div class="blog-date">{{ include.post.date | date: "%Y-%m-%d" }}</div>
+  </div>
+  {% else %}
+    <div class="blog-date">{{ include.post.date | date: "%Y-%m-%d" }}</div>
+  {% endif %}
+</div>

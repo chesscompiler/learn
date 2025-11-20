@@ -1,0 +1,11 @@
+{% assign recent_posts = site.posts | slice: 0, 4 %}
+{% if recent_posts.size > 0 %}
+<section class="recent-posts" style="margin-top: 3rem;">
+  <h2 style="color: var(--blue1); margin-bottom: 1.5rem;">Recent Posts</h2>
+  <div class="blog-list">
+    {% for post in recent_posts %}
+      {% include post-card.html post=post %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

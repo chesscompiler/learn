@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<div style="text-align: center; margin-bottom: 3rem;">
+  <h1 style="margin-bottom: 0.5rem; color: var(--blue1);">Tag: {{ page.tag }}</h1>
+  <p style="color: var(--text-sub);">All posts tagged with "{{ page.tag }}"</p>
+</div>
+
+<div class="blog-list">
+  {% for post in site.tags[page.tag] %}
+    {% include post-card.html post=post %}
+  {% endfor %}
+</div>
+
+<div style="text-align: center; margin-top: 3rem;">
+  <a href="{{ '/tags/' | relative_url }}" class="tag-chip">← View All Tags</a>
+</div>

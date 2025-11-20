@@ -2,6 +2,7 @@
 title: "🧠 How to Play Chess: The Ultimate Beginner’s Guide ♟️"
 slug: "how-to-play-chess"
 date: 2025-06-21
+tags: ["beginners", "rules", "guides"]
 image: "https://chesscompiler.github.io/learn/images/beginner-guide.png"
 layout: post
 ---

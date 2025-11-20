@@ -7,11 +7,15 @@ theme: null
 
 plugins:
   - jekyll-sitemap
+  - jekyll-paginate
+
+paginate: 5
+paginate_path: "/page:num/"
 
 social:
   instagram: "chesscompiler"
   youtube: "chesscompiler"
 
 # 📁 Folders and files to include in the site output
-include:          # <--- ADD THIS SECTION
+include:
   - "_layouts"
