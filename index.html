@@ -2,16 +2,18 @@
 layout: default
 title: Chess Compiler Learn
 ---
-<div class="hero-section" style="text-align: center; padding: 2rem 0 4rem 0;">
-  <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(90deg, var(--blue1), var(--purple2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Master the Board</h1>
-  <p style="font-size: 1.25rem; color: var(--text-sub); max-width: 650px; margin: 0 auto; line-height: 1.6;">
-    Deepen your understanding of chess with our tutorials, strategy guides, and interactive puzzles.
-  </p>
-</div>
+<section class="hero-wrapper">
+  <div class="hero-content">
+    <h1 class="hero-title">Master the <span class="gradient-text">Board</span></h1>
+    <p class="hero-subtitle">
+      Deepen your understanding of chess with our tutorials, strategy guides, and interactive puzzles.
+    </p>
+  </div>
+</section>
 
 {% include search.html %}
 
-<div id="blog-list" class="blog-list" style="margin-top: 3rem;">
+<div id="blog-list" class="blog-list">
   {% for post in paginator.posts %}
     {% include post-card.html post=post %}
   {% endfor %}

@@ -1,35 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
   // --- Theme Toggle Logic ---
   const themeToggleBtn = document.getElementById('theme-toggle');
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-  // Load saved preference or default to system
-  const currentTheme = localStorage.getItem('theme');
-  if (currentTheme == 'dark') {
-    document.body.classList.add('dark-theme');
-    document.body.classList.remove('light-theme');
-  } else if (currentTheme == 'light') {
-    document.body.classList.add('light-theme');
-    document.body.classList.remove('dark-theme');
-  } else {
-    // System preference
-    if (prefersDarkScheme.matches) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.add('light-theme');
-    }
-  }
+  // Note: Initial theme application is now handled by _includes/theme-script.html
+  // to prevent flash of unstyled content (FOUC).
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
       let theme = 'light';
-      if (document.body.classList.contains('light-theme')) {
-        document.body.classList.remove('light-theme');
-        document.body.classList.add('dark-theme');
+      // Check documentElement because the script applies it there, but let's check body/html compat
+      const root = document.documentElement;
+
+      if (root.classList.contains('light-theme')) {
+        root.classList.remove('light-theme');
+        root.classList.add('dark-theme');
         theme = 'dark';
       } else {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
+        root.classList.remove('dark-theme');
+        root.classList.add('light-theme');
         theme = 'light';
       }
       localStorage.setItem('theme', theme);
