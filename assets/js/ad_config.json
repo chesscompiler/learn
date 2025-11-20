@@ -1,0 +1,8 @@
+{
+  "adSnippets": [
+    {
+      "id": "effectivegate_invoke_with_container",
+      "jsFactory": "(function(){var elements=[];var container=document.createElement('div');container.id='container-4e70c622bc7d08e4dd45af01392614e4';elements.push(container);var s=document.createElement('script');s.async=true;s.setAttribute('data-cfasync','false');s.src=(location.protocol==='https:'?'https:':'http:')+'//pl28100079.effectivegatecpm.com/4e70c622bc7d08e4dd45af01392614e4/invoke.js';elements.push(s);return {elements:elements};})"
+    }
+  ]
+}

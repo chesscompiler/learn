@@ -30,6 +30,47 @@ document.addEventListener('DOMContentLoaded', () => {
   const blogList = document.getElementById('blog-list'); // The original list to hide (if present)
   const searchStatus = document.getElementById('search-status');
 
+  // Global access to ad config for search results
+  let globalAdSnippet = null;
+
+  // --- Ad Injection System Helpers ---
+  function constructAd(snippet) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'ad-wrapper glass-panel';
+    // "curvy" and "default show text"
+    wrapper.style.borderRadius = '16px';
+    wrapper.style.padding = '1rem';
+    wrapper.style.margin = '2rem auto';
+    wrapper.style.textAlign = 'center';
+    wrapper.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+    wrapper.style.border = '1px solid var(--card-border)';
+    wrapper.style.overflow = 'hidden';
+
+    // Default text
+    const text = document.createElement('div');
+    text.innerText = 'Advertisement';
+    text.style.color = 'var(--text-muted)';
+    text.style.fontSize = '0.85rem';
+    text.style.marginBottom = '0.5rem';
+    text.style.textTransform = 'uppercase';
+    text.style.letterSpacing = '0.05em';
+    wrapper.appendChild(text);
+
+    // Execute factory
+    try {
+      const factory = new Function('return ' + snippet.jsFactory)();
+      const result = factory();
+      if (result && result.elements) {
+        result.elements.forEach(el => wrapper.appendChild(el));
+      }
+    } catch (e) {
+      console.error('Ad Factory Error:', e);
+    }
+
+    return wrapper;
+  }
+
+
   if (searchInput) {
     let posts = [];
 
@@ -104,7 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchStatus) searchStatus.innerText = `${results.length} result${results.length === 1 ? '' : 's'} found`;
 
-    const html = results.map(post => `
+    // Clear results
+    searchResults.innerHTML = '';
+
+    const isDesktop = window.innerWidth >= 1024;
+
+    results.forEach((post, index) => {
+      // Create post card string or element. Here we are using innerHTML injection.
+      // We can construct the HTML string.
+      const cardHtml = `
       <div class="blog-card glass-panel">
         ${post.image ? `
         <div class="blog-card-image-wrapper">
@@ -125,9 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
       </div>
-    `).join('');
+      `;
 
-    searchResults.innerHTML = html;
+      // Inject post
+      searchResults.insertAdjacentHTML('beforeend', cardHtml);
+
+      // Mobile Search Ad Injection Logic
+      // Inject after 2nd item (index 1) if we have a global snippet and it's mobile
+      // Limit to 1 ad for search results to be safe/unobtrusive, or max 3 total?
+      // Let's just add one after the 2nd result.
+      if (!isDesktop && globalAdSnippet && index === 1) {
+         const adWrapper = constructAd(globalAdSnippet);
+         // We need to insert this element. But we are doing string injection for posts.
+         // So we append the element.
+         searchResults.appendChild(adWrapper);
+      }
+    });
   }
 
   function highlightMatch(text, query) {
@@ -136,4 +198,82 @@ document.addEventListener('DOMContentLoaded', () => {
       const regex = new RegExp(`(${query})`, 'gi');
       return text.replace(regex, '<span class="highlight">$1</span>');
   }
+
+  // --- Ad Injection System ---
+  (function() {
+    const AD_CONFIG_URL = '/learn/assets/js/ad_config.json';
+    const MAX_ADS_PER_PAGE = 3;
+
+    function injectAds(config) {
+      const snippets = config.adSnippets;
+      if (!snippets || !snippets.length) return;
+
+      globalAdSnippet = snippets[0]; // Store for Search Usage
+
+      const width = window.innerWidth;
+      const isDesktop = width >= 1024; // Large screen threshold
+
+      let placed = 0;
+      const snippet = snippets[0];
+
+      if (isDesktop) {
+        // Desktop Logic: Side of the page
+
+        // Relaxed logic: Allow sidebar if margin is at least 250px
+        // Sidebar width can be 220px to fit better.
+        const contentWidth = 800;
+        const margin = (width - contentWidth) / 2;
+        const sidebarWidth = 240;
+
+        if (margin > (sidebarWidth + 40)) { // 20px padding each side
+          const sideContainer = document.createElement('div');
+          sideContainer.id = 'ad-sidebar-right';
+          sideContainer.style.position = 'fixed';
+          sideContainer.style.top = '150px';
+          // Position it nicely in the margin
+          const rightPos = (margin - sidebarWidth) / 2;
+          sideContainer.style.right = Math.max(20, rightPos) + 'px';
+          sideContainer.style.width = sidebarWidth + 'px';
+          sideContainer.style.zIndex = '90';
+          sideContainer.style.display = 'flex';
+          sideContainer.style.flexDirection = 'column';
+          sideContainer.style.gap = '2rem';
+
+          document.body.appendChild(sideContainer);
+
+          for (let i = 0; i < MAX_ADS_PER_PAGE; i++) {
+             const ad = constructAd(snippet);
+             ad.style.margin = '0';
+             sideContainer.appendChild(ad);
+             placed++;
+          }
+        }
+
+      } else {
+        // Mobile Logic: Randomly after sections like h tags (only for blogs/reading pages)
+        const articleBody = document.querySelector('.markdown-body');
+        if (articleBody) {
+          const headings = Array.from(articleBody.querySelectorAll('h2, h3'));
+          // Shuffle
+          headings.sort(() => Math.random() - 0.5);
+
+          for (const h of headings) {
+            if (placed >= MAX_ADS_PER_PAGE) break;
+            const ad = constructAd(snippet);
+            // Insert after the heading
+            h.parentNode.insertBefore(ad, h.nextSibling);
+            placed++;
+          }
+        }
+        // Note: Search page mobile injection is handled in displayResults
+      }
+    }
+
+    // Initialize
+    fetch(AD_CONFIG_URL)
+      .then(r => r.json())
+      .then(injectAds)
+      .catch(e => console.warn('Ad config not loaded', e));
+
+  })();
 });
