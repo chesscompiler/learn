@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chesscompiler.github.io/learn/sitemap.xml

@@ -2,7 +2,11 @@ title: Chess Compiler Learn
 description: Chess blogs and tutorials
 baseurl: "/learn"
 url: "https://chesscompiler.github.io"
+permalink: /:slug/
 theme: null
+
+plugins:
+  - jekyll-sitemap
 
 social:
   instagram: "chesscompiler"

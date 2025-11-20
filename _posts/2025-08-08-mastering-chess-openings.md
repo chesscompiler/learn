@@ -1,5 +1,6 @@
 ---
 title: "Mastering Chess Openings: Your Gateway to a Stronger Game"
+slug: "mastering-chess-openings"
 date: 2025-08-08
 image: "https://images.unsplash.com/photo-1658539528240-b89539629ce6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 layout: post
