@@ -1,11 +1,115 @@
+/*
+  learn.css - Revamped for Glassmorphism, Dark/Light Mode, and Modern UI
+*/
+
+:root {
+  /* Core Palette */
+  --blue1: #48e3fb;
+  --blue2: #00b6ff;
+  --blue3: #00a3fe;
+  --blue4: #0480ff;
+  --blue5: #0057fe;
+  --purple1: #643efe;
+  --purple2: #5e50ff;
+  --purple3: #5765ff;
+  --purple4: #5177fe;
+  --purple5: #5081ff;
+  --purple6: #479afe;
+  --purple7: #2929d6;
+
+  /* Tines Pastel Colors (Light side) */
+  --tines-1-light: #ffe5d9; --tines-1-dark: #ff7a45; /* Orange */
+  --tines-2-light: #e6e6fa; --tines-2-dark: #7b68ee; /* Purple */
+  --tines-3-light: #e0f7fa; --tines-3-dark: #00acc1; /* Cyan */
+  --tines-4-light: #f3e5f5; --tines-4-dark: #ba68c8; /* Pink */
+}
+
+/* Light / Dark Theme Variables */
+html.light-theme body {
+  --bg-main: #f8f9fa; /* Slightly off-white for better readability */
+  --text-main: #1a202c;
+  --text-sub: #4a5568;
+  --text-muted: #718096;
+  --card-bg: #ffffff;
+  --card-border: #eaeaea;
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --tag-bg: #edf2f7;
+  --tag-text: #4a5568;
+  --compact-card-bg: #f0f4f8;
+  --input-border: #e2e8f0;
+}
+
+html.dark-theme body {
+  --bg-main: #0f1115;
+  --text-main: #e2e8f0;
+  --text-sub: #a0aec0;
+  --text-muted: #718096;
+  --card-bg: #161b22;
+  --card-border: #30363d;
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --tag-bg: #2d3748;
+  --tag-text: #e2e8f0;
+  --compact-card-bg: #21262d;
+  --input-border: #30363d;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  margin: 0;
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Layout Wrapper */
+.main-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 6rem auto 4rem auto;
+  padding: 2rem;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+/* Search Bar */
+.search-container {
+  margin-bottom: 2.5rem;
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+}
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  border: 1px solid var(--input-border);
+  background: var(--card-bg);
+  color: var(--text-main);
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--glass-shadow);
+}
+.search-input:focus {
+  border-color: var(--blue2);
+  box-shadow: 0 0 0 3px rgba(0, 182, 255, 0.1);
+}
 
 /* Hero Section */
 .hero-wrapper {
-  padding: 6rem 0 4rem 0;
+  padding: 8rem 0 5rem 0;
   text-align: center;
   position: relative;
+  /* Graph background pattern */
+  background-image: radial-gradient(circle, var(--card-border) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
 }
-
 .hero-title {
   font-size: 4rem;
   font-weight: 800;
@@ -14,7 +118,6 @@
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
-
 .hero-subtitle {
   font-size: 1.35rem;
   color: var(--text-sub);
@@ -23,122 +126,367 @@
   line-height: 1.6;
   font-weight: 400;
 }
-
 .gradient-text {
   background: linear-gradient(135deg, var(--blue2), var(--purple2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Post Cards - Grid Layout */
+/* Theme Toggle Floating */
+.theme-toggle-btn {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  color: var(--text-main);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+  background: var(--card-bg);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+/* --- Blog Grid & Cards --- */
 .blog-list {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 2rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
-/* Base Card Style */
+/* Base Card */
 .blog-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--card-bg);
+  border: 1px solid transparent;
+  box-shadow: var(--glass-shadow);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  position: relative;
-  height: 100%;
 }
-
+html.light-theme .blog-card {
+  border: 1px solid #f0f0f0;
+}
 .blog-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* Card Type: With Image (Oyster/Modern Style) */
+/* Type 1: Image Cards */
 .blog-card.has-image {
-  grid-column: span 6; /* Takes half width on desktop */
+  grid-column: span 6; /* Use 6 for half width */
+  background: #ffffff;
+}
+html.dark-theme .blog-card.has-image {
+  background: var(--card-bg);
+}
+
+.blog-card.has-image .card-image-link {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    padding: 0.75rem 0.75rem 0 0.75rem;
 }
 
 .blog-card.has-image .card-image {
   width: 100%;
-  aspect-ratio: 16/9;
+  height: 100%;
   object-fit: cover;
-  border-bottom: 1px solid var(--card-border);
+  border-radius: 16px;
+  transition: transform 0.5s ease;
 }
 
 .blog-card.has-image .card-content {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  padding: 1.25rem 1.5rem;
   flex: 1;
-}
-
-/* Card Type: Text Only (Tines Style) */
-.blog-card.no-image {
-  grid-column: span 4; /* Takes one third width */
-  background: var(--bg-main); /* Slightly different bg to pop? Or stick to card */
-  border-top: 4px solid var(--purple1); /* Accent top border */
-}
-
-.blog-card.no-image .card-content {
-  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: space-between;
 }
 
-/* Typography in Cards */
+.blog-card.has-image .card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+.blog-card.has-image .arrow {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.2s;
+  color: var(--blue2);
+}
+.blog-card.has-image:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.card-excerpt {
+    font-size: 1rem;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .card-meta {
   font-size: 0.85rem;
   color: var(--text-muted);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
 }
 
-.card-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin: 0 0 1rem 0;
-  line-height: 1.25;
-  text-decoration: none;
-  transition: color 0.2s;
+/* Type 2: Text/Tines Cards */
+.blog-card.no-image {
+  grid-column: span 4;
+  flex-direction: row;
+  min-height: 220px;
 }
 
-.blog-card:hover .card-title {
-  color: var(--blue2);
-}
-
-.card-excerpt {
-  font-size: 1.05rem;
-  color: var(--text-sub);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-tags {
-  margin-top: auto;
+.tines-left {
+  width: 40%;
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+.tines-right {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  position: relative;
+  box-sizing: border-box;
+}
+.bookmark-icon {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: rgba(255,255,255,0.4);
+}
+.bookmark-icon .material-icons {
+    font-size: 24px;
 }
 
-/* Responsive Grid */
+.tines-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  display: block;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.tines-excerpt {
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.6);
+  line-height: 1.4;
+  font-weight: 500;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+}
+.tines-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tines-stats {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Color Variants for Tines Cards */
+.tines-card-1 .tines-left { background-color: var(--tines-1-light); }
+.tines-card-1 .tines-right { background-color: var(--tines-1-dark); }
+.tines-card-1 .tines-title, .tines-card-1 .tines-stats { color: white; }
+
+.tines-card-2 .tines-left { background-color: var(--tines-2-light); }
+.tines-card-2 .tines-right { background-color: var(--tines-2-dark); }
+
+.tines-card-3 .tines-left { background-color: var(--tines-3-light); }
+.tines-card-3 .tines-right { background-color: var(--tines-3-dark); }
+
+.tines-card-4 .tines-left { background-color: var(--tines-4-light); }
+.tines-card-4 .tines-right { background-color: var(--tines-4-dark); }
+
+.tines-left { color: rgba(0,0,0,0.4); }
+
+/* Tags */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+.tag-chip {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 0.25rem 0.6rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.tag-chip:hover {
+  background: var(--tag-text);
+  color: #fff;
+}
+.tines-tag {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+.tines-tag:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+/* Ad Card Styling */
+.blog-card.ad-card {
+    grid-column: span 4;
+    background: var(--card-bg);
+    border: 1px dashed var(--card-border);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 220px;
+    display: none;
+}
+.blog-card.ad-card.active-ad {
+    display: flex;
+}
+.ad-card-inner {
+    padding: 1rem;
+    width: 100%;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
   .blog-card.has-image { grid-column: span 12; }
   .blog-card.no-image { grid-column: span 6; }
+  .blog-card.ad-card { grid-column: span 6; }
 }
-
 @media (max-width: 768px) {
   .hero-title { font-size: 2.8rem; }
   .blog-card.no-image { grid-column: span 12; }
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+.pagination a, .pagination span {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.pagination a:hover {
+  background: var(--blue2);
+  color: white;
+  border-color: var(--blue2);
+}
+.pagination .current {
+  background: var(--text-main);
+  color: var(--bg-main);
+  border-color: var(--text-main);
+}
+
+/* Markdown Body */
+.markdown-body {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  position: relative;
+}
+.markdown-body h1, .markdown-body h2 { margin-top: 1.5em; color: var(--text-main); }
+.markdown-body a { color: var(--blue2); text-decoration: none; }
+.markdown-body img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding: 4rem 0;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-muted);
+  background: var(--card-bg);
+  text-align: center;
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.footer-links a {
+  color: var(--text-sub);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: var(--blue2);
+}
+.footer-copy {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Utility for compact cards */
+.compact-card-bg {
+  background: var(--compact-card-bg);
+}
+
+/* Highlight utility for search */
+.highlight {
+    background-color: #fff176;
+    color: black;
+    padding: 0 2px;
+    border-radius: 2px;
 }

@@ -19,3 +19,4 @@ social:
 exclude:
   - mock_site
   - editor.html
+  - verification

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="light-theme">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+      /* Mock styles to replace JS injection or missing styles */
+      body { margin: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode" onclick="document.documentElement.classList.toggle('dark-theme'); document.documentElement.classList.toggle('light-theme')">
+    <span class="material-icons">brightness_6</span>
+  </button>
+
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-wrapper">
+      <div class="hero-content">
+        <h1 class="hero-title">Master the <span class="gradient-text">Board</span></h1>
+        <p class="hero-subtitle">
+          Deepen your understanding of chess with our tutorials, strategy guides, and interactive puzzles.
+        </p>
+      </div>
+    </section>
+
+    <!-- Blog List -->
+    <div id="blog-list" class="blog-list">
+
+      <!-- Card Style: With Image -->
+      <article class="blog-card has-image">
+        <a href="#" aria-hidden="true" tabindex="-1" class="card-image-link">
+          <!-- Using a placeholder image -->
+          <img src="https://via.placeholder.com/800x450" alt="Test Post" class="card-image">
+        </a>
+        <div class="card-content">
+          <div>
+            <div class="card-meta">Oct 26, 2023</div>
+            <a href="#" class="card-title">Chess Strategy 101 <span class="arrow">→</span></a>
+            <p class="card-excerpt">Learn the basics of chess strategy, including opening principles, middle game tactics, and endgame techniques.</p>
+          </div>
+          <div class="card-tags">
+              <a href="#" class="tag-chip mini">Strategy</a>
+              <a href="#" class="tag-chip mini">Beginner</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card Style: No Image (Tines) -->
+      <article class="blog-card no-image tines-card-1">
+        <div class="tines-left">
+          <div class="tines-excerpt">
+            This is a text-only card styled with the Tines layout. It features a split background color and distinct typography.
+          </div>
+        </div>
+        <div class="tines-right">
+          <div class="bookmark-icon">
+            <span class="material-icons">bookmark</span>
+          </div>
+          <div class="tines-content">
+            <a href="#" class="tines-title">Understanding Pawn Structures</a>
+            <div class="tines-footer">
+              <div class="tines-stats">Nov 15</div>
+              <div class="card-tags">
+                  <a href="#" class="tag-chip mini tines-tag">Tactics</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+       <!-- Another Tines Card -->
+       <article class="blog-card no-image tines-card-2">
+        <div class="tines-left">
+          <div class="tines-excerpt">
+            Another text-only card to check the grid layout and colors.
+          </div>
+        </div>
+        <div class="tines-right">
+          <div class="bookmark-icon">
+            <span class="material-icons">bookmark</span>
+          </div>
+          <div class="tines-content">
+            <a href="#" class="tines-title">Advanced Endgame</a>
+            <div class="tines-footer">
+              <div class="tines-stats">Dec 01</div>
+              <div class="card-tags">
+                  <a href="#" class="tag-chip mini tines-tag">Endgame</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Compact Card Bg Check (Utility) -->
+      <div class="blog-card compact-card-bg" style="grid-column: span 4; padding: 2rem;">
+          <h3>Compact Card Utility Test</h3>
+          <p>Background should be slightly different.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/learn">Learn</a>
+        <a href="/board">Board</a>
+        <a href="/videos">Puzzles</a>
+        <a href="/#features">Features</a>
+        <a href="#">Tags</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2023 Chess Compiler. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
