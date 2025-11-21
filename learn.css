@@ -460,6 +460,12 @@ html.dark-theme .markdown-body h2 { color: var(--purple4); border-bottom-color: 
 .tines-tag:hover {
     background: rgba(255,255,255,0.4);
 }
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.8rem; }
+  .blog-card.no-image { grid-column: span 12; }
+  .theme-toggle-btn { top: 7.5rem; }
+}
+
 
 /* Ad Card Styling */
 .blog-card.ad-card {
