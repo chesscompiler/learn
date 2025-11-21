@@ -3,7 +3,7 @@ title: "🧠 How to Play Chess: The Ultimate Beginner’s Guide ♟️"
 slug: "how-to-play-chess"
 date: 2025-06-21
 tags: ["beginners", "rules", "guides"]
-image: "https://chesscompiler.github.io/learn/images/beginner-guide.png"
+image: "https://chesscompiler.space/learn/images/beginner-guide.png"
 layout: post
 ---
 Chess is more than just a game — it’s a battlefield of brains, a masterclass in strategy, and a way to sharpen your mind while having fun. Whether you're brand new or just brushing up, this guide will walk you through everything from setup to special rules, helping you build a strong foundation for your chess journey.

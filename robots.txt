@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://chesscompiler.github.io/learn/sitemap.xml
+Sitemap: https://chesscompiler.space/learn/sitemap.xml
