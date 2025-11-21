@@ -16,6 +16,6 @@ social:
   instagram: "chesscompiler"
   youtube: "chesscompiler"
 
-# 📁 Folders and files to include in the site output
-include:
-  - "_layouts"
+exclude:
+  - mock_site
+  - editor.html

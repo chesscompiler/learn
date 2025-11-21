@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Verification</title>
+    <style>
+        /* Minimal CSS to mimic structure */
+        .blog-list { display: grid; }
+        .glass-panel { background: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        <div id="search-status"></div>
+        <div id="search-results" class="blog-list" style="display: none;"></div>
+    </div>
+
+    <div id="blog-list" class="blog-list">
+        <!-- Static content representing what Jekyll would output -->
+        <article class="blog-card">
+            <a href="/learn/posts/post1" class="card-title">Chess Strategy 101</a>
+            <p class="card-excerpt">Learn basic strategy.</p>
+            <div class="card-tags">
+                <a href="/learn/tags/strategy/" class="tag-chip mini">strategy</a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Mock search.json data -->
+    <script>
+        // Mock fetch to return search data
+        window.originalFetch = window.fetch;
+        window.fetch = function(url) {
+            if (url.includes("search.json")) {
+                return Promise.resolve({
+                    json: () => Promise.resolve([
+                        {
+                            title: "Chess Strategy 101",
+                            url: "/learn/posts/post1",
+                            date: "2023-01-01",
+                            excerpt: "Learn basic strategy.",
+                            tags: "strategy, beginner",
+                            image: ""
+                        },
+                        {
+                            title: "Advanced Tactics",
+                            url: "/learn/posts/post2",
+                            date: "2023-01-02",
+                            excerpt: "Win more games.",
+                            tags: "tactics",
+                            image: ""
+                        }
+                    ])
+                });
+            }
+            return window.originalFetch(url);
+        };
+    </script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

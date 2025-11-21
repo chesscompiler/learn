@@ -1,18 +1,18 @@
 {% if include.post.image %}
 <!-- Card Style: With Image (Oyster/Modern) -->
 <article class="blog-card has-image">
-  <a href="{{ include.post.url | relative_url }}" aria-hidden="true" tabindex="-1">
+  <a href="{{ include.post.url | relative_url }}" aria-hidden="true" tabindex="-1" class="card-image-link">
     <img src="{{ include.post.image }}" alt="{{ include.post.title }}" class="card-image" loading="lazy">
   </a>
   <div class="card-content">
-    <div class="card-meta">{{ include.post.date | date: "%B %d, %Y" }}</div>
-    <a href="{{ include.post.url | relative_url }}" class="card-title">{{ include.post.title }}</a>
-    <p class="card-excerpt">{{ include.post.excerpt | strip_html | truncate: 150 }}</p>
-
+    <div>
+      <a href="{{ include.post.url | relative_url }}" class="card-title">{{ include.post.title }} <span class="arrow">→</span></a>
+      <p class="card-excerpt">{{ include.post.excerpt | strip_html | truncate: 100 }}</p>
+    </div>
     {% if include.post.tags %}
     <div class="card-tags">
       {% for tag in include.post.tags limit:3 %}
-        <span class="tag-chip mini">{{ tag }}</span>
+        <a href="{{ '/tags/' | relative_url }}{{ tag | slugify }}/" class="tag-chip mini">{{ tag }}</a>
       {% endfor %}
     </div>
     {% endif %}
@@ -21,21 +21,30 @@
 
 {% else %}
 <!-- Card Style: No Image (Tines/Text-Centric) -->
-<article class="blog-card no-image">
-  <div class="card-content">
-    <div>
-      <div class="card-meta">{{ include.post.date | date: "%B %d, %Y" }}</div>
-      <a href="{{ include.post.url | relative_url }}" class="card-title">{{ include.post.title }}</a>
-      <p class="card-excerpt">{{ include.post.excerpt | strip_html | truncate: 200 }}</p>
+{% capture card_color %}{% cycle 'tines-card-1', 'tines-card-2', 'tines-card-3', 'tines-card-4' %}{% endcapture %}
+<article class="blog-card no-image {{ card_color }}">
+  <div class="tines-left">
+    <div class="tines-excerpt">
+      {{ include.post.excerpt | strip_html | truncate: 120 }}
     </div>
-
-    {% if include.post.tags %}
-    <div class="card-tags">
-      {% for tag in include.post.tags limit:3 %}
-        <span class="tag-chip mini">{{ tag }}</span>
-      {% endfor %}
+  </div>
+  <div class="tines-right">
+    <div class="bookmark-icon">
+      <span class="material-icons">bookmark</span>
     </div>
-    {% endif %}
+    <div class="tines-content">
+      <a href="{{ include.post.url | relative_url }}" class="tines-title">{{ include.post.title }}</a>
+      <div class="tines-footer">
+        <div class="tines-stats">{{ include.post.date | date: "%b %d" }}</div>
+        {% if include.post.tags %}
+        <div class="card-tags">
+          {% for tag in include.post.tags limit:2 %}
+            <a href="{{ '/tags/' | relative_url }}{{ tag | slugify }}/" class="tag-chip mini tines-tag">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </article>
 {% endif %}

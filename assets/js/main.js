@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Theme Toggle Logic ---
   const themeToggleBtn = document.getElementById('theme-toggle');
 
-  // Note: Initial theme application is now handled by _includes/theme-script.html
-  // to prevent flash of unstyled content (FOUC).
-
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
       let theme = 'light';
@@ -31,40 +28,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Global access to ad config for search results
   let globalAdSnippet = null;
-  let searchActive = false; // To track if a search is active waiting for ads
+  let searchActive = false;
 
   // --- Ad Injection System Helpers ---
-  function constructAd(snippet) {
+  function constructAd(snippet, isCard = true) {
     const wrapper = document.createElement('div');
-    wrapper.className = 'ad-wrapper glass-panel';
-    // "curvy" and "default show text"
-    wrapper.style.borderRadius = '16px';
-    wrapper.style.padding = '1rem';
-    wrapper.style.margin = '2rem auto';
-    wrapper.style.textAlign = 'center';
-    wrapper.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-    wrapper.style.border = '1px solid var(--card-border)';
-    wrapper.style.overflow = 'hidden';
 
-    // Default text
-    const text = document.createElement('div');
-    text.innerText = 'Advertisement';
-    text.style.color = 'var(--text-muted)';
-    text.style.fontSize = '0.85rem';
-    text.style.marginBottom = '0.5rem';
-    text.style.textTransform = 'uppercase';
-    text.style.letterSpacing = '0.05em';
-    wrapper.appendChild(text);
+    if (isCard) {
+        wrapper.className = 'blog-card ad-card';
+        // Inner container for padding/centering
+        const inner = document.createElement('div');
+        inner.className = 'ad-card-inner';
+        wrapper.appendChild(inner);
 
-    // Execute factory
-    try {
-      const factory = new Function('return ' + snippet.jsFactory)();
-      const result = factory();
-      if (result && result.elements) {
-        result.elements.forEach(el => wrapper.appendChild(el));
-      }
-    } catch (e) {
-      console.error('Ad Factory Error:', e);
+        // Default text
+        const text = document.createElement('div');
+        text.innerText = 'Advertisement';
+        text.style.color = 'var(--text-muted)';
+        text.style.fontSize = '0.85rem';
+        text.style.marginBottom = '0.5rem';
+        text.style.textTransform = 'uppercase';
+        text.style.letterSpacing = '0.05em';
+        inner.appendChild(text);
+
+        // Execute factory
+        try {
+            const factory = new Function('return ' + snippet.jsFactory)();
+            const result = factory();
+            if (result && result.elements && result.elements.length > 0) {
+                result.elements.forEach(el => inner.appendChild(el));
+                // Only activate if content added
+                wrapper.classList.add('active-ad');
+            }
+        } catch (e) {
+            console.error('Ad Factory Error:', e);
+        }
+    } else {
+        // Side Ad Container
+        wrapper.className = 'side-ad-container';
+
+        const text = document.createElement('div');
+        text.innerText = 'Sponsored';
+        text.style.color = 'var(--text-muted)';
+        text.style.fontSize = '0.75rem';
+        text.style.marginBottom = '0.5rem';
+        text.style.textAlign = 'center';
+        wrapper.appendChild(text);
+
+        try {
+            const factory = new Function('return ' + snippet.jsFactory)();
+            const result = factory();
+            if (result && result.elements && result.elements.length > 0) {
+                result.elements.forEach(el => wrapper.appendChild(el));
+                wrapper.classList.add('active-ad');
+            }
+        } catch (e) {
+            console.error('Ad Factory Error:', e);
+        }
     }
 
     return wrapper;
@@ -89,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => response.json())
       .then(data => {
         posts = data;
-        // If we had a query param, trigger search immediately after load
         if (queryParam) {
            performSearch(queryParam.toLowerCase().trim());
         }
@@ -106,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchActive = false;
         searchResults.style.display = 'none';
         searchResults.innerHTML = '';
-        if (blogList) blogList.style.display = 'grid'; // Show original list
+        if (blogList) blogList.style.display = 'grid';
         if (searchStatus) searchStatus.innerText = '';
 
         const url = new URL(window.location);
@@ -147,37 +166,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchResults.innerHTML = '';
 
-    const isDesktop = window.innerWidth >= 1024;
-
     results.forEach((post, index) => {
-      const cardHtml = `
-      <div class="blog-card glass-panel">
-        ${post.image ? `
-        <div class="blog-card-image-wrapper">
-             <img src="${post.image}" alt="${post.title}" />
-        </div>` : ''}
+      // Just use basic card HTML construction here for search results
+      // Since we don't have Liquid, we approximate the Tines/Oyster style
 
-        <div class="blog-card-content">
-            <a href="${post.url}" class="blog-title">${highlightMatch(post.title, query)}</a>
-            <div class="post-meta-row">
-                <div class="blog-date">${post.date}</div>
-            </div>
-            <div class="blog-desc">${highlightMatch(post.excerpt, query)}</div>
+      let cardHtml = '';
 
-            <div class="tags-container">
-                ${post.tags.split(', ').filter(t => t).map(tag =>
-                    `<a href="/learn/search/?q=${tag}" class="tag-chip mini">${highlightMatch(tag, query)}</a>`
-                ).join('')}
+      if (post.image) {
+          // Oyster Style
+          cardHtml = `
+          <article class="blog-card has-image">
+            <a href="${post.url}" class="card-image-link">
+                <img src="${post.image}" alt="${post.title}" class="card-image">
+            </a>
+            <div class="card-content">
+                <div>
+                    <a href="${post.url}" class="card-title">${highlightMatch(post.title, query)} <span class="arrow">→</span></a>
+                    <p class="card-excerpt">${highlightMatch(post.excerpt, query)}</p>
+                </div>
+                <div class="card-tags">
+                    ${post.tags.split(', ').filter(t => t).map(tag =>
+                        `<a href="/learn/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/" class="tag-chip mini">${highlightMatch(tag, query)}</a>`
+                    ).join('')}
+                </div>
             </div>
-        </div>
-      </div>
-      `;
+          </article>`;
+      } else {
+          // Tines Style (Random color since we don't have cycle)
+          const colors = ['tines-card-1', 'tines-card-2', 'tines-card-3', 'tines-card-4'];
+          const colorClass = colors[index % 4];
+          const firstChar = post.title.charAt(0).toUpperCase();
+
+          cardHtml = `
+          <article class="blog-card no-image ${colorClass}">
+            <div class="tines-left">
+                <div class="tines-excerpt">${highlightMatch(post.excerpt, query)}</div>
+            </div>
+            <div class="tines-right">
+                <div class="bookmark-icon"><span class="material-icons">bookmark</span></div>
+                <div class="tines-content">
+                    <a href="${post.url}" class="tines-title">${highlightMatch(post.title, query)}</a>
+                    <div class="tines-footer">
+                        <div class="tines-stats">${post.date}</div>
+                        <div class="card-tags">
+                            ${post.tags.split(', ').slice(0,2).map(tag =>
+                                `<a href="/learn/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/" class="tag-chip mini tines-tag">${highlightMatch(tag, query)}</a>`
+                            ).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </article>`;
+      }
 
       searchResults.insertAdjacentHTML('beforeend', cardHtml);
 
-      // Mobile Search Ad Injection: Inject after 2nd item (index 1)
-      if (!isDesktop && globalAdSnippet && index === 1) {
-         const adWrapper = constructAd(globalAdSnippet);
+      // Inject Ad Card after every 4th item
+      if (globalAdSnippet && (index + 1) % 4 === 0) {
+         const adWrapper = constructAd(globalAdSnippet, true);
          searchResults.appendChild(adWrapper);
       }
     });
@@ -193,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
   (function() {
     const baseUrl = window.location.pathname.startsWith('/learn') ? '/learn' : '';
     const AD_CONFIG_URL = `${baseUrl}/assets/js/ad_config.json`;
-    const MAX_ADS_PER_PAGE = 3;
 
     function injectAds(config) {
       console.log('Ad config loaded:', config);
@@ -202,84 +247,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
       globalAdSnippet = snippets[0];
 
-      // If search is active, we might need to re-render results to show ads
-      // But wait, displayResults uses globalAdSnippet. If we re-render, it will pick it up.
+      // 1. Blog List Injection (Main Page)
+      const blogList = document.getElementById('blog-list');
+      if (blogList) {
+        const cards = Array.from(blogList.children);
+        let injectedCount = 0;
+
+        // Inject ad after every 4th card
+        cards.forEach((card, index) => {
+           if ((index + 1) % 4 === 0) {
+               const adCard = constructAd(globalAdSnippet, true);
+               // Insert after current card
+               // Need to account for previously injected ads shifting indices?
+               // Easier to just insertBefore next sibling
+               if (card.nextSibling) {
+                   blogList.insertBefore(adCard, card.nextSibling);
+               } else {
+                   blogList.appendChild(adCard);
+               }
+               injectedCount++;
+           }
+        });
+      }
+
+      // If search is active, re-trigger to inject into search results
       if (searchActive && searchInput && searchInput.value) {
-          // Trigger search again to inject ads into results if results are already shown
           searchInput.dispatchEvent(new Event('input'));
       }
 
-      const width = window.innerWidth;
-      const isDesktop = width >= 1024;
+      // 2. Reading Page Injection
+      const articleBody = document.querySelector('.markdown-body');
+      if (articleBody) {
+         const headings = Array.from(articleBody.querySelectorAll('h2'));
+         const width = window.innerWidth;
+         const isDesktop = width >= 1300; // Based on CSS breakpoint
 
-      let placed = 0;
-      const snippet = snippets[0];
+         headings.forEach((heading, index) => {
+             // Limit to max 3 ads?
+             if (index >= 3) return;
 
-      if (isDesktop) {
-        const contentWidth = 800;
-        const margin = (width - contentWidth) / 2;
-        const sidebarWidth = 240;
+             const adContainer = constructAd(globalAdSnippet, false);
 
-        // Relaxed Logic: Check if we have space, or if very large screen
-        // Or just check if margin > sidebarWidth + padding
-        if (margin > (sidebarWidth + 20)) {
-          console.log('Injecting desktop sidebar ads');
-          const sideContainer = document.createElement('div');
-          sideContainer.id = 'ad-sidebar-right';
-          sideContainer.style.position = 'fixed';
-          sideContainer.style.top = '150px';
+             // Position relative to heading
+             // We insert it *before* the heading so it's near the top of the section in DOM flow
+             // CSS will handle absolute positioning on desktop
+             heading.parentNode.insertBefore(adContainer, heading);
 
-          const rightPos = (margin - sidebarWidth) / 2;
-          sideContainer.style.right = Math.max(20, rightPos) + 'px';
-          sideContainer.style.width = sidebarWidth + 'px';
-          sideContainer.style.zIndex = '90';
-          sideContainer.style.display = 'flex';
-          sideContainer.style.flexDirection = 'column';
-          sideContainer.style.gap = '2rem';
+             if (isDesktop) {
+                 // Ensure container has position relative if needed?
+                 // Actually markdown-body has position: relative
+                 // We need to set top offset manually if we want it exact,
+                 // OR rely on DOM order + absolute positioning relative to a wrapper.
+                 // But standard markdown-body is one big block.
+                 // Simpler: insert inside the markdown body.
+                 // CSS: .side-ad-container { position: absolute; right: 0; transform... }
+                 // The problem is `top`. If absolute, it goes to top of relative parent (markdown-body).
+                 // We need it at the vertical level of the heading.
+                 // Solution: Wrap heading in a relative container? No, disrupts layout.
+                 // Solution 2: Use JS to set top.
 
-          document.body.appendChild(sideContainer);
-
-          for (let i = 0; i < MAX_ADS_PER_PAGE; i++) {
-             const ad = constructAd(snippet);
-             ad.style.margin = '0';
-             sideContainer.appendChild(ad);
-             placed++;
-          }
-        } else {
-            console.log('Not enough space for sidebar ads. Margin:', margin);
-        }
-
-      } else {
-        // Mobile Logic
-        const articleBody = document.querySelector('.markdown-body');
-        if (articleBody) {
-          let targets = Array.from(articleBody.querySelectorAll('h2, h3'));
-
-          // Fallback to paragraphs if no headings
-          if (targets.length === 0) {
-             console.log('No headings found, using paragraphs for ad injection.');
-             targets = Array.from(articleBody.querySelectorAll('p'));
-             // Filter out short paragraphs or p in blockquotes if possible? No, keep simple.
-          }
-
-          if (targets.length > 0) {
-             console.log(`Found ${targets.length} targets for ad injection.`);
-             targets.sort(() => Math.random() - 0.5);
-
-             for (const t of targets) {
-                if (placed >= MAX_ADS_PER_PAGE) break;
-                const ad = constructAd(snippet);
-                t.parentNode.insertBefore(ad, t.nextSibling);
-                placed++;
+                 adContainer.style.top = (heading.offsetTop) + 'px';
              }
-          } else {
-              console.log('No suitable targets found for mobile ad injection.');
-          }
-        }
+         });
       }
     }
 
-    // Initialize
     console.log('Fetching ad config from:', AD_CONFIG_URL);
     fetch(AD_CONFIG_URL)
       .then(r => {

@@ -16,41 +16,33 @@
   --purple5: #5081ff;
   --purple6: #479afe;
   --purple7: #2929d6;
+
+  /* Tines Pastel Colors (Light side) */
+  --tines-1-light: #ffe5d9; --tines-1-dark: #ff7a45; /* Orange */
+  --tines-2-light: #e6e6fa; --tines-2-dark: #7b68ee; /* Purple */
+  --tines-3-light: #e0f7fa; --tines-3-dark: #00acc1; /* Cyan */
+  --tines-4-light: #f3e5f5; --tines-4-dark: #ba68c8; /* Pink */
 }
 
 /* Light / Dark Theme Variables */
 html.light-theme body {
-  --bg-main: #f4f7f9;
+  --bg-main: #fcfcfc; /* Warmer white like Oyster */
   --text-main: #1a202c;
   --text-sub: #4a5568;
   --text-muted: #718096;
-  --card-bg: rgba(255, 255, 255, 0.75);
-  --card-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
-  --tag-bg: rgba(0, 163, 254, 0.1);
-  --tag-text: #0057fe;
-  --input-bg: #ffffff;
-  --input-border: #e2e8f0;
-  --highlight-bg: #fff59d;
-  --highlight-text: #000;
-  --footer-bg: rgba(255, 255, 255, 0.8);
+  --card-bg: #ffffff;
+  --card-border: #eaeaea;
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 html.dark-theme body {
-  --bg-main: #15172a;
+  --bg-main: #0f1115;
   --text-main: #ffffff;
-  --text-sub: #e1e3eb;
-  --text-muted: #9ba1b9;
-  --card-bg: rgba(35, 36, 58, 0.6);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  --tag-bg: rgba(72, 227, 251, 0.15);
-  --tag-text: #48e3fb;
-  --input-bg: #1e2030;
-  --input-border: #2d3748;
-  --highlight-bg: #ffd700;
-  --highlight-text: #000;
-  --footer-bg: rgba(30, 32, 48, 0.8);
+  --text-sub: #a0a0a0;
+  --text-muted: #6e7681;
+  --card-bg: #161b22;
+  --card-border: #30363d;
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -67,27 +59,19 @@ body {
 /* Layout Wrapper */
 .main-content {
   width: 100%;
-  max-width: 1100px; /* Increased for better sidebar layout */
-  margin: 7rem auto 4rem auto; /* Top margin accounts for fixed nav */
+  max-width: 1200px;
+  margin: 6rem auto 4rem auto;
   padding: 2rem;
   flex: 1;
   box-sizing: border-box;
-}
-
-/* Glassmorphism Utility */
-.glass-panel {
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  box-shadow: var(--glass-shadow);
 }
 
 /* Search Bar */
 .search-container {
   margin-bottom: 2.5rem;
   position: relative;
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
 }
 .search-input {
   width: 100%;
@@ -95,130 +79,312 @@ body {
   font-size: 1.1rem;
   border-radius: 50px;
   border: 1px solid var(--input-border);
-  background: var(--input-bg);
+  background: var(--card-bg);
   color: var(--text-main);
   box-sizing: border-box;
   outline: none;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: var(--glass-shadow);
 }
 .search-input:focus {
   border-color: var(--blue2);
-  box-shadow: 0 0 0 3px rgba(0, 182, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 182, 255, 0.1);
 }
 
-/* Blog List & Cards */
+/* Hero Section */
+.hero-wrapper {
+  padding: 6rem 0 4rem 0;
+  text-align: center;
+}
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-sub);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.gradient-text {
+  background: linear-gradient(135deg, var(--blue2), var(--purple2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- Blog Grid & Cards --- */
 .blog-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(12, 1fr);
   gap: 2rem;
+  margin-top: 2rem;
 }
 
+/* Base Card */
 .blog-card {
-  padding: 2rem;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--card-bg);
+  /* No border for cleaner look like image, or very subtle */
+  border: 1px solid transparent;
+  box-shadow: var(--glass-shadow);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
+}
+html.light-theme .blog-card {
+  border: 1px solid #f0f0f0; /* Very subtle border on light */
 }
 .blog-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* Image handling in cards */
-.blog-card-image-wrapper {
+/*
+   Type 1: Image Cards (Oyster Style)
+   Span 4 columns (3 per row)
+*/
+.blog-card.has-image {
+  grid-column: span 4;
+  background: #ffffff; /* Always white on light mode for image cards */
+}
+html.dark-theme .blog-card.has-image {
+  background: var(--card-bg);
+}
+
+.blog-card.has-image .card-image-link {
+    display: block;
     width: 100%;
-    height: 180px;
-    border-radius: 12px;
+    aspect-ratio: 16/9; /* Or keep original image ratio? */
     overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-.blog-card-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-.blog-card:hover .blog-card-image-wrapper img {
-    transform: scale(1.05);
-}
-/* Fallback or direct img styles if wrapper not used */
-.blog-card img {
-    width: 100%; height: auto; border-radius: 12px;
+    /* Add padding around image if desired like Oyster, but full width is standard */
+    padding: 0.75rem 0.75rem 0 0.75rem;
 }
 
-.blog-card-text {
+.blog-card.has-image .card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px; /* Inner radius */
+  transition: transform 0.5s ease;
+}
+
+.blog-card.has-image .card-content {
+  padding: 1.25rem 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
-.blog-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--blue1);
+
+.blog-card.has-image .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
   text-decoration: none;
-  display: block;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+.blog-card.has-image .arrow {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.2s;
+  color: var(--blue2);
+}
+.blog-card.has-image:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.card-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    line-height: 1.5;
+    margin-top: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/*
+   Type 2: Text/Tines Cards (Split Color)
+   Span 4 columns (3 per row)
+*/
+.blog-card.no-image {
+  grid-column: span 4;
+  flex-direction: row; /* Side by side layout */
+  min-height: 220px;
+}
+
+.tines-left {
+  width: 40%;
+  display: flex;
+  align-items: flex-start; /* Align icon top */
+  justify-content: flex-start;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+.tines-right {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  position: relative;
+  box-sizing: border-box;
+}
+.bookmark-icon {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: rgba(255,255,255,0.4);
+}
+.bookmark-icon .material-icons {
+    font-size: 24px;
+}
+
+.tines-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white; /* Always white text on these colored cards */
+  text-decoration: none;
   line-height: 1.3;
-}
-html.light-theme .blog-title {
-  color: var(--purple2);
-}
-
-.blog-desc {
-  color: var(--text-sub);
-  font-size: 1rem;
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
   margin-bottom: 1rem;
+  display: block;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.tines-excerpt {
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.6); /* Darker text on light background */
+  line-height: 1.4;
+  font-weight: 500;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+}
+.tines-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.tines-stats {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.blog-date {
-  color: var(--text-muted);
-  font-size: 0.85em;
-  margin-top: auto;
-}
+/* Color Variants for Tines Cards */
+.tines-card-1 .tines-left { background-color: var(--tines-1-light); }
+.tines-card-1 .tines-right { background-color: var(--tines-1-dark); }
+.tines-card-1 .tines-title, .tines-card-1 .tines-stats { color: white; }
+.tines-card-1 .tines-left { background-color: #ffe0b2; } /* Lighter orange */
+.tines-card-1 .tines-right { background-color: #ff9800; } /* Orange */
 
-.highlight {
-    background-color: var(--highlight-bg);
-    color: var(--highlight-text);
-    border-radius: 3px;
-    padding: 0 2px;
-}
+.tines-card-2 .tines-left { background-color: #e1bee7; } /* Lighter Purple */
+.tines-card-2 .tines-right { background-color: #9c27b0; } /* Purple */
+
+.tines-card-3 .tines-left { background-color: #c8e6c9; } /* Lighter Green */
+.tines-card-3 .tines-right { background-color: #4caf50; } /* Green */
+
+.tines-card-4 .tines-left { background-color: #b3e5fc; } /* Lighter Blue */
+.tines-card-4 .tines-right { background-color: #03a9f4; } /* Blue */
+
+/* Adjust text color on left side if needed (icons) */
+.tines-left { color: rgba(0,0,0,0.4); }
 
 /* Tags */
-.tags-container {
+.card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin-top: auto;
 }
 .tag-chip {
   background: var(--tag-bg);
   color: var(--tag-text);
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: background 0.2s;
 }
 .tag-chip:hover {
   background: var(--tag-text);
   color: #fff;
 }
-.tag-chip.mini {
-  font-size: 0.75rem;
-  padding: 0.2rem 0.6rem;
+/* Tags inside Tines cards need to be readable against dark bg */
+.tines-tag {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+.tines-tag:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+/* Ad Card Styling */
+.blog-card.ad-card {
+    grid-column: span 4;
+    background: var(--card-bg);
+    border: 1px dashed var(--card-border);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 220px;
+    display: none; /* Hidden by default until populated */
+}
+.blog-card.ad-card.active-ad {
+    display: flex;
+}
+.ad-card-inner {
+    padding: 1rem;
+    width: 100%;
+}
+
+/* Reading Page Side Ads */
+.side-ad-container {
+    position: absolute;
+    right: 0;
+    width: 250px;
+    transform: translateX(calc(100% + 2rem));
+    display: none; /* Hidden by default */
+}
+.side-ad-container.active-ad {
+    display: block;
+}
+@media (max-width: 1300px) {
+    .side-ad-container {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 2rem 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .blog-card.has-image { grid-column: span 6; }
+  .blog-card.no-image { grid-column: span 6; }
+  .blog-card.ad-card { grid-column: span 6; }
+}
+@media (max-width: 600px) {
+  .blog-list { display: flex; flex-direction: column; }
+  .blog-card.has-image { width: 100%; }
+  .blog-card.no-image { width: 100%; }
+  .blog-card.ad-card { width: 100%; }
 }
 
 /* Pagination */
@@ -235,7 +401,6 @@ html.light-theme .blog-title {
   border: 1px solid var(--card-border);
   color: var(--text-main);
   text-decoration: none;
-  backdrop-filter: blur(4px);
   transition: all 0.2s;
 }
 .pagination a:hover {
@@ -244,327 +409,35 @@ html.light-theme .blog-title {
   border-color: var(--blue2);
 }
 .pagination .current {
-  background: var(--purple1);
-  color: white;
-  border-color: var(--purple1);
+  background: var(--text-main);
+  color: var(--bg-main);
+  border-color: var(--text-main);
 }
 
-/* Theme Toggle Button */
-.theme-toggle-btn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border);
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--glass-shadow);
-  z-index: 1000;
-  transition: transform 0.2s;
-}
-.theme-toggle-btn:hover {
-  transform: scale(1.1);
-}
-
-/* Post Layout Grid (Sidebar) */
-.post-layout-grid {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 2rem;
-    align-items: start;
-}
-
-@media (max-width: 900px) {
-    .post-layout-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Compact Card Style (Image as Background) */
-.compact-card {
-    position: relative;
-    height: 200px; /* Adjust as needed */
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    text-decoration: none;
-    transition: transform 0.3s;
-    box-shadow: var(--glass-shadow);
-}
-.compact-card:hover {
-    transform: scale(1.02);
-}
-.compact-card-bg {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
-    transition: transform 0.5s;
-}
-.compact-card:hover .compact-card-bg {
-    transform: scale(1.1);
-}
-.compact-card-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2));
-    z-index: 2;
-}
-.compact-card-content {
-    position: relative;
-    z-index: 3;
-    padding: 1rem;
-    width: 100%;
-}
-.compact-card-title {
-    color: white;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-.compact-card-date {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.8rem;
-}
-
-
-/* Markdown Body Overrides */
+/* Markdown Body */
 .markdown-body {
   color: var(--text-main);
   font-size: 1.1rem;
   line-height: 1.7;
+  position: relative; /* Context for side ads if we use that approach, but better on main-content */
 }
-.markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  color: var(--text-main);
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-html.light-theme .markdown-body h1 { color: var(--purple1); border-bottom-color: var(--purple1); }
-html.light-theme .markdown-body h2 { color: var(--purple2); border-bottom-color: var(--purple2); }
-html.dark-theme .markdown-body h1 { color: var(--blue1); border-bottom-color: var(--blue1); }
-html.dark-theme .markdown-body h2 { color: var(--purple4); border-bottom-color: var(--purple4); }
-
-.markdown-body p, .markdown-body li {
-  color: var(--text-main);
-}
-.markdown-body blockquote {
-  background: var(--tag-bg);
-  color: var(--text-sub);
-  border-left: 4px solid var(--blue2);
-  padding: 1rem;
-  margin: 1.5rem 0;
-  border-radius: 0 8px 8px 0;
-}
-.markdown-body img {
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+.markdown-body h1, .markdown-body h2 { margin-top: 1.5em; color: var(--text-main); }
+.markdown-body a { color: var(--blue2); text-decoration: none; }
+.markdown-body img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
 
 /* Footer */
 .footer {
-  background-color: var(--footer-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-muted);
-  border-top: 1px solid var(--card-border);
   margin-top: auto;
   padding: 3rem 0;
-}
-.footer-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-}
-.footer-links {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-.footer-links a {
-  color: var(--text-sub);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-.footer-links a:hover {
-  color: var(--blue1);
-}
-.footer-copy {
-    font-size: 0.9rem;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .main-content {
-    padding: 1rem;
-  }
-  .blog-list {
-    grid-template-columns: 1fr;
-  }
-  .footer-content {
-      flex-direction: column;
-      text-align: center;
-  }
-  .footer-links {
-      justify-content: center;
-  }
-}
-
-/* Hero Section */
-.hero-wrapper {
-  padding: 6rem 0 4rem 0;
-  text-align: center;
-  position: relative;
-}
-
-.hero-title {
-  font-size: 4rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  color: var(--text-main);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.hero-subtitle {
-  font-size: 1.35rem;
-  color: var(--text-sub);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--blue2), var(--purple2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Post Cards - Grid Layout */
-.blog-list {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-/* Base Card Style */
-.blog-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  position: relative;
-  height: 100%;
-}
-
-.blog-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-/* Card Type: With Image (Oyster/Modern Style) */
-.blog-card.has-image {
-  grid-column: span 6; /* Takes half width on desktop */
-}
-
-.blog-card.has-image .card-image {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  border-bottom: 1px solid var(--card-border);
-}
-
-.blog-card.has-image .card-content {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-/* Card Type: Text Only (Tines Style) */
-.blog-card.no-image {
-  grid-column: span 4; /* Takes one third width */
-  background: var(--bg-main); /* Slightly different bg to pop? Or stick to card */
-  border-top: 4px solid var(--purple1); /* Accent top border */
-}
-
-.blog-card.no-image .card-content {
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
-/* Typography in Cards */
-.card-meta {
-  font-size: 0.85rem;
+  border-top: 1px solid var(--card-border);
   color: var(--text-muted);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
+  text-align: center;
 }
 
-.card-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin: 0 0 1rem 0;
-  line-height: 1.25;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.blog-card:hover .card-title {
-  color: var(--blue2);
-}
-
-.card-excerpt {
-  font-size: 1.05rem;
-  color: var(--text-sub);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-tags {
-  margin-top: auto;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-/* Responsive Grid */
-@media (max-width: 1024px) {
-  .blog-card.has-image { grid-column: span 12; }
-  .blog-card.no-image { grid-column: span 6; }
-}
-
-@media (max-width: 768px) {
-  .hero-title { font-size: 2.8rem; }
-  .blog-card.no-image { grid-column: span 12; }
+/* Highlight utility for search */
+.highlight {
+    background-color: #fff176;
+    color: black;
+    padding: 0 2px;
+    border-radius: 2px;
 }
