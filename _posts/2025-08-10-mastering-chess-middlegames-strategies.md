@@ -3,7 +3,6 @@ title: "Mastering Chess Middlegames: Strategies, Tactics, and Visualization"
 slug: "mastering-chess-middlegames-strategies"
 date: 2025-08-10
 tags: ["middlegame", "tactics", "strategy"]
-image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80"
 layout: post
 ---
 
